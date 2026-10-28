@@ -1,0 +1,342 @@
+\section{Proof-Theoretic Concepts and Basic TFL Metalogic}
+
+So far our proof-theoretic rule system can be summarized as follows. In the starred cases (*), the rule is taken to close a subproof which contains the premises. Similarly, \ephi\eif\epsi is typically shorthand for a subproof proving \epsi from \ephi.
+
+\begin{table}[h]
+  \centering
+  \label{tab:rules-for-tfl-proofs}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      Rule Group       & \textbf{Introduction} & \textbf{Elimination} \\
+      \hline
+      \enot            & \enot\ephi,\ephi\eproves\ebot           & * \ephi,\ebot\eproves\enot\ephi  \\
+      \eand            &
+      \ephi,\epsi\eproves\ephi\eand\epsi &
+      \makecell{ \ephi\eand\epsi\eproves\ephi;\\ \ephi\eand\epsi\eproves\epsi }                     \\
+      \eor             & \ephi\eproves\epsi &
+      \epsi\eor\ephi,\ephi\eif\echi,\epsi\eif\echi\eproves\echi                                     \\
+      \eif             & $\ephi\dots\epsi\eproves\ephi\eif\epsi$ &                                  \\
+      \eiff            &
+      \ephi\eif\epsi,\epsi\eif\ephi\eproves\ephi\eiff\epsi &
+      \makecell{\ephi\eiff\epsi,\ephi\eproves\epsi;\\ \ephi\eiff\epsi,\ephi\eproves\ephi }          \\
+      \hline
+      DeM (\enot\eand) &
+      \makecell{ \enot\ephi\eor\enot\epsi \eproves \enot(\ephi\eand\epsi) } &
+      \makecell{ \enot(\ephi\eand\epsi) \eproves \enot\ephi\eor\enot\epsi }                         \\
+      DeM (\enot\eor)  &
+      \makecell{ \enot\ephi\eand\enot\epsi \eproves \enot(\ephi\eor\epsi) } &
+      \makecell{ \enot(\ephi\eor\epsi) \eproves \enot\ephi\eand\enot\epsi }                         \\
+      DN               & \ephi\eproves\enot\enot\ephi            &  \enot\enot\ephi\eproves\ephi    \\
+      DS               & \ephi\eor\epsi,\enot\ephi\eproves\epsi  & n/a \\
+      LEM              & \ephi\eif\epsi,\enot\ephi\eif\epsi\eproves\epsi & n/a \\
+      \hline
+    \end{tabular}
+  \caption{Proof Rules for TFL Natural Deduction}
+\end{table}
+
+\subsection{Formalizing the Notion of \emph{Proof}}
+
+So far I've been talking informally about valid \emph{arguments}. Something
+like $\ephi,\epsi\therefore\ephi\eand\epsi$ outlines the argument, but we
+want to be more precise in our discussion of various arguments. First, we
+will replace the informal \therefore marker with a more formal meta-logical
+operator \eproves and its negation \enotproves.
+
+\begin{definition}[Turnstiles]
+  \label{def:turnstiles}
+  Let $\ephi_1\dots\ephi_n$ and \epsi be TFL sentences. We can say
+  $\ephi_1\dots\ephi_n\eproves\epsi$ iff there is a proof that ends in \epsi
+  and has $\ephi_1\dots\ephi_n$ as its premises. We can say
+  $\ephi_1\dots\ephi_n\enotproves\epsi$ if there is no such proof.
+\end{definition}
+
+\begin{definition}[Proof]
+  A TFL \emph{proof} is a sequence of TFL sentences presented in a spefific
+  format.
+
+  A proof is indented to represent its subproofs. The unindented portion of the
+  proof is called the \emph{main proof} and its column is called the \emph{home
+  column}.
+
+  A proof begins with the entry of zero or more \emph{premises}, each entered
+  in the home column on its own line along with (i) a line number (ii) the
+  premise rule (PR) used as a justification. As a general practice, we will
+  write (i) to the left of the TFL sentence and (ii) to its right. A horizontal
+  line is drawn underneath the last premise.
+
+  Once the premises are added, we can complete the proof by applying one of the
+  following at each step:
+
+  \begin{enumerate}
+  \item Remain in the currect column and apply one of the TFL rules to add a new
+    sentence on a the next line, giving it the next line number and justifying
+    it with the rule name.
+  \item Move one column to the right and add a sentence, justifying it with the
+    assumption rule (AS) and giving it the next line number. This move opens a
+    new \emph{subproof}.
+  \item Move one column to the left by applying a rule which \emph{closes} a
+    subproof. Give the new line the next line number and justify it using the
+    name of the rule applied.
+  \item If the most recent line is in the home column, you may end the proof.
+    The final line of a proof is its \emph{conclusion}. 
+  \end{enumerate}
+
+  where the rules are subject to the following contstraints:
+
+  \begin{outline}[enumerate]
+  \1 In order to apply, a rule must take its input:
+  \2 from a previous line;
+  \2 that does not occur inside a closed subproof.
+  \1 On the line immediately after closing a subproof, typically either:
+  \2 one of the rules which makes use of that subproof is applied next; or
+  \2 a new subproof is started so that we can use a rule which expects multiple
+  subproofs. 
+  \1 A proof can only end if its final line is in the home column. 
+  \end{outline}
+
+  When \eGamma are its premises and \ephi its conclusion, a successful proof
+  can be referenced as \eGamma\eproves\ephi. The argument that it proves is
+  said to be \emph{valid}. A proof is pure \emph{syntax}. Only the rules of the
+  proof system are relevant to its evaluation.
+\end{definition}
+
+Of course, as with schemas, one of the things that makes proofs such a powerful
+part of logic is the fact that they are \emph{truth-preserving under
+substitution of equivalents}. So if \ephi\eproves\echi and \ephi\eiff\epsi,
+then \epsi\eproves\echi. Among other things, this means that we can think of a
+proof as covering a whole collection of related sentences, namely all those
+that can be made from it with consistent substitutions.
+
+\subsection{Proof-Theoretic Concepts}
+
+Now we can use the more precise turnstile notation to express a variety of
+\emph{proof-theoretic} concepts. Many of these will be familiar from exploring
+analogous \emph{truth-functional} concepts earlier.
+
+First, we note a sentence which can be proven from nothing is a \emph{theorem}.
+
+\begin{definition}[Theorem]
+  \label{def:theorem}
+  A sentence \ephi is a \emph{theorem} iff \eproves\ephi.
+\end{definition}
+
+Similarly, sentences that can be proven from each other are
+\emph{interderivable}.
+
+\begin{definition}[Interderivable]
+  \label{def:interderivable}
+  Two TFL sentences \ephi and \epsi are \emph{interderivable} iff
+  \ephi\eproves\epsi and \epsi\eproves\ephi. We can write this as
+  \ephi\efollows\eproves\epsi.
+\end{definition}
+
+We can generalize the notion of consistency from a comparison of two sentences
+to a property of a collection of them.
+
+\begin{definition}[Joint Consistency]
+  \label{def:joint-consistency}
+  TFL sentences $\ephi_1\dots\ephi_n$ are \emph{jointly inconsistent} iff
+  $\ephi_1\dots\ephi_n\eproves\ebot$. Otherwise they are \emph{jointly
+  consistent}.
+\end{definition}
+
+We can summarize the burdens of proof much as we did for truth tables.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c||c|c|}
+    \hline
+    proving       & \textbf{yes} & \textbf{no} \\
+    \hline
+    theorem?      & one          & all         \\
+    inconsistent? & one          & all         \\
+    equivalent?   & two          & all         \\
+    \hline
+  \end{tabular}
+  \caption{Metalogical Burdens of Proof}
+\end{table}
+
+In this table we answer the question of how many proofs are needed to show the
+property in question. The main takeaway is that, while proving the affirmative
+is a straightfoward matter of logic, proving the negative requires metalogical
+reasoning about \emph{all possible proofs}.
+
+A special case of joint inconsistency is when there is only one sentence. In
+such a case, we can say that the sentence itself is \emph{inconsistent}.
+
+\begin{definition}[Inconsistent Sentence]
+  \label{def:tfl-inconsistent-sentence}
+  A TFL sentence \ephi is \emph{inconsistent} iff $\ephi\eproves\ebot$.
+\end{definition}
+
+Every TFL sentence that isn't inconsistent or a theorem is \emph{contingent}.
+
+\begin{definition}[Contingent Sentence]
+  \label{def:tfl-contingent-sentence}
+  A TFL sentence \ephi is \emph{(proof-theoretically) contingent} if \ephi is
+  neither a theorem nor inconsistent.
+\end{definition}
+
+And we can make formal the notion of a \emph{valid argument} discussed
+informally earlier as provability of the conclusion from the premises.
+
+\begin{definition}[Valid Argument]
+  \label{def:tfl-joint-consistency}
+  The argument $\ephi_1\dots\ephi_n\therefore\epsi$ is a \emph{valid} iff
+  $\ephi_1\dots\ephi_n\eproves\epsi$.
+\end{definition}
+
+\subsection{Proof-theoretic vs. Truth-functional}
+
+From a metalogical perspective, there remains the question of the relationship
+between the truth-functional and proof-theoretic approaches to logic.
+Metalogical proofs will be a major topic in Logic 2, but we will lay out the
+broadstrokes before wrapping up our module on Truth-Functional Logic.
+
+Consider the how the definitions of the major logical concepts vary between
+the two systems.
+
+\begin{center}
+  \begin{tabular}{c||c|c}
+    \bf{concept} & \bf{truth-functional} & \bf{proof-theoretic} \\
+    \hline
+    Tautology / Theorem &
+    always T &
+    derived without premises \\
+    Contradiction / Inconsistency &
+    always F &
+    can derive \ebot from it \\
+    Contingent &
+    sometimes T, sometimes F &
+    not a theorem or inconsistency \\
+    Equivalent / Interderivable &
+    identical main columns &
+    derive mutually \\
+    Unsatisfiable / Inconsistent &
+    no line where all T &
+    can derive \ebot \\
+    Satisfiable / Consistent &
+    some line where all are T &
+    cannot derive \ebot from them \\
+    Valid argument &
+    no lines w F $\ephi_i$ and T \epsi &
+    can derive \epsi from $\ephi_1\dots\ephi_n$ \\
+  \end{tabular}    
+\end{center}
+
+Note that we have introduced four major notational devices that look remarkably
+similar. We should pause for a moment to distinguish them all.
+
+\begin{argument}
+\item[\eif] The material conditional (\eif) is a \emph{logical} connective. It
+  is the only one of these symbols that can be used in a sentence of TFL.
+\item[\therefore] The inference marker (\therefore) is an \emph{informal} device
+  used in the metalogic to discuss arguments. \eGamma\therefore\ephi does not
+  imply that the argument is valid, but does specify its premises (\eGamma)
+  and conclusion (\ephi).
+\item[\eentails] The entailment marker (\eentails) is a formal device used to
+  indicate the \emph{truth-theoretic} validity of an argument.
+  $\ephi_1\dots\ephi_n\eentails\epsi$ says that the conclusion (\epsi) is true
+  in every situation where the premises ($\ephi_1\dots\ephi_n$) all are.
+\item[\eproves] The provability marker (\eproves) is a formal device used to
+  indicate the \emph{proof-theoretic} validity of an argument.
+  $\ephi_1\dots\ephi_n\eproves\epsi$ says that the conclusion (\epsi) can be
+  dervied from the premises ($\ephi_1\dots\ephi_n$) by the natural deduction
+  rules for TFL.
+\end{argument}
+
+Nevertheless, there are parallels in how the symbols are used. The most
+significant parallels (soundness and completeness), taken together, mean that
+\ephi\eproves\epsi iff \ephi\eentails\epsi. But first consider a few more
+trivial observations.
+
+When we were working on truth tables in Lecture 3, we showed how material
+implication and entailment are truth-functionally equivalent (i.e.
+\ephi\eentails\epsi iff \eentails\ephi\eif\epsi).
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c||c}
+       A& B &  A\eif B &  A\eentails B \\
+      \hline
+      T    & T    &       T        &          T \\
+      T    & F    &       F        &          F \\
+      F    & T    &       T        &          T \\
+      F    & F    &       T        &          T
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-non-reversability}
+  \caption{A truth table showing \ephi\eif\epsi iff \ephi\eentails\epsi}
+\end{table}
+
+But note that we have to view the meaning of T and F in the A\eentails B column
+in a special way: as \emph{good line} and \emph{bad line}, respectively. Truth
+is not an evaluation we make about potential entailments, instead we talk about
+validity.
+
+Likewise, we can be explicit about the relationship between \emph{provability}
+and \emph{inconsistency}.
+
+\begin{observation}[Proof and Inconsistency]
+  Let \eGamma = $\egamma_1\dots\egamma_n$ be a set of TFL sentences and
+  \ephi a single TFL sentence. If \eGamma\eproves\ephi then the set that
+  results from adding \enot\ephi to \eGamma (\eGamma\ecup\enot\ephi) is
+  inconsistent.
+\end{observation}
+
+\subsection{Soundness and Completeness}
+
+Two of the metalogical results that we will not prove here are \emph{soundness}
+and \emph{consistency}. We will define them and them assume that they are true
+as we wrap up our discussion of proofs for logical properties.
+
+Soundness says that we do not get any derivations that are not also entailments.
+
+\begin{definition}[TFL Soundness] % (p 222)
+  A proof system is \emph{sound} iff \ephi\eproves\epsi implies
+  \ephi\eentails\epsi for all TFL sentences \ephi and \epsi.
+\end{definition}
+
+Conversely, completeness says that we do not get any entailments that are not
+also derivations.
+
+\begin{definition}[TFL Completeness] % (p 224)
+  A proof system is \emph{complete} iff \ephi\eentails\epsi implies
+  \ephi\eproves\epsi for all TFL sentences \ephi and \epsi.
+\end{definition}
+
+Knowing that a proof system is sound and complete means that we can demonstrate
+a logical property using either proof-theoretic or truth-functional appoaches
+and know that it holds for both. This means we can leverage the assymmetries in
+the last table and approach the problem in whatever way is easiest. The
+following table demonstrates such a strategy.
+
+\begin{table}[h]
+  \centering
+  \label{tab:proof-strategies-for-tfl-metalogic}
+  \begin{tabular}{c||c|c}
+    \hline    
+    \textbf{property} & \textbf{prove present} & \textbf{prove absent} \\
+    \hline    
+    Tautology, Theorem &
+    derive the sentence &
+    find a F line \\
+    Contradiction &
+    derive \ebot &
+    find a T line \\
+    Contingency &
+    find T and F lines &
+    prove \ephi or \enot\ephi \\
+    Equivalence &
+    mutually derive &
+    find a line with truth mismatch \\
+    Consistency &
+    find a universally T line &
+    derive \ebot \\
+    Validity &
+    derive \epsi from $\ephi_1\dots\ephi_n$ &
+    find a line with  $\ephi_1\dots\ephi_n$ all T and \epsi F \\
+    \hline    
+  \end{tabular}
+  \caption{Metalogical Proof Strategies for TFL}
+\end{table}

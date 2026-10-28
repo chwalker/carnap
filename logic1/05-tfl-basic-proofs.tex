@@ -1,0 +1,511 @@
+\section{Constructing Proofs}
+
+Although the rules are pretty simple, building proofs can get quite complicated.
+Much like chess, the rules are easy to learn, but yon can get into trouble
+quickly if you don't adopt some basic straegies to guide your moves.
+
+\begin{observation}[Proof Strategies for TFL]
+  \label{obs:tfl-proof-strategies}
+  We can tersely describe the basic strategy for TFL proofs as follows.
+  \begin{outline}[enumerate]
+
+    \1 Work backwards from the conclusion.
+    \2 Conjunction: what components needed to use the \eand I rule as the
+    last step? i.e. what are the conjuncts?
+    \2 Conditional: what are the assumption and conclusion of the subproof
+    we need to take the last step? i.e. what are the antecedant and consequent
+    of the conditional?
+    \2 Negation: what subproof is needed to show a contradiction?
+    \2 Disjunction: which of the disjuncts looks easiest to prove?
+    
+    \1 Work forwards from the current step.
+    \2 Conjunction: unpack the conjuncts
+    \2 Disjunction: what sentence do you need to prove from both disjuncts?
+    \2 Conditional: how can you prove the antecedant?
+    \2 Negation: how can you prove a contradiction?
+    
+    \1 Leverage \ebot
+    \2 Work toward a contradiction to conclude anything, especially in a
+    subproof
+    \2 Indirect proof: build a contradictory subproof that assumes the negation
+
+  \end{outline}
+\end{observation}
+
+Ideally, we will apply these stragegies in this order, wherever the rules are
+appropriate to the current state of the proof. The \emph{work backwards} rules
+in particular are intended as scaffolding to indicate which portions of the
+overall proof need to be filled in. The rules themselves reflect this
+partially-completed aspect.
+
+\subsection{Working Backward}
+
+Suffice it to say, taking account of what we are trying to prove is an important
+component of successfully constructing proofs. This is the spirit in which the
+rules for working backward are intended. They offer a road-map for proving the
+conclusion.
+
+Proving conjunctions amounts to proving each of the conjuncts.
+
+\Needspace{7\baselineskip}
+\begin{fitchrule}[Proving Conjunctions]
+  \label{def:proving-conjunctions}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[ ]     {1} {\vdots}    
+    \have[m]     {2} {\ephi}
+    \have[ ]     {3} {\vdots}    
+    \have[n]     {4} {\epsi}   
+    \have[n][+1] {5} {\ephi\eand\epsi} \ai{2,4}
+  \end{fitchproof}
+\end{fitchrule}
+
+Proving conditionals and negations involves setting up subproofs of the
+appropriate form.
+
+\Needspace{5\baselineskip}
+\twoitems{
+
+\begin{fitchrule}[Proving Conditionals]
+  \label{def:proving-conditionals}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \open
+    \hypo[m]     {1} {\ephi}          \by{AS}{}
+    \have[ ]     {2} {\vdots}
+    \have[n]     {3} {\epsi}
+    \close
+    \have[n][+1] {4} {\ephi\eif\epsi} \ii{1-3}
+  \end{fitchproof}
+\end{fitchrule}
+
+}{
+  
+\begin{fitchrule}[Proving Negations]
+  \label{def:proving-negations}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \open
+    \hypo[m]     {1} {\ephi}      \by{AS}{}
+    \have[ ]     {2} {\vdots}
+    \have[n]     {3} {\ebot}
+    \close
+    \have[n][+1] {4} {\enot\ephi} \ni{1-3}
+  \end{fitchproof}  
+\end{fitchrule}
+
+}
+
+Working backward from disjunctions is possible too, although the ambiguity
+may lead to some backtracking. So this is a last resort.
+
+\Needspace{4\baselineskip}
+\begin{fitchrule}[Proving Disjunctions] There are two possible justifications
+  for a disjunction, i.e. each of its disjuncts:\\
+  \label{def:proving-disjunctions}
+  \leavevmode
+  %\vspace{-0.9\baselineskip}
+  \twoitems{
+    \begin{fitchproof}
+      \have[ ]     {1} {\vdots}    
+      \have[n]     {2} {\ephi}
+      \have[n][+1] {3} {\ephi\eor\epsi} \oi{2}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[ ]     {1} {\vdots}    
+      \have[n]     {2} {\epsi}
+      \have[n][+1] {3} {\ephi\eor\epsi} \oi{2}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+\subsection{Working Forward}
+
+Working forward can be guided by the same schematic rules. For conjunction we
+just unpack both of the conjuncts.
+
+\begin{fitchrule}[Unpacking Conjunctions]
+  \label{def:unpacking-conjunctions}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n]     {1} {\ephi\eand\epsi} 
+    \have[ ][+1] {2} {\ephi}
+    \have[n][+2] {3} {\epsi}
+  \end{fitchproof}  
+\end{fitchrule}
+
+For disjunction we need to think more about what we are trying to do. Suppose
+that \ephi and \epsi are the disjuncts and \echi is what we are trying to
+prove (or a step in that direction). We will need a subproof from each of
+the disjuncts to \echi.
+
+\Needspace{10\baselineskip}
+\begin{fitchrule}[Unpacking Disjunctions]
+  \label{def:unpacking-disjunctions}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[k]     {1} {\ephi\eor\epsi}
+    \open
+    \hypo[k][+1] {2} {\ephi} \by{AS}{}
+    \have[ ]     {3} {\vdots}
+    \have[m]     {4} {\echi}
+    \close    
+    \open
+    \hypo[m][+1] {5} {\ephi} \by{AS}{}
+    \have[ ]     {6} {\vdots}
+    \have[n]     {7} {\echi}
+    \close
+    \have[n][+1] {8} {\echi} \oe{1,2-4,5-7}
+  \end{fitchproof}  
+\end{fitchrule}
+
+Finally, conditionals and negations are pretty easy to unpack. But they each
+require a proof (not necessarily via subproof) of a component (the antecedent
+and the negated sentence, respectively).
+
+\Needspace{6\baselineskip}
+\twoitems{
+
+\begin{fitchrule}[Unpacking Conditionals]
+  \label{def:unpacking-conditionals}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[m]     {1} {\ephi\eif\epsi} 
+    \have[ ]     {2} {\vdots}
+    \have[n]     {3} {\ephi}
+    \have[n][+1] {4} {\epsi} \ie{1,3}
+  \end{fitchproof}    
+\end{fitchrule}
+
+} {
+  
+\begin{fitchrule}[Unpacking Negations]
+  \label{def:unpacking-negations}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[m]     {1} {\enot\ephi} 
+    \have[ ]     {2} {\vdots}
+    \have[n]     {3} {\ephi}
+    \have[n][+1] {4} {\ebot} \ne{1,3}
+  \end{fitchproof}      
+\end{fitchrule}
+
+}
+
+\subsection{Leveraging \ebot}
+
+Sometimes the best way to get a subproof to its intended conclusion is to work
+toward a contradiction. Then you can conclude the subproof with literally
+anything, which is a powerfully flexible tool. Recall the proof of disjunctive
+syllogism from the last lecture.
+
+\begin{fitchproof}
+  \hypo {1} {A \eor B}  \by{PR}{} 
+  \hypo {2} {\enot A}   \by{PR}{}
+  \open
+  \hypo {3} {A}
+  \have {4} {\ebot}     \ne{2,3}
+  \have {5} {B}         \by{X}{4}
+  \close
+  \open
+  \hypo {6} {B}
+  \have {7} {B}         \by{R}{6}
+  \close
+  \have {7} {B}         \by{R}{1,3-5,6-7}
+\end{fitchproof}      
+
+Similarly, we can get any sentence we want in the main proof (or current
+subproof) by assuming its negation and proving a contradiction. We will call
+this technique \emph{indirect proof}. Its rule looks a lot like the identically
+named rule of inference from the last lecture.
+
+\begin{fitchrule}[Indirect Proof]
+  \label{def:indirect-proof-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \open
+    \hypo[m]     {1} {\enot\ephi} \by{AS}{}
+    \have[ ]     {2} {\vdots}
+    \have[n]     {3} {\ebot}
+    \close
+    \have[n][+1] {4} {\phi}       \by{IP}{1-3}
+  \end{fitchproof}      
+\end{fitchrule}
+
+The method of indirect proof lets us prove all sorts of tautologies because it
+depends on discharging the assumptions of a subproof. Aside from proving a
+contradiction (explosion), this is the only way we can get ``something from
+nothing'' in natural deduction.
+
+\begin{fitchproof}
+  \open
+  \hypo {1} {\enot(A\eor\enot A)} \by{AS}{}
+  \open
+  \hypo {2} {A}                   \by{AS}{}
+  \have {3} {A\eor\enot A}        \oi{2}
+  \have {4} {\ebot}               \ne{1,3}
+  \close
+  \have {5} {\enot A}             \ni{2-4}
+  \have {6} {A \eor\enot A}       \oi{5}
+  \have {7} {\ebot}               \ne{1,6}
+  \close
+  \have {8} {A \eor\enot A}        \by{IP}{1-7}
+
+\end{fitchproof}      
+
+\subsection{Strategies in Action}
+
+We will introduce some notation now, but postpone precise definitions until
+Lecture 8 when we will focus our discussion on TFL metalogic. The concepts
+should be more or less clear in their informal presentation.
+
+\begin{enumerate}
+\item When \epsi can be derived from \ephi, we will say \ephi\eproves\epsi
+  (or \epsi\efollows\ephi) which is pronounced ``\ephi proves \epsi''.
+\item We will use \eproves instead of \therefore, whenever appropriate.
+  Specifically, we will use \ephi\eproves\epsi whenever \ephi\therefore\epsi is
+  a (proof-theoretically) valid argument.
+\item When \ephi\eproves\epsi and \ephi\efollows\epsi we can say that \ephi and
+  \epsi are \emph{interderivable} and express this as
+  \ephi\efollows\eproves\epsi.
+\end{enumerate}
+
+The only way to fully understand our proof strategies is to see them used on
+some actual proofs. The interdreviability of the various formulas related to
+material implication are a good choice, since that is an important property of
+TFL and demonstrates most if not all of the strategies discussed earlier in
+the lecture.
+
+\begin{argument}
+\item[ ] (A \eif B)\efollows\eproves\enot(A \eand\enot B)
+\item[ ] (A \eif B)\efollows\eproves(\enot A \eor B)
+\end{argument}
+
+Proving the interderivability of two sentences typically amounts to proving both
+directions of the derivation, one at a time.
+
+\subsubsection{(A \eif B)\eproves \enot(A \eand\enot B)}
+
+For (A \eif B)\eproves \enot(A \eand\enot B), we will work backward from a
+negative. We just need to start with a template for a subproof of \ebot.
+
+\begin{fitchproof}
+  \hypo    {1} {A \eif B}             \by{PR}{}
+  \open
+  \hypo[i] {2} {A\eand\enot B}        \by{AS}{}
+  \have[ ] {3} {\vdots}
+  \have[j] {4} {\ebot}
+  \close
+  \have[n] {5} {\enot(A\eand\enot B)}  \ni{2-4}  
+\end{fitchproof}      
+
+We can start trying to get a contradiction by unpacking the conjunction in the
+subproof. We'll fill that in.
+
+\begin{fitchproof}
+  \hypo    {1} {A \eif B}             \by{PR}{}
+  \open
+  \hypo[i] {2} {A\eand\enot B}        \by{AS}{}
+  \have[ ] {3} {A}                    \ae{2}
+  \have[ ] {4} {\enot B}              \ae{2}
+  \have[ ] {5} {\vdots}
+  \have[j] {6} {\ebot}
+  \close
+  \have[n] {} {\enot(A\eand\enot B)}  \ne{2-6}  
+\end{fitchproof}      
+
+We can fill in the missing lines using modus ponens and negation elimination.
+
+\begin{fitchproof}
+  \hypo {1} {A \eif B}             \by{PR}{}
+  \open
+  \hypo {2} {A\eand\enot B}        \by{AS}{}
+  \have {3} {A}                    \ae{2}
+  \have {4} {\enot B}              \ae{2}
+  \have {5} {B}
+  \have {6} {\ebot}                \ne{4,5}
+  \close
+  \have {7} {\enot(A\eand\enot B)}  \ni{2-6}  
+\end{fitchproof}      
+
+\subsubsection{\enot(A \eand\enot B)\eproves(A \eif B)}
+
+For the backward case (\enot(A \eand\enot B)\eproves(A \eif B)), start by
+setting up a proof schema for the conditional.
+
+\begin{fitchproof}
+  \hypo      {1} {\enot(A\eand\enot B)} \by{PR}{}
+  \open
+  \hypo[i]   {2} {A}                    \by{AS}{}
+  \have[ ]   {3} { \vdots }
+  \have[j]   {4} {B}
+  \close
+  \have[n]   {5} {A \eif B}             \ii{2-4}
+\end{fitchproof}      
+
+Now we just need to fill in the dots. Proving B from A will depend on how we
+can use (1). Unpacking it and working forward will be a mess (a negated
+conjunction is just a disjunction of negations). But perhaps we can proceed by
+indirect proof, since (1) is a negation. We'll fill in some more with that
+assumption in mind, opening a new subproof for IP.
+
+\begin{fitchproof}
+  \hypo      {1} {\enot(A\eand\enot B)} \by{PR}{}
+  \open
+  \hypo      {2} {A}                    \by{AS}{}
+  \open
+  \hypo      {3} {\enot B}              \by{AS}{}
+  \have      {4} {\vdots}
+  \have[i]   {5} {\ebot}
+  \close
+  \have[j]   {6} {B}
+  \close
+  \have[n]   {7} {A \eif B}             \ii{2-6}
+\end{fitchproof}      
+
+And we're done if we just use the \eand introduction rule to fill in the missing
+line.
+
+\begin{fitchproof}
+  \hypo {1} {\enot(A\eand\enot B)} \by{PR}{}
+  \open
+  \hypo {2} {A}                    \by{AS}{}
+  \open
+  \hypo {3} {\enot B}              \by{AS}{}
+  \have {4} {A \eand\enot B}       \ai{2,3}
+  \have {5} {\ebot}                \ne{1,4}
+  \close
+  \have {6} {B}                    \by{IP}{3-5}
+  \close
+  \have {7} {A \eif B}             \ii{2-6}
+\end{fitchproof}      
+
+\subsubsection{(A \eif B)\eproves(\enot A \eor B)}
+
+Another well-known equivalence is (A \eif B)\emutual(\enot A \eor B). Start with
+(A \eif B)\eproves(\enot A \eor B). To work backward from a conclusion would
+require choosing a disjunct, so might be a little open-ended. We'll get back to
+that if we need to. Let's try indirect proof instead.
+
+\begin{fitchproof}
+  \hypo    {1} {A \eif B}              \by{PR}{}
+  \open
+  \hypo[i] {2} {\enot(\enot A \eor B)} \by{AS}{}
+  \have[ ] {3} {\vdots}
+  \have[j] {4} {\enot A \eor B}
+  \have[k] {5} {\ebot}                 \ne{1,4}
+  \close
+  \have[n] {6} {\enot A \eor B}        \by{IP}{2-5}
+\end{fitchproof}      
+
+To get a contradiction we want to prove either \enot A or B to we can say
+\enot A\eor B. If we assume A we can use use modus ponens to unpack (1), so
+we'll go that route (i.e. we'll prove \enot A). First sketch out the subproof.
+
+\begin{fitchproof}
+  \hypo    {1} {A \eif B}              \by{PR}{}
+  \open
+  \hypo    {2} {\enot(\enot A \eor B)} \by{AS}{}
+  \open
+  \hypo[i] {3} {A}                     \by{AS}{}
+  \have[ ] {4} {\vdots}
+  \have[j] {5} {\ebot}                 
+  \close
+  \have[k] {6} {\enot A}               \ni{3-5}
+  \have[l] {7} {\enot A \eor B}        \oi{6}
+  \have[m] {8} {\ebot}                 \ne{2,7}
+  \close
+  \have[n] {9} {\enot A \eor B}        \by{IP}{2-8}
+\end{fitchproof}      
+
+Then fill it in by applying \eif elimination to the premise using the new
+assumption.
+
+\begin{fitchproof}
+  \hypo {1} {A \eif B}              \by{PR}{}
+  \open
+  \hypo {2} {\enot(\enot A \eor B)} \by{AS}{}
+  \open
+  \hypo {3} {A}                     \by{AS}{}
+  \have {4} {B}                     \ie{1,3}
+  \have {5} {\enot A \eor B}        \oi{4}
+  \have {6} {\ebot}                 \ne{2,5}
+  \close
+  \have {7} {\enot A}               \ni{3-6}
+  \have {8} {\enot A \eor B}        \oi{7}
+  \have {9} {\ebot}                 \ne{2,8}
+  \close
+  \have {10}{\enot A \eor B}        \by{IP}{2-9}
+\end{fitchproof}      
+
+\subsubsection{(\enot A \eor B)\eproves(A \eif B)}
+
+Now the other direction: (\enot A \eor B)\eproves(A \eif B). So far we haven't
+seen explosion or \eor unpacked, but this proof has them both. First, we note
+that we are trying to prove A \eif B by adding a template for the appropriate
+subproof.
+
+\begin{fitchproof}
+  \hypo    {1} {\enot A \eor B} \by{PR}{}
+  \open
+  \hypo[i] {2} {A}              \by{AS}{}
+  \have[ ] {3} {\vdots}
+  \have[j] {4} {B}
+  \close 
+  \have[n] {5} {(A \eif B)}     \ii{2-4}
+\end{fitchproof}      
+
+The premise is a disjunction, so if it's gonna play a role in the proof, we're
+gonna need to unpack it with \eor elimination, so let's set up the subproofs for
+that now.
+
+\begin{fitchproof}
+  \hypo    {1} {\enot A \eor B} \by{PR}{}
+  \open
+  \hypo    {2} {A}              \by{AS}{}
+  \open
+  \hypo[i] {3} {\not A}         \by{AS}{}
+  \have[ ] {4} {\vdots}
+  \have[j] {5} {B}
+  \close
+  \open
+  \hypo[k] {6} {B} 
+  \have[ ] {7} {\vdots}
+  \have[l] {8} {B}
+  \close 
+  \have[m] {9} {B}              \oe{1,3-5,6-8}
+  \close  
+  \have[n] {10}{(A \eif B)}     \ii{2-9}
+\end{fitchproof}      
+
+Both subproofs follow immediately. The first is a contradiction, so we can apply
+explosion to get B. The second is just repetition; in fact we don't even need
+the placeholder line in the template.
+
+\begin{fitchproof}
+  \hypo {1} {\enot A \eor B} \by{PR}{}
+  \open
+  \hypo {2} {A}              \by{AS}{}  
+  \open
+  \hypo {3} {\not A}         \by{AS}{}
+  \have {4} {\ebot}          \ne{2,3}
+  \have {5} {B}              \by{X}{4}
+  \close
+  \open
+  \hypo {6} {B}              \by{AS}{}
+  \have {7} {B}              \by{R}{6}
+  \close  
+  \have {8} {B}              \oe{1,3-5}
+  \close
+  \have {9}{(A \eif B)}      \ii{2-8}
+\end{fitchproof}      
+

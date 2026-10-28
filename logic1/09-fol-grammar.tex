@@ -1,0 +1,439 @@
+\section{The Grammar of First-Order Logic}
+
+\subsection{Components of Syntax}
+
+Last week, we explored this ins and outs of first-order logic informally. Now
+we'll start to formalize those ideas, starting with the basic grammar of FOL.
+
+\begin{definition}[Expressions of First-Order Logic]: We can difine an
+  \label{def:fol-expression}
+  \emph{expression} of FOL as any sequence of its six kinds of basic symbols:\\
+  \begin{enumerate}
+    \item \textbf{Predicates:} $A,B,C,\dots,=$
+    \item \textbf{Names:} $a,b,c,\dots$
+    \item \textbf{Variables:} $x,y,z,\dots$
+    \item \textbf{Connectives:} $\enot,\eand,\eor,\eif,\eiff$ 
+    \item \textbf{Quantifiers:} $\eforall,\eexists$
+    \item \textbf{Brackets:} (,)
+  \end{enumerate}
+  The alphabetic symbols (names, predicates and variables) can be used with
+  or without numeric subscripts, for example $A_1, A_2, A_3, \dots$ or
+  $x_1, x_2, x_3, \dots$.
+\end{definition}
+
+We assume these basic expressions have roughly the meaning discussed informally.
+But, of course, that is not important here. All we want to do with a grammar is
+to say which expressions are sentences and which are not.
+
+In the metalanguage we will refer to expressions with lower case greek letters.
+
+The most basic basic expressions in FOL are \emph{singular terms}. Expressions
+of this kind are noteworthy in their semantics: they each \emph{refer} to an
+individual in the domain. So we will keep them distinct in the syntax.
+
+\begin{definition}[Term]
+  \label{def:fol-term}
+  A \emph{term} in first-order logic is any \emph{name}. A name in FOL can be
+  one of two kinds:
+  \begin{enumerate}
+  \item
+    \textbf{Dummy Names:} lower case $a$ and $c$, with or without subscripts
+    \textbf{Proper Names:} lower case latin letters, but not $a$ or $c$
+  \end{enumerate}
+\end{definition}
+
+Dummy names are placeholders, like variables. But unlike variables, they are
+full-fledged terms: we assume that they each refer directly to an individual
+in the domain. Note that on this definition, variables are not terms. This is
+as it should be, since they do not \emph{refer}. More on this when we get to
+the semantics. For now, it is noteworthy that variables are used wherever
+terms are allowed. They are not terms, but artefacts of the process that
+introduces quantifiers. Before we talk about that process, let's work through
+a few more preliminary definitions.
+
+\begin{definition}[Predicate]
+  An \emph{n-place predicate} in first-order logic is an expression which
+  takes $n$ terms as \emph{arguments} to make an atomic formula.
+\end{definition}
+
+Terms and predicates are the only kinds of non-logical vocabulary that we will
+make use of. Everything else is logic.
+
+\begin{definition}[(Non-)Logical Vocabulary]
+  The \emph{logical vocabulary} of first-order logic includes all of the
+  brackets, quantifiers, operators and connectives. These do not vary between
+  the languages of FOL. They all use the same \emph{syntax}.
+  
+  The \emph{non-logical vocabulary} of first-order logic includes all of the
+  so-called \emph{content expressions} of the language: \emph{proper names} and
+  \emph{predicates} of every arity. These will vary from language to language.
+
+  Even though \emph{variables} and \emph{dummy names} can occur in the slots of
+  predicates, they are \emph{logical vocabulary}. They are only ever used in the
+  context of an associated quantifier.
+\end{definition}
+
+As with TFL, we can express generalizations about the logic using a consistent
+metalogical notation. 
+
+\begin{definition}[Metalogical Symbols]
+  We will adopt the following conventions for the use of metalogical variables
+  in describing first-order logic:
+  \begin{argument}
+  \item[\ealpha] for expressions (in general)
+  \item[\etau] for terms (in general)
+  \item[\enu] for proper names
+  \item[\edelta] for dummy names
+  \item[\exi] for variables
+  \item[\ebeta] for predicates
+  \item[\ephi] for well-formed formulas
+  \end{argument}
+\end{definition}
+
+\subsection{Well-Formed Formulas}
+
+Unlike TFL, FOL needs to define its atomic sentences since they are not mere
+truth-bearers but have constituent parts.
+
+\begin{definition}[Atomic Formula]
+  \label{def:fol-atomic-formula}
+  An \emph{atomic formula} of first-order logic is defined as:\\
+  \begin{enumerate}
+  \item Any zero-place predicate is an atomic formula.
+  \item If \ebeta is an n-place predicate and $\etau_1\dots\etau_n$ are
+    terms, then $\ebeta\etau_1,\dots,\etau_n$ is an atomic formula.
+  \item If $\etau_1$ and $\etau_2$ are terms then $\etau_1=\etau_2$ is an
+    atomic formula.
+  \item Nothing else is an atomic formula. 
+  \end{enumerate}
+\end{definition}
+
+As we will see next lecture, we can determine a truth value for everything that
+we have defined as an atomic formula. Now that we have these basic
+truth-bearers, we can fold in the components of truth-functional logic. All of
+the TFL connectives will be included.
+
+\begin{definition}[Well-Formed Formula]
+  \label{def:fol-wff}
+  A \emph{well-formed formula} (\emph{wff}) of first-order logic is defined
+    recusively as:\\
+  \begin{enumerate}
+    \item Any atomic formula of FOL is a wff of FOL
+    \item \ebot is a wff  of FOL.
+    \item If \ephi is a wff of FOL, then \enot\ephi is a wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eand\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eor\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eif\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eiff\epsi$ is a
+      wff of FOL.
+    \item If \ephi(\etau) is a wff of FOL containing one or more occurrences of
+      the term \etau and \ephi(\exi) is the expression which results from
+      replacing \etau wherever it occurs in \ephi(\etau) with the new variable
+      \exi, then \eexists\exi\ephi(\exi) and \eforall\exi\ephi(\exi) are wffs of
+      FOL.
+    \item Nothing else is a wff of FOL.
+  \end{enumerate}
+\end{definition}
+
+We've added two new rules for quantified sentences. We will refer to
+\eforall\exi and \eexists\exi as \emph{quantifiers}, to \eforall and \eexists
+as \emph{quantifier symbols}, and to \exi as a \emph{variable}. \eforall\exi is
+called \emph{universal} and \eexists is called \emph{existential}.
+
+\subsection{Interlude: Free Variables vs Dummy Names}
+\label{sec:fol-free-variables}
+
+Notice that on this forumulation of the grammar, variables are artefacts of the
+process that introduces quantifiers. If you've been following along in
+\cite{Mag25}, you will notice that this departs from the rules presented there.
+We will discuss the differences briefly before committing ourselves to the rules
+in Def \ref{def:fol-wff}.
+
+There are two important differences in the grammatical rules for formulas.
+First, \cite{Mag25} allow variables to serve as \emph{terms}, making them
+available in the construction of \emph{atomic formulas}. Second, they therefore
+allow the construction of sentences which contain \emph{free variables}:
+variables that are not within the scope of any quantifiers.
+
+\begin{definition}[Well-Formed Formula (\cite{Mag25}]
+  \label{def:fol-wff-mag25}
+  A \emph{well-formed formula} (\emph{wff}) of first-order logic is defined
+    recusively as:\\
+    \begin{enumerate}
+    \item Any atomic formula of FOL is a wff of FOL
+    \item \ebot is a wff  of FOL.
+    \item If \ephi is a wff of FOL, then \enot\ephi is a wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eand\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eor\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eif\epsi$ is a
+      wff of FOL.
+    \item If \ephi and \epsi are wffs of FOL, then $\ephi\eiff\epsi$ is a
+      wff of FOL.
+    \item If \ephi is a wff or FOL and \exi is a variable, then
+      \eforall\exi\ephi is a wff of FOL
+    \item If \ephi is a wff or FOL and \exi is a variable, then
+      \eexists\exi\ephi is a wff of FOL
+    \item Nothing else is a wff of FOL.
+    \end{enumerate}
+\end{definition}
+
+Notice how the quantifier rules do not require any particular relationship
+between the variables in \ephi and the one added with the quantifier (\exi).
+It's just that \eexists\exi will bind \exi if there happen to be any free in
+\ephi. Maybe there are not. We cannot build any formulas containing unbound
+variables using our rules of syntax. Variables are only ever introduced along
+with a quantifier that binds them. That makes the following definition from
+\cite{Mag25} more or less moot in our system. \textbf{All} of our variables are
+\emph{bound} by quantifiers, from the moment they are introduced.
+
+\begin{definition}[Bound and Free Variables]
+  \label{def:fol-bound-variable}
+  In first-order logic, a variable \exi is \emph{bound} iff it occurs in
+  the scope of a quantifier that uses it: \eforall\exi or \eexists\exi.
+  Otherwise it is \emph{free}.
+\end{definition}
+
+But note that we will make reference to expressions nominally containing free
+variables when we talk about the \emph{scope} of a quantifier. For example, when
+we talk about \ephi(\exi)--i.e. an expression in the scope of \eexists\exi in
+\eexists\exi\ephi(\exi)--we note that it is an expression with \emph{free}
+occurrences of \exi. But in the full context, \exi is bound by \eexists\exi. In
+the rare instances that we talk about such expressions, we will refer to them
+as \emph{open wffs}.
+
+\subsection{Scope and Bound Variables}
+
+Given the close alignment of the definitions, we can recycle some of our ideas
+about operators and scope from TFL.
+
+\begin{definition}[Main Logical Operator]
+  \label{def:fol-main-operator}
+  The main operator in a wff of first-order logic is the one that was
+  introduced last, given the recursive application of the construction rules
+  introduced in Def \ref{def:fol-wff}.
+\end{definition}
+
+\begin{definition}[Scope]
+  \label{def:fol-scope}
+  The \emph{scope} of an operator in first-order logic is the subformula for
+  which it serves as the main logical operator.
+\end{definition}
+
+We can analyze these properties using the same toolkit as TFL, with some tweaks
+to account for quantifiers. First, we can make use of parse trees to dissect
+the structure of FOL wffs. We will need a new rule that allows us to add dummy
+names wherever we encounter a quantified sentence.
+
+\begin{definition}[Standard Parse Tree]
+  Given a wff of first-order logic, we can build its \emph{standard parse tree}
+  by using the following procedure:
+  \begin{enumerate}
+  \item If the current node is \enot\ephi add a node below it with \ephi
+  \item If the current node is \ephi\eand\epsi, \ephi\eor\epsi,
+    \ephi\eif\epsi, or \ephi\eiff\epsi, then split the tree with \ephi on
+    one branch and \epsi on the other.
+  \item If the current node is \eexists\exi\ephi(\exi) or
+    \eforall\exi\ephi(\exi), then add a node below and with the instance
+    \ephi($\edelta_i$) where $\edelta_i$ is the next available dummy name.
+  \end{enumerate}
+\end{definition}
+
+Once again, the \emph{main logical operator} is the connective associated with
+the first rule applied at the top of the tree (i.e. the last rule applied in the
+construction of the wff). And the subformula that decorates the node above a
+given rule application is the \emph{scope} of the associated operator. These
+definitions work exaclty as they do in TFL, except for the addition of rules
+for \eforall and \eexists, which are analogous to \enot in their scopal
+behavior. In Def \ref{def:fol-formula}, the scope of both \eforall\exi and
+\eexists\exi includes \ephi(\exi).
+
+\subsection{Sentences and Dummy WFFs}
+
+We can now identify sentences as a special kind of wff, where all the names are
+proper and all the variables are bound. Well-formed formulas with dummy names
+are called \emph{dummy wffs} and those without are called \emph{sentences}.
+
+\begin{definition}[Sentence]
+  \label{def:fol-sentence}
+  In first-order logic, a wff \ephi is a \emph{sentence} iff all the terms that
+  \ephi contains are proper names. Otherwise it is called a \emph{dummy wff}.
+\end{definition}
+
+We will adopt some bracketing simplification for sanity. For example,
+$((A\eand B)\eand C)$ can be written $(A\eand B\eand C)$ and
+$((A\eor B)\eor C)$ can be written $(A\eor B\eor C)$, since it will not
+effect the meaning of the sentence to do so. We also allow the use of square
+brackets ``['' and ``]'' as substitutes for parens ``('' and ``)'', to make
+pairs of brackets easier to spot.
+
+\subsection{Ambiguity and Quantifier Scope}
+
+The quantifiers in first-order logic bind variables that occupy slots in the
+structure of FOL atomic formulas that are typically reserved for terms. But
+the structure of the syllogisms we reviewed last week is more like a comparison
+of predicates: ``All F are G'' or ``Some F is G''. Our solution was to treat
+the scope of the quantifiers as sentences connecting the two predicates we
+care about, taking them to use the same variable, so:
+
+\begin{argument}
+  \item[ ] \eforall x(Fx\eif Gx)
+  \item[ ] \eexists x(Fx\eand Gx)
+\end{argument}
+
+Indeed, by our rules, these sentences were constructed from \emph{instances}
+containing dummy names:
+
+\begin{argument}
+  \item[ ] Fc\eif Gc
+  \item[ ] Fa\eand Ga
+\end{argument}
+
+This approach gets interesting when we start to use multiple quantifiers and
+predicates with a greater arity. We saw this informally when we tried to
+symbolize some examples last lecture. ``No woman loves every man'' could be
+symbolized in either of the following two ways, each with a different meaning.
+
+\begin{argument}
+\item[ ] \enot\eexists x(Gx\eand\eforall y(Fy\eif Lxy))
+\item[ ] \eforall y(Fy \eif \enot\eexists x(Gx\eand Lxy))
+\end{argument}
+
+These formulas can be paraphrased, respectively, as:
+
+\begin{argument}
+\item[ ] (There is no woman such that)(Every man is such that)(She loves him)
+\item[ ] (Every man is such that)(There is no woman such that)(She loves him)
+\end{argument}
+
+Despite all the syntactic apparatus, the difference really just comes down to
+the order of the quantifiers: their scope. When the scope of a quantifer
+$\ealpha_1$ contains another quantifier $\ealpha_2$ and its scope, we say that
+$\ealpha_1$ takes \emph{wide scope} over $\ealpha_2$.
+
+Now that we have a grammar to work with, we can see how FOL allows us to be
+precise about some of the ambiguities of language that we just cannot
+distinguish in a strictly sentence-level logic like TFL.
+\cite[Chapter 29]{Mag25} works through some examples that are
+particularly illustrative.
+
+\begin{enumerate}
+\item Everything that glitters is not gold.
+\item Only young cats are playful.
+\item Everyone went to see a movie.
+\item The king of France is not bald.
+\end{enumerate}
+
+The first sentence has two readings, the basic \emph{every A is B} one and
+another that more close reflects its idiomatic sense, something like
+\emph{it is not the case that everything that glitters is gold}. 
+
+\begin{enumerate}
+\item $\eforall x(F(x)\eif\enot G(x))$
+\item $\enot\eforall x(F(x)\eif G(x))$
+\end{enumerate}
+
+Note how the difference involves the relative scopes of negation and the
+universal quantifier.
+
+Similarly, for the second sentence, we get three distinct readings, normally
+distinguished in ordinary English with patterns of word stress.
+
+\begin{enumerate}
+\item If an animal is playful, then it is a young cat.
+\item If a cat is playful, then it is young.
+\item If an animal is young anf playful, then it is a cat. 
+\end{enumerate}
+
+These can all be easily distinguished via symbolization in FOL, again by
+taking account of the relative scopes of operators and quantifiers.
+
+\begin{enumerate}
+\item $\eforall x(P(x)\eif(Y(x)\eand C(x))$ 
+\item $\eforall x((C(x)\eand P(x))\eif Y(x))$ 
+\item $\eforall x((Y(x)\eand P(x))\eif C(x))$ 
+\end{enumerate}
+
+In the third sentence, we see how the quantifiers interact. 
+
+\begin{enumerate}
+\item There is a specific movie and everyone saw that movie.
+\item Everyone went to some movie or other.
+\end{enumerate}
+
+The two readings differ with respect to which quantifier is placed within the
+scope of the other.
+
+\begin{enumerate}
+\item $\eexists x(M(x)\eand\eforall y(P(y)\eif\S(y,x)))$
+\item $\eforall y(P(y)\eif\forall x(M(x)\eand S(y,x)))$
+\end{enumerate}
+
+Finally, Russell's treatment of definite desriptions, while it avoids
+\emph{truth-value gaps}, makes the fourth sentence ambiguous in a way that
+directly impacts its truth value.
+
+\begin{enumerate}
+\item There is a king of France and he is not bald. (False)
+\item There is no king of France who is bald. (True)
+\end{enumerate}
+
+And, once again, the differences come down to which operator or quantifier
+takes \emph{wide scope}. 
+
+\begin{enumerate}
+\item $\eexists x(K(x)\eand\forall y(K(y)\eif x\neq y)\eand\enot B(x))$
+\item $\enot\eexists x(K(x)\eand\forall y(K(y)\eif x\neq y)\eand B(x))$
+\end{enumerate}
+
+% more scope examples for definites (pp378-81)
+
+Despite all these structural ambiguities, there are some cases where one
+quantifier taking wide scope over another is not meaningfully different than
+the opposite. First, we can always reverse the position of two adjacent
+quantifiers of the same type.
+
+\begin{observation}[Adjacent Quantifiers]
+  \label{obs:adjacent-quantifiers}
+  If two adjacent quantifiers are the same kind (either both universal or both
+  existential), then it does not matter what order they occur in. In other
+  words, $\eforall\exi_1\eforall\exi_2\ephi$ is equivalent to
+  $\eforall\exi_2\eforall\exi_1\ephi$ and
+  $\eexists\exi_1\eexists\exi_2\ephi$ is equivalent to
+  $\eexists\exi_2\eexists\exi_1\ephi$ for all $\ephi$.
+\end{observation}
+
+Similarly, we can adjust the scope of a quantifier in many cases where its
+variable does not occur in the subformulas impacted by the change.
+
+\begin{observation}[Moving Quantifiers]
+  \label{obs:moving-quantifiers}
+  When \epsi does not contain the variable \exi, the following pairs of wffs
+  are equivalent.
+  \begin{enumerate}
+  \item \eforall\exi\ephi(\exi)\eand\epsi and
+    \eforall\exi(\ephi(\exi)\eand\epsi)
+  \item \eexists\exi\ephi(\exi)\eand\epsi and
+    \eexists\exi(\ephi(\exi)\eand\epsi)
+  \item \eforall\exi\ephi(\exi)\eor\epsi and
+    \eforall\exi(\ephi(\exi)\eor\epsi)
+  \item \eexists\exi\ephi(\exi)\eor\epsi and
+    \eexists\exi(\ephi(\exi)\eor\epsi)
+  \item \eforall\exi\ephi(\exi)\eif\epsi and
+    \eexists\exi(\ephi(\exi)\eif\epsi)
+  \item \eexists\exi\ephi(\exi)\eif\epsi and
+    \eforall\exi(\ephi(\exi)\eif\epsi)
+  \item \epsi\eif\eforall\exi\ephi(\exi) and
+    \eforall\exi(\epsi\eif\ephi(\exi))
+  \item \epsi\eif\eexists\exi\ephi(\exi) and
+    \eexists\exi(\epsi\eif\ephi(\exi))
+  \end{enumerate}
+\end{observation}
+
+%% adding identity (p367)
+Now that we know how to make them, next week we will discuss how to interpret
+sentences of first-order logic.

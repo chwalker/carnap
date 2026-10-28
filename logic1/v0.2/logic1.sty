@@ -1,0 +1,149 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{logic1}[2026/08/25 support for a course in formal logic]
+\RequirePackage{amssymb,amsmath,amsthm,hyperref,multicol,ifthen,xspace,enumitem}
+\RequirePackage{setspace,needspace,makecell,tikz,caption,newfloat,outlines}
+\RequirePackage{caption,forest,mdframed,xcolor,stmaryrd}
+\usepackage[arrayenv=tabular]{fitch}
+\usetikzlibrary{arrows.meta, positioning}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{topsep=0pt, partopsep=0pt}
+
+% outline numbering conventions
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=\alph*.}
+\setenumerate[3]{label=\roman*.}
+
+\definecolor{rulegray}{gray}{0.92}
+
+%% aliases for math symbols in text mode
+% \supset gives the horseshoe
+% \equiv gives the triple bar
+% {\sim} gives the swung dash
+\def\therefore{\ensuremath{\ldotp\dot{}\,\ldotp}}    % therefore
+\def\efollows{\ensuremath{\dashv}}                   % reverse turnstyle 
+\def\eproves{\ensuremath{\vdash}}                    % turnstyle 
+\def\enotproves{\ensuremath{\not\vdash}}             % not turnstyle 
+\def\eentails{\ensuremath{\vDash}}                   % entails 
+\def\enotentails{\ensuremath{\nvDash}}               % does not entail
+\def\emutual{\ensuremath{\approx}}                   % mutual entailment 
+\def\esubset{\ensuremath{\subset}}                   % subset
+\def\ein{\ensuremath{\in}}                           % subset
+\def\eor{\ensuremath{\vee}}                          % disjunction
+\def\eand{\ensuremath{\wedge}}                       % conjunction
+\def\eif{\ensuremath{\rightarrow}}                   % conditional
+\def\eiff{\ensuremath{\leftrightarrow}}              % biconditional
+\def\enot{\ensuremath{\neg}}                         % negation
+\def\ecirc{\ensuremath{\circ}}                       % circle
+\def\eoplus{\ensuremath{\oplus}}                     % circle-plus
+\def\eotimes{\ensuremath{\otimes}}                   % circle-times
+\def\ecap{\ensuremath{\cap}}                         % union
+\def\ecup{\ensuremath{\cup}}                         % intersection
+\def\eexists{\ensuremath{\exists}}
+\def\eforall{\ensuremath{\forall}}
+\def\ebot{\ensuremath{\bot}}                         % falsum
+\def\etop{\ensuremath{\top}}                         % verum
+\def\ealpha{\ensuremath{\alpha}}
+\def\ebeta{\ensuremath{\beta}}
+\def\egamma{\ensuremath{\gamma}}
+\def\edelta{\ensuremath{\delta}}
+\def\enu{\ensuremath{\nu}}
+\def\emu{\ensuremath{\mu}}
+\def\ezeta{\ensuremath{\zeta}}
+\def\ephi{\ensuremath{\phi}}
+\def\epsi{\ensuremath{\psi}}
+\def\echi{\ensuremath{\chi}}
+\def\exi{\ensuremath{\xi}}
+\def\etau{\ensuremath{\tau}}
+\def\eomega{\ensuremath{\omega}}
+\def\etheta{\ensuremath{\theta}}
+\def\eGamma{\ensuremath{\Gamma}}
+\def\eDelta{\ensuremath{\Delta}}
+\def\elib{\ensuremath{\llbracket}}   % left interpretation bracket
+\def\erib{\ensuremath{\rrbracket}}   % right interpretation bracket
+
+\mdfdefinestyle{RuleStyle}{
+  backgroundcolor=rulegray,
+  linewidth=0pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=\topsep,
+  skipbelow=\topsep
+}
+
+\newtheoremstyle{termdef} % name
+                {12pt}     % Space above
+                {3pt}      % Space below
+                {}         % Body font
+                {}         % Indent amount
+                {\bfseries}% Head font
+                {:}        % Punctuation after head
+                { }        % Space after head
+                {}         % Head
+                
+\newtheoremstyle{fitchdef} % name
+                {12pt}     % Space above
+                {3pt}      % Space below
+                {}         % Body font
+                {}         % Indent amount
+                {\bfseries}% Head font
+                {:}        % Punctuation after head
+                { }        % Space after head
+                {}         % Head
+                
+\theoremstyle{termdef}
+\newmdtheoremenv[style=RuleStyle]{definition}{Definition}[section]
+\newmdtheoremenv[style=RuleStyle]{example}{Example}[section]
+\newmdtheoremenv[style=RuleStyle]{observation}{Observation}[section]
+
+\theoremstyle{fitchdef}
+\newmdtheoremenv[style=RuleStyle]{fitchrule}{Rule}[section]
+\newmdtheoremenv[style=RuleStyle]{interpretation}{Interpretation}[section]
+
+%\newtheorem{definition}{Definition}[section]
+%\newtheorem{example}[definition]{Example}
+%\newtheorem{observation}[definition]{Observation}
+%\newtheorem{fitchrule}{Rule}[section]
+
+\newlist{argument}{itemize}{1}
+\setlist[argument]{itemsep=3pt, parsep=0pt, topsep=0pt, leftmargin=3.5em}
+
+\newenvironment{grayarg}
+  {\begin{mdframed}[style=RuleStyle]\begin{argument}}
+  {\end{argument}\end{mdframed}}
+
+\DeclareFloatingEnvironment[
+  fileext=lod,
+  listname={List of Truth Tables},
+  name=TT,
+  placement=h,
+  within=section
+]{ttfig}
+
+\DeclareFloatingEnvironment[
+  fileext=lod,
+  listname={List of Proofs},
+  name=Proof,
+  placement=h,
+  within=section
+]{pfig}
+
+%\captionsetup[truthtable]{labelfont=bf, format=hang}
+\captionsetup[ttfig]{format=hang}
+\captionsetup[pfig]{format=hang}
+
+\newcommand{\twoitems}[2]{%
+\noindent
+\begin{minipage}{0.5\textwidth}\centering #1\end{minipage}%
+\begin{minipage}{0.5\textwidth}\centering #2\end{minipage}
+}
+
+\newcommand{\threeitems}[3]{%
+\noindent
+\begin{minipage}{0.33\textwidth}\centering #1\end{minipage}%
+\begin{minipage}{0.33\textwidth}\centering #2\end{minipage}%
+\begin{minipage}{0.33\textwidth}\centering #3\end{minipage}%
+}

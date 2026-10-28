@@ -1,0 +1,141 @@
+\section{What Is Logic?}
+
+Logic is a method for systematically evaluating arguments of various
+types. Although this course is a study in \textit{formal} logic, the
+main concepts are best introduced informally.
+
+\subsection{Arguments} \cite[][Chapter 1, pp. 2-6]{Mag25}
+
+An \textit{argument} is a sequence of sentences. It comprises some
+\textit{premises} and a \textit{conclusion}.
+
+\begin{argument}
+\item[] My shoes are either in the den or in the bedroom.
+\item[] My shoes are not in the den.
+\item[\therefore] My shoes are in the bedroom.
+\end{argument}
+
+In real-world examples, the conclusion can occur anywhere in such sequence.
+
+\begin{argument}
+\item[] My shoes are either in the den or in the bedroom. They must be in
+  the bedroom, because they are not in the den.
+\end{argument}
+
+But when we turn to formal logic, conclusions will be found at the end.
+
+Informal arguments will often use special words to indicate which sentences
+are meant to be premises and which is the conclusion.
+
+\begin{argument}
+\item[] \textbf{Conclusion indicator words:}
+  \textit{so, therefore, hence, thus, accordingly, consequently, ... }
+\item[]  \textbf{Premise indicator words:}
+  \textit{since, because, given that, ... }
+\end{argument}
+
+The premises and conclusions of these informal arguments are \textit{sentences},
+but not just any type of sentence will do. We are not interested in commands or
+questions, but only \textit{declarative} sentences. These are the sentences that
+we can assign a \textit{truth value}; sentences that we can call \textit{true}
+or \textit{false}.
+
+\subsection{The scope of logic} \cite[][Chapter 2, pp. 7-17]{Mag25}
+
+In arguments like the one outlined above, we note that the conclusion is
+connected to the premises in a fundamental way. The conclusion is a
+\textit{consequence} of the premises; whenever the premises are true, the
+conclusion is also true. When the consequence of an argument follows in this way
+from its premises, we will say that the argument is \textit{valid}. Otherwise, it
+is \textit{invalid}.
+
+Although we will keep the discussion informal for the time being, note that we can
+talk about arguments by representing their premises and conclusions using capital
+letters (with or without subscripts). Using this convention, we can quickly define
+this notion of consequence (\textit{entailment}):
+
+\begin{argument}
+\item[] The sentences $A_1, \dots, A_n$ \textit{entail} the sentence $B$ if and
+  only if $B$ is never true when all of $A_1, \dots, A_n$ are true.
+\end{argument}
+
+We need to flesh out 'never' a bit more in our formal defnition, but this gives us
+a sense of what we mean by an valid argument and its components. From now on we
+will use 'iff' to mean 'if and only if'.
+
+\begin{argument}
+\item[] An argument is \textit{valid} iff its premises entail its conclusion.
+\item[] An argument is \textit{invalid} iff it is not valid.
+\end{argument}
+
+An invalid argument can be detected by noting a \textit{counter-example}: an
+example of an argument with the same form where the premises are all true but the
+conclusion is false.
+
+Arguments can be valid in a number of different ways. These depend on the limits we
+place on the types of counter-examples that we will accept and invalidating.
+
+\begin{argument}
+\item[] Nomologically valid: must respect the laws of nature
+\item[] Conceptually valid: must respect conceptual relations between words
+\end{argument}
+
+The replacement of sentences by letters in valid arguments is our first step to
+formal logic. We understand \textit{formal} as pertaining to the \textit{form} of
+such arguments, not as a synonym for \textit{fancy}. One consequence is that many
+conceptually valid arguments cannot be formally validated. So this formal argument
+is valid:
+
+\begin{argument}
+\item[] Either X or Y.
+\item[] Not Y.
+\item[\therefore] X.
+\end{argument}
+
+while this one is not, unless we make clear the premise that $X iff Z$:
+
+\begin{argument}
+\item[] Either X or Y.
+\item[] Not Y.
+\item[\therefore] Z.
+\end{argument}
+
+Note that the dependence on the forms of arguments is fundamental here. We can have
+both valid arguments with untrue conclusions and invalid arguments whose premises
+and conclusions are all true.
+
+\begin{quote}
+  The important thing to remember is that validity is not about the \textit{actual}
+  truth or falsity of the sentences in the argument. It is about whether it is
+  \textit{possible} for all the premises to be true and the conclusion to be not
+  true at the same time. \cite[][p15]{Mag25}
+\end{quote}
+
+Logic is exceptional at detecting invalid arguments but cannot help at all with
+assessing the truth of premises. Additionally, formal logic is limited to the
+assessment of \textit{deductive} arguments. It does not help with the assessment
+of the many inductive arguments that populate empirical sciences and everyday
+experience.
+
+\begin{argument}
+\item[] The sun has risen every day so far.
+\item[\therefore] The sun will rise tomorrow.
+\end{argument}
+
+While this is a perfectly reasonable inference to make, it is not a deductivley
+valid argument.
+
+\subsection{Other logical notions} \cite[][Chapter 3, pp. 18-25]{Mag25}
+
+We can also define some other properties of sentences and relations between them:
+
+\begin{argument}
+\item[] Sentences that are always true are \textit{necessary truths}.
+\item[] Sentences that are never true are \textit{necessary falsehoods}.
+\item[] Sentences that are neither necessary truths nor necessary falshoods are
+  \textit{contingent sentences}; they are sometimes true and sometimes false.
+\item[] Pairs of sentences that have the same truth value in every situation are \textit{necessarily equivalent}.
+\item[] Collections of sentences that are all true together in some situation are \textit{jointly possible};
+  those that are not are \textit{jointly impossible}.
+\end{argument}
+

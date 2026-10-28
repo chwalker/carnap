@@ -1,0 +1,103 @@
+
+\section{Partial Truth Tables}
+
+% \subsection{Partial Truth Tables} \cite[][Chapter 15, pp. 102-8]{Mag25}
+
+Last week, we saw how we can save time by only filling in the parts of our
+truth tables that matter to the evaluation of the overall formula (i.e.
+to its \emph{main operator}). But these are still \emph{complete} truth tables,
+it's just that many of the cells are silent because they do not matter or are
+obvious.
+
+We can simplify our approach even more if we take a step back and consider what
+we are trying to do in building truth tables in the first place. They are not
+interesting in their own right. But they do give us a clear method for being
+thorough in our exploration of the various logical possibilities, gven the rules
+of the system.
+
+One more step back. Why do we want to explore all of the logical possibilities
+anyway? We want to be thorough in this way because we have defined a number of
+our logical notions (e.g. \emph{tautology}, \emph{validity}, \emph{entailment})
+in terms of these possibilities. When we explore these properties, we want to
+show that the sentences being evaluated are true (or false) in all of the
+possibilities. In our parlance from last week, we are looking for \emph{bad
+lines} in the table.
+
+But what about showing that a sentence \emph{does not} have these properties?
+Surely it will suffice to just find one bad line, a \emph{counter-example} so
+to speak. And indeed it will. We can describe the landscape with this table
+modified from \cite{Mag25}[Chapter 15].
+
+\begin{center}
+  \begin{tabular}{c c c c}
+                  & \bf{yes} & \bf{no} & should be (always)     \\
+    \hline
+    tautology     &  all     &  one    & true                   \\
+    contradiction &  all     &  one    & false                  \\
+    \hline
+    equivalent    &  all     &  one    & same                   \\
+    unsatisfiable &  all     &  one    & false                  \\
+    \hline
+    valid         &  all     &  one    & true conclusion or false premise  \\
+    entailment    &  all     &  one    & true conclusion or false premise  \\
+  \end{tabular}
+\end{center}
+
+Recall from \ref{def:tautology} that a TFL sentence is a tautology just in
+case it is true in all scenarios. Showing that a TFL sentence is not a
+tautology amounts to finding a scenario where it is not true. Since we know
+we are trying to find a bad (i.e. false) line, we work backward through the
+columns with this assumption in mind.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c c c}
+    A & B & (A & \eif   & B) & \eif   & (B & \eif & A)  \\
+    \hline
+    F & T &    & T      &    & \bf{F} &  T & F    & F   \\
+    4 & 4 &    & 2      &    &   1    &  3 & 2    & 3   \\
+  \end{tabular}
+\end{center}
+
+The TFL sentence $(A \eif B) \eif (B \eif A)$ is false when $A$ is false and
+$B$ is true. It is not a tautology.
+
+Similarly, we can show that a TFL sentence is not a contradiction by showing
+that it is sometimes true. So this time we start by assuming a true line.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c c c}
+    A & B & (A & \eif   & B) & \eif   & (B & \eif & A)  \\
+    \hline
+    T & F &  T & F      & F  & \bf{T} &    &      &     \\
+    4 & 4 &  3 & 2      & 3  &   1    &    &      &     \\
+  \end{tabular}
+\end{center}
+
+This time we had to decide what to do next, since there are two ways to make
+the main operator true: let its antecedant be false or let its consequent be
+true. We chose the former, because that choice (a false material implication)
+forces our truth value assignment to the atomic letters: $A$ must be true and
+$B$ must be false. We have found a counter-example. The TFL sentence $(A \eif
+B) \eif (B \eif A)$ is also not a contradiction.
+
+We can extend this practice to truth tables with multiple TFL sentences in
+order to find counter-examples for equivalence, satisfiability, validity and
+entailment. For example, the following partial table demonstrates that $A \eand
+B$ and $A \eand \enot B$ are not equivalent.
+
+\begin{center}
+  \begin{tabular}{c c||c c c|c c c c}
+    A & B    &    A & \eand  & B    &    A & \eand & \enot & B \\
+    \hline
+    T & T    &      & \bf{T} &      &      & \bf{F} &  F    &   \\
+    2 & 2    &      &   1    &      &      &  4     &  3    &   \\
+  \end{tabular}
+\end{center}
+
+When we set the values of $A$ and $B$ to make $A \eand B$ true, the truth value
+of $A \eand \enot B$ correspondingly becomes false. The two TFL sentences have
+different truth values in some scenarios. They cannot be equivalent. A similar
+process can be applied to the remaining logical properties.
+
+TODO: satisfiability, validity and entailment tables ??
+

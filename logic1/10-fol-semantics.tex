@@ -1,0 +1,895 @@
+\section{FOL Semantics}
+
+For the semantics of FOL we will want to leverage as much as possible from our
+treatment of TFL semantics. But FOL sentences are not atomic symbols of truth
+values, they are constructed from basic FOL expressions using the rules of
+grammar. We will need to find a way to account for the truth of atomic sentences
+which rests on the meanings of these basic parts.
+
+We will use \emph{models} to give a semantics to first-order logic. They will
+be responsible for associating the expressions of first-order logic with a
+domain of individuals.
+
+\begin{definition}[Jobs for Models]
+  \label{def:jobs-for-model}
+  An \emph{model} for first-order logic will:
+  \begin{enumerate}
+  \item determine the \emph{truth} of sentences
+  \item set a non-empty \emph{domain};
+  \item assign each name a \emph{reference} in the domain; and
+  \item assign each predicate an \emph{extension} made from items in the domain.
+  \end{enumerate}
+\end{definition}
+
+Before we start formalizing models, let's look at some of the tools we will
+need. First, a notational convention. We will use \elib\ealpha\erib to talk
+about the reference (or extension) of an expression \ealpha. This will be useful
+in definitions and metalogic, where the semantic objects are often central to
+the discussions and a full description of them would be quite long-winded
+indeed.
+
+\subsection{The Basic Idea of Sets}
+
+We will start by informally introducing a new formal mechanism, sets. For our
+purposes, a \emph{set} is a collection of objects. The domain is a set. We can
+symbolize a set of anything (symbols, objects, etc) using curly braces: ${a,b}$.
+We will not dig more deeply into the properties and behaviors of sets, other
+than to note that they have no order or repeated items. When all of the elements
+of one set \eDelta and found in another set \eGamma, we say that \eDelta is a
+\emph{subset} of \eGamma ($\eDelta\esubset\eGamma$). When some item $x$ is
+found in a set \eGamma, we will say that $x$ is an \emph{element} of \eGamma
+($x\in\eGamma$).\footnote{Often when we use $x\in\eGamma$, we mean to refer
+to $x$ not to the relation $x\in\eGamma$, per se. We just want to note that
+we are talking about an $x$ from \eGamma.}
+
+Sets are a technical device that constrain the models of FOL. Like truth values
+in TFL, the extensions of predicates (i.e. sets) are the closest we can get to
+their \emph{meaning}. Beyond its subject belonging to the set of all sunsets,
+all the nuances of meaning in a predicate like ``is a sunset'' are lost. Where
+in TFL two sentences that have the same truth value in all situations are
+equivalent, in FOL two predicates that have the same extension are equivalent
+too.
+
+\subsection{Domains, Reference and Extension}
+
+First, let's consider the meanings of the various basic expressions of FOL. We
+can skip brackets, since their meaning straightforwardly relates the rules of
+grammar and the scope of operators.
+
+\begin{definition}[Domain]
+  \label{def:fol-domain-set}
+  The \emph{domain} of an FOL model is the set of all objects relevant to the
+  model. A domain for first-order logic must include an individual for each of
+  the names in the language, but multiple names may refer to the same
+  individual.
+\end{definition}
+
+We can define a domain either \emph{extensionally}, by listing all of its
+individuals, or with a \emph{domain description}.
+
+The object that a term picks out is called its \emph{reference}.
+
+\begin{definition}[Reference]
+\label{def:fol-reference}
+We take singular terms to \emph{refer} to individuals in the domain. We will
+call the individual that a name refers to its \emph{reference}. Although
+many names may pick out the same reference, each name only picks out one.
+\end{definition}
+
+Two terms can refer to the same object.
+
+\begin{definition}[Coreference]
+  \label{def:fol-coreference}
+  Two terms $\etau_1$ and $\etau_2$ are \emph{co-referential} iff they have the
+  same reference.
+\end{definition}
+
+Likewise, we interpret a predicate as its \emph{extension}.
+
+\begin{definition}[Extension of a Predicate]
+  \label{def:fol-extension}
+  The \emph{extension} of a predicate in first-order logic is the set
+  of objects to which that predicate applies. If \ebeta is a 1-place predicate,
+  then the extension of \ebeta is a subset of the domain. If \ebeta is an
+  n-place relation, then its extension is a set of n-place \emph{tuples} of
+  items from the domain
+\end{definition}
+
+We equate predicates on the basis of their extension.
+
+\begin{definition}[Coextension]
+  \label{def:fol-coextension}
+  Two predicates $\ebeta_1$ and $\ebeta_2$ are  \emph{co-extensional} iff they
+  have the same extension.
+\end{definition}
+
+We won't linger on sets and tuples, just note that they offer convenient
+notational devices. One way we could represent an FOL interpretation is
+extensionally: by listing the contents of the domain and the extensions of all
+the predicates by rote. Tuples make it possible for us to do that for n-place
+predicates where n>1. 
+
+\begin{grayarg}
+\item[\textbf{D:}] \{ John, Mary, Fred, Susie \}
+  \item[$j$:] John
+  \item[$m$:] Mary
+  \item[$f$:] Fred
+  \item[$s$:] Susie
+  \item[$P$:] \{Fred,Susie\}
+  \item[$E$:] \{Fred,Susie\}
+  \item[$L$:] \{\textlangle Fred,Mary\textrangle,\textlangle Mary,Fred\textrangle,\textlangle Susie,John\textrangle,\textlangle John,John\textrangle\}
+\end{grayarg}
+
+We get a quick sense of who is a philosopher ($P$), who studies epistemology
+($E$), and who loves whom ($L$). But this FOL symbolization does not let us
+capture any of the differences in meaning between \emph{philosopher} and
+\emph{specialist in epistemology}. This has particularly notable consequences
+when dealing with so-called \emph{empty predicates}: those predicates that do
+not have any objects in their extensions. On our approach, they all have the
+same meaning.
+
+\subsection{Setting Reference in Descriptive Domains}
+
+Now consider this descriptively defined interpretation which is less explicit
+about the contents of the domain and the extension of the predicate.
+
+\begin{argument}
+  \item[\textbf{D:}] all of the birds of prey in Chemung County
+  \item[$h$:] Hank
+  \item[$T$:] lives at Tanglewood
+\end{argument}
+
+While the domain refers to a \textbf{specific} set of individuals, we don't
+exactly have a name for every bird in the county. This makes the explicit
+definition of our predicates much more challenging. How do we talk about all
+of the birds in the domain who don't have a name? Although there are some
+tricks for doing so in the metalogic, the short version is that we can't,
+especially when we start talking about infinite sets.
+
+Things get especially weird when we try to figure out if two objects are
+\emph{distinct}. The classic example is:
+
+\begin{argument}
+  \item[$p$:] Phosphorus
+  \item[$h$:] Hesperus
+  \item[$v$:] Venus
+\end{argument}
+
+All of these are names for the same thing. We will stick to this version of
+\emph{direct reference} in our understanding of FOL semantics.\footnote{
+
+  In future logic courses, especially \emph{Modal Logic}, we will see how terms
+  that refer to the same thing have funny behavior in so-called \emph{epistemic
+  contexts}.
+  
+  \begin{argument}
+  \item[ ] The ancients knew that Phosphorus rose in the morning.
+  \item[ ] Phospherus is Hesperus.
+  \item[\therefore] The ancients knew that Hesperus rose in the morning.
+  \end{argument}
+  
+  Although substitution of equivalents is typically truth-preserving. This is
+  not a valid inference, but formalizing that proves to be difficult.
+  Ultimately, all three names refer to one item. Our domain should reflect that.
+  But how do we know when two items in the domain are the distinct? One
+  proposal is that they are never the same. Specifically, each item is just
+  itself. If two things are in the domain, then they really are two different
+  things. We will wait until our survey of metalogic in Logic 2 to expand on
+  this point. Suffice it to say, we will assume that the substitution of
+  expressions with the same reference (or extension) will be truth-preserving
+  in FOL, just as it is in TFL. But, technically, this is only correct in an
+  \emph{extensional context} (which is often circularly defined as a context
+  where truth-preservation for the substitution of equivalents is a correct
+  assumption).
+  
+}
+
+One trick is to assume that the elements of the domain can, in principle, be
+counted (and in a consistent order). This gives us a way to make unique
+reference to each of the items in a set: the natural numbers. As in
+\cite{Mag25} we will use numbers to stand for objects in the domain. Names are
+taken to point \emph{directly} at the objects these numbers represent, and in
+a \emph{rigid} way: a name always refers to \textbf{the same} object.
+
+Complicating matters further, we cannot assume that domains are finite. There
+are a number of relations that cannot be validated by anything other than an
+infinite set of individuals. For example, when a \emph{connected}\footnote{Every individual is related to some other individual.} two-place predicate $R$ is also both \emph{transitive}\footnote{Rxy and Ryz always means Rxz.} and \emph{irreflexive}\footnote{No individual is related to itself.}, this is only possible in an infinite domain. In other words, the following three wffs cannot be all valid together in a finite model.
+
+\begin{center}
+  \begin{tabular}{c c}
+    connected    &  \eforall x\eexists yRxy              \\
+    transitive   &  \eforall x((Rxy \eand Ryz) \eif Rxz) \\
+    irrelflexive &  \eforall x\enot Rxx                  \\
+  \end{tabular}
+\end{center}
+
+This certainly complicates any potential search for counter-examples. We will
+need more powerful validation tools then those appropriate to finite models.
+Ultimately, we will need to reason about the models themselves.
+
+\subsection{Interpretation in First-Order Logic}
+
+\begin{definition}[FOL Model]
+  We define a model for first-order logic as comprising \textbf{D} and
+  $\elib\cdot\erib$ where:
+  \begin{outline}[enumerate]
+  \1 \textbf{D} is a non-empty \emph{domain of individuals}; and
+  \1 $\elib\cdot\erib$ is an \emph{interpretation function} which assigns each
+  term a reference and each predicate an extension as follows:
+  \2 \elib\etau\erib is a \emph{reference} in \textbf{D} for each term \etau;
+  \2 \elib\ephi\erib is a \emph{truth-value} for each 0-place predicate \ephi;
+  \2 \elib\ebeta\erib is a \emph{set of individuals} from \textbf{D} for each
+  1-place predicate \ebeta;
+  \2 \elib\ebeta\erib is a \emph{set of n-tuples of individuals} from \textbf{D}
+  for each n-place predicate \ebeta, when n>1
+  \end{outline}
+\end{definition}
+
+We've already seen how we can explicitly specify these things with sets of
+objects (and tuples of objects). Using numbers for our domain, we can recast
+the above example as follows.
+
+\begin{grayarg}
+  \item[\textbf{D:}] \{1,2,3,4\}
+  \item[$j$:] 1 (John)
+  \item[$m$:] 2 (Mary)
+  \item[$f$:] 3 (Fred)
+  \item[$s$:] 4 (Susie)
+  \item[$P$:] \{3,4\}
+  \item[$E$:] \{3,4\}
+  \item[$L$:] \{\textlangle 3,2\textrangle,\textlangle 2,3\textrangle,\textlangle 4,1\textrangle,\textlangle 1,1\textrangle\}
+\end{grayarg}
+
+The sets are easy enough to read, but the tuple notation for relations is
+sometimes difficult to scan. Instead, we can diagrammatically represent our
+interpretation of the relation $L$.
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[
+      node distance=2cm,
+      every node/.style={minimum size=0.5cm, inner sep=2pt}, % circle, draw
+      ->,
+      >=Stealth
+    ]
+    \node (1) {1};
+    \node (2) [right of=1] {2};
+    \node (3) [below of=2] {3};
+    \node (4) [left of=3] {4};
+    \draw (3) -- (2);
+    \draw (2) -- (3);
+    \draw (4) -- (1);
+    \draw (1) to [loop left, looseness=6] (1);
+  \end{tikzpicture}
+  \caption{An interpretation of $L$}
+  \label{fig:model-of-love}
+\end{figure}
+
+\subsection{Assessing Truth with the Resources of FOL}
+
+Now that we have a handle on interpretations, we can start to talk about how
+truth works in first-order logic. Recall from our informal survey that we need
+to account for three types of sentences.
+
+\begin{enumerate}
+\item \textbf{atomic sentences:} sentences built from FOL terms and predicates
+  but not from quantifers or connectives
+\item \textbf{truth-functional sentences:} sentences whose main operator is
+  truth-functional
+\item \textbf{quantified sentences:} sentences whose main operator is
+  a quantifier of FOL
+\end{enumerate}
+
+Following the convention from \cite{Mag25}, when a given object is found in the
+extension of a predicate, we will say that the predicate is \emph{true of} that
+object. Similarly, we will say that a relation is \emph{true of} a tuple of
+objects whenever that tuple occurs in the extension of the relation.
+
+\subsubsection{Modelling Quantified Sentences}
+
+We'll adopt the model from \cite{Mag25}[Chapter 31] to keep things simple. But
+we will adopt the notation from \cite{Smi20}, where we label slots with numbers
+like \textcircled{1}. It is important to note that \textcircled{1} and 1 are
+different symbols of the metalanguage. \textcircled{1} is a placeholder for
+an empty term slot in a predicate. It will be filled by a term or a variable
+by the grammar. 1 is just the symbol we've decided to use to stand for a
+particular object in our domain, specifically Aristotle.
+
+\begin{argument}
+\item[\textbf{D:}] everyone born before 2000 CE
+\item[a:] 1 (Aristotle)
+\item[b:] 2 (Beyonce)
+\item[P]: \textcircled{1} is a philosopher
+\item[R:] \textcircled{1} was born before \textcircled{2}
+\end{argument}
+
+Note that we are not actually giving our names and predicates extensional
+definitions here. We will assume truth based on real-world conditions. When
+we construct our truth definition for quantifier-governed sentences, we will
+want our rules to give some specific results on this interpretation, namely:
+
+\begin{argument}
+\item[ ] ``Someone was born before Beyonce'' is true
+\item[ ] ``Some philosopher was born before Aristotle'' is true
+\item[ ] ``Everyone is born before someone'' is false
+\end{argument}
+
+symbolized as:
+
+\begin{argument}
+\item[ ] $\eexists xR(b,x)$ is true
+\item[ ] $\eexists x(P(x)\eand R(x,a))$ is true
+\item[ ] $\eforall x\eexists y(R(x,y))$ is false
+\end{argument}
+
+Let's see how we can get these results, starting with some basic rules for the
+truth of atomic sentences.
+
+\subsubsection{Atomic Sentences}
+
+We can now offer the following definitions of truth in first-order logic. As
+noted above, we will depart slightly from \cite{Mag25} and use the notation
+$\elib\ealpha\erib$ to mean the reference (or extension) of the FOL expression
+\ealpha, given a model.
+
+The sentence $\ebeta\etau_1,\dots,\etau_n$ is true in an model $\mathcal{M}$
+just in case the references of $\ebeta\etau_1,\dots,\etau_n$ form an n-tuple
+that can be found in the extension of \ebeta.
+
+\begin{definition}[Truth for Atomic Sentences]
+  \label{def:fol-atomic-truth}
+  Let $\mathcal(M)=\langle\boldsymbol{D},\elib\cdot\erib\rangle$ be a model for
+  FOL.
+
+  $\elib\ebeta\etau_1,\dots,\etau_n\erib_\mathcal(M) = T$
+  iff $\langle\elib\etau_1\erib_\mathcal{M},\dots,
+  \elib\tau_n\erib_\mathcal{M}\rangle\in \elib\beta\erib_\mathcal{M}$
+  \footnote{From now on, we will drop the $\mathcal{M}$ subscript whenever the
+  choice of model is clear from context.}
+\end{definition}
+
+The sentence $\etau_1=\etau_2$ is true in an intepretation iff $\|\etau_1\|_I$
+and $\|\etau_2\|_I$ are the very same individual in the domain $n\ein D$.
+
+\begin{definition}[Truth for Identity Sentences]
+  \label{def:fol-identity-truth}
+  $\elib\etau_1=\etau_2\erib = T$ iff $\elib\etau_1\erib=\elib\etau_2\erib$  
+\end{definition}
+
+\subsubsection{Truth-Functional Sentences}
+
+For truth-functional sentences, we can just import our connective definitions
+from TFL.
+
+\begin{definition}[Truth for Connective-Governed Sentences]
+  \label{def:fol-connective-truth}
+  The sentential connectives in FOL work just as they do in TFL:\\
+  \begin{enumerate}
+  \item $\elib\enot\ephi\erib=T$ iff $\elib\ephi\erib=F$ 
+  \item $\elib\ephi\eand\epsi\erib=T$ iff $\elib\ephi\erib=T$ and
+    $\elib\epsi\erib=T$    
+  \item $\elib\ephi\eand\epsi\erib=T$ iff either $\elib\ephi\erib=T$ or
+    $\elib\epsi\erib=T$ (or both)
+  \item $\elib\ephi\eif\epsi\erib=T$ iff either $\elib\ephi\erib=F$
+    or $\elib\epsi\erib=T$
+  \item $\elib\ephi\eiff\epsi\erib=T$ iff $\elib\ephi\erib=\elib\epsi\erib$
+  \end{enumerate}  
+\end{definition}
+
+\subsubsection{Quantified Sentences}
+
+The definition of truth for atomic sentences (\ref{def:fol-atomic-truth}) puts
+a lot of responsibility on the interpretation function and term expressions. We
+need to be able to pick out the references for all of our terms in order to
+check the extensions of the predicates and determine the truth of atomic
+sentences. But what about the cases where we filled in term slots with something
+other than a term, like a variable? How do we evaluate the truth of
+(well-formed) formulas of this type? This is where the dummy names and dummy
+sentences come in.
+
+Before defining truth for quantified sentences, we need to pause once
+more and consider the role that names play in definition
+\ref{def:fol-atomic-truth}. Specifically, we are assuming that each term
+picks out a specific item in the domain. For names this is straightfoward (by
+direct reference, the interpretation of a name just \textbf{is} its object). But
+what about variables? Here, we can leverage the manner in which we built our
+domain (i.e. as \emph{countable}, and therefore ``named'' by the natural
+numbers).
+
+How does this work in practice? One soulution is to use the psuedo-names
+(numbers) associated with each domain item to talk about possible changes we
+might make to the interpretation. Specifically, we note that we \textbf{could}
+extend the interpretation by adding a new name and being precise about its
+reference. Indeed, one assumes that we do this sort of thing in ordinary English
+all the time (when we learn the name of a person we've seen before, for
+example).
+
+In order to define our rules for truth, we will lean pretty heavily on the
+observation above that two equivalent expressions (i.e. two expressions with
+the same reference or extension) can be substituted for each other in a FOL
+sentence without changing the truth value of the sentence.
+
+\subsubsection{Interlude: Semantics with Open Sentences}
+
+As much as possible we want our definition to work at the sentence level, but
+when we are dealing with free variables, we have to acommodate formulas other
+than sentences as well.
+
+Recall from Section \ref{sec:fol-free-variables} that we have chosen to use a
+slightly different grammar than \cite{Mag25}. Specifically, our grammar will
+not create any \emph{open sentences}: sentences with one or more \emph{unbound
+variables} (\emph{free variables}). The approach in \cite{Mag25} builds
+quantified sentences from open sentences by adding a quantifier with a variable
+that matches the free one. They get their open sentences by allowing variables
+to act like terms in the syntax: a variable can fill any slot in a predicate as
+though it was a term.
+
+The important point for the semantics is that these formulas (i.e. open
+sentences) exist. They are built along the way as part of the process for
+constructing quantified sentences. As such, the semantics in \cite{Mag25} can
+talk about them as though they are well-defined. Indeed, they are.
+
+To see how the semantics of quantified sentences works in \cite{Mag25} (which is
+a common approach in modern predicate logic), we will define open sentences as
+a type of \emph{subformula}. From that definition, we can explore the standard
+treatment before we look at the adjustments needed for our official definitions.
+
+\begin{definition}[Open Sentence]
+  In our first-order logic, only terms and predicates can be used to construct
+  atomic sentences. By definition, each variable is bound by the quantifier
+  that introduces it. Neverthelss, we can think of open sentences as subformulas
+  of quantified sentences.
+
+  Let \etheta be a quantifier symbol (\eforall or \eexists) and \etheta\exi\ephi
+  be a quantified sentence of FOL. We define \ephi(\exi) as a \emph{subformula}
+  of \etheta\exi\ephi and further stupulate that it:
+  \begin{enumerate}
+  \item is an open sentence: it contains zero or more free occurrences of the
+    variable \exi (but typically one or more);
+  \item is not a well-formed formula in our grammar
+  \item ...
+  \end{enumerate}
+\end{definition}
+
+With open sentences at our disposal, we can now present the lightly-modified
+definition of \emph{substitution instance} from \cite{Mag25}. In the traditional
+definition of truth for quantified sentences, we use substitution instances to
+talk about their \emph{satisfaction}.
+
+\begin{definition}[Substitution Instance]
+  \label{def:fol-substitution-instance}
+  Let \ephi be a formula of first-order logic. Also let \exi be a variable
+  and \etau be a term. We define \ephi(\exi) to mean that \ephi has zero or
+  more free occurrences of \exi and \ephi(\etau) to be the result of
+  replacing all of the free occurrences of \exi in \ephi with \etau. The
+  resulting formula is called an \emph{substitution instance} of \ephi and
+  \etau is called its \emph{instantiating name}.
+\end{definition}
+
+Armed with this notation, we can now talk explicitly about updating our
+interpretations with exactly the names we need to assess the truth of our
+quantified sentences. Let's start informally.
+
+Recall that our model contains information about each of its names, specifically
+which $n\in D$ we are talking about. We can imagine adding more entries of this
+type by stipulating a name for any of the objects in \textbf{D}. We will call
+this practice \emph{updating} an interpretation.
+
+\begin{definition}[Interpretation Update]
+  \label{def:fol-update}
+  Let $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ be an FOL model,
+  \edelta be a name and $n$ be an object in \textbf{D}. Then
+  $\elib\cdot\erib^{[n/\edelta]}$ is just like $\elib\cdot\erib$ except 
+  that it assigns the object $n$ to the name \edelta.
+\end{definition}
+
+Then we can talk about whether or not a given object $n$ is true of a predicate
+$\ebeta$. We will call this unmediated truth of objects in these new sentences
+\emph{satisfaction} and the new name we add a \emph{dummy name}.
+
+\begin{definition}[Satisfaction]
+  \label{def:fol-satisfaction}
+  Let $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ be an FOL model.
+  
+  Then an object $n\in\mathbf{D}$ \emph{satisfies} \ephi(\exi) in $\mathcal{M}$
+  iff $\elib\ephi(\edelta)\erib^{[n/\edelta]}=T$, where the \emph{dummy name}
+  \edelta does not already occur in \ephi(\exi).
+
+  We will refer to \ephi(\etau) in these cases as a \emph{dummy sentence}.
+\end{definition}
+
+More broadly, \ephi(\etau) is an \emph{instance} of \eexists\exi\ephi(\exi).
+
+Now that we've done the metalogical heavy lifting in our definition of
+satisfaction, our truth definitions for quantifier-governed sentences in
+straight-forward.
+
+\begin{definition}[Truth for Quantifier-Governed Sentences]
+  \label{def:fol-quantifier-truth-mag}
+  Let $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ be an FOL model.
+  \begin{enumerate}
+  \item $\elib\eforall\exi\ephi(\exi)\erib=T$ iff
+    every $n\in\mathbf{D}$ satisfies $\ephi(\exi)$
+  \item $\elib\eexists \exi\ephi(\exi)\erib=T$ iff at least one
+    $n\in\mathbf{D}$ satisfies $\ephi(\exi)$
+  \end{enumerate}
+\end{definition}
+
+\subsubsection{Quantified Truth without Open Sentences}
+
+We can reframe the definitions in \ref{def:fol-quantifier-truth-mag} in terms
+of updating the interpretation function. There is at least one way to update
+$\elib\cdot\erib$ to make \eexists\exi\ephi true; and \eforall\exi\ephi is true
+no matter how we update $\elib\cdot\erib$.
+
+\begin{definition}[Quantifier Truth and Interpretation Updates]
+  \label{def:fol-quantifier-truth}
+  Let $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ be an FOL model.
+  
+  We define the truth of quantified sentences as follows:
+  
+  \begin{enumerate}
+  \item $\elib\eforall\exi\ephi\erib=T$ iff
+    $\elib\ephi\erib^{[n/\exi]}=T$ for every $n\in\mathbf{D}$
+  \item $\elib\eexists \exi\ephi\erib=T$ iff
+    $\elib\ephi\erib^{[n/\exi]}=T$ for some $n\in\mathbf{D}$
+  \end{enumerate}
+  
+\end{definition}
+
+Note how we can formulate this definition without any reference to open
+sentences like \ephi(\exi). We can just talk directly about $\elib\cdot\erib$.
+These are, of course, just two ways of saying the same thing. We will adopt this
+second definition because it aligns better with our syntax and the semantics
+of open sentences seems incoherent, at best.
+
+%% TODO: can we move this to the syntax? its form is not semantic.
+\subsection{Quantifier Duals}
+
+One of the interesting properties of the Square of Opposition [ref?] is that it
+arranges the quantified sentences into pairs, or \emph{duals}, which differed
+only in terms of negation. ``Every'' is a dual of ``Not every''. It is also a
+dual of ``Every not''. These two flavors of duality depend on two different
+flavors of negation: \emph{external} and \emph{internal}, respectively. Among
+the interesting details of this arrangement is that the existential and
+universal quantifiers are doubly dual: they are the result of both internal and
+external negation.
+
+\begin{observation}[Duals of Quantified Sentences]
+  \label{obs:quantifer-duals}
+  The quantified sentences of FOL can be related via the following equivalences.
+  \begin{enumerate}
+    \item ``Some'' is synonymous with ``Not every not''
+    \item ``Every'' is synonymous with ``Not some not''
+  \end{enumerate}
+\end{observation}
+
+\subsection{Metasemantics of FOL}
+
+We can summarize the truth semantics of FOL as follows.
+
+\begin{definition}[Truth in First-Order Logic]
+  \label{def:fol-truth}
+  Let $\mathcal(M)=\langle\boldsymbol{D},\elib\cdot\erib\rangle$ be a model for
+  FOL. We can assess the truth of FOL sentences as follows.
+  \begin{outline}[enumerate]
+    \1 $\elib\ebeta\etau_1,\dots,\etau_n\erib=T$ iff
+    $\langle\elib\etau_1\erib,\dots,\elib\tau_n\erib\rangle\in \elib\beta\erib$
+    \1 $\elib\etau_1=\etau_2\erib=T$ iff $\elib\etau_1\erib=\elib\etau_2\erib$
+    \1 $\elib\enot\ephi\erib=T$ iff $\elib\ephi\erib=F$ 
+    \1 $\elib\ephi\eand\epsi\erib=T$ iff $\elib\ephi\erib=T$ and
+    $\elib\epsi\erib=T$
+    \1 $\elib\ephi\eand\epsi\erib=T$ iff either $\elib\ephi\erib=T$ or
+    $\elib\epsi\erib=T$ (or both)
+    \1 $\elib\ephi\eif\epsi\erib=T$ iff either $\elib\ephi\erib=F$
+    or $\elib\epsi\erib=T$
+    \1 $\elib\ephi\eiff\epsi\erib=T$ iff $\elib\ephi\erib=\elib\epsi\erib$
+    \1 $\elib\eforall\exi\ephi\erib=T$ iff
+    $\elib\ephi\erib^{[n/\exi]}=T$ for every $n\in\mathbf{D}$
+    \1 $\elib\eexists \exi\ephi\erib=T$ iff
+    $\elib\ephi\erib^{[n/\exi]}=T$ for some $n\in\mathbf{D}$
+  \end{outline}
+
+\end{definition}
+
+With these truth definitions in place, we can now talk about how to formalize
+the semantic concepts relevant to first-order logic. As we have thus far, we
+will try to preserve as much as possible from our truth-functional definitions.
+
+A set of premises \eGamma \emph{entails} a sentence \epsi only if it is never
+the case that \eGamma are all false, but \epsi is true. 
+
+\begin{definition}[Entailment]
+  \label{def:fol-entailment}
+  The sentences $\ephi_i,\dots,\ephi_n$ \emph{entail} the sentence \epsi
+  ($\ephi_i,\dots,\ephi_n\eentails\epsi$)
+  iff there is no model $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$
+  where $\elib\ephi_i\erib=F,\dots,\elib\ephi_n\erib=F$ and $\elib\epsi\erib=T$.
+\end{definition}
+
+A sentence \ephi is \emph{valid} iff \ephi is true on every interpretation. We
+can call such \ephi a \emph{validity}.
+
+\begin{definition}[Validity]
+  \label{def:fol-validity}
+  A sentence \ephi is \emph{valid} iff $\elib\ephi\erib=T$ for every
+  model $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$.
+  \\
+\end{definition}
+
+A sentence \ephi is a \emph{contradiction} iff \ephi is false on every
+interpretation.
+
+\begin{definition}[Contradiction]
+  \label{def:fol-contradiction}
+  A sentence \ephi is a \emph{contradiction} iff $\elib\ephi\erib=F$ for every
+  model $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$.
+\end{definition}
+
+Similarly, an argument is valid just in case there is no interpretation
+in which all of its premises are true and its conclusion is false. (i.e.
+$\ephi_i,\dots,\ephi_n\eentails\epsi$).
+
+\begin{definition}[Valid Argument]
+  \label{def:fol-valid}
+  The argument $\ephi_i,\dots,\ephi_n\therefore\epsi$ is \emph{valid} in
+  first-order logic iff there is no model
+  $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ where
+  $elib\ephi_i\erib=T,\dots,\elib\ephi_n\erib=T$ and $\elib\epsi\erib=F$.
+  Otherwise it is \emph{invalid}.
+\end{definition}
+
+Two FOL sentences \ephi and \epsi are \emph{equivalent} when they are true in
+exactly the same interpretations (i.e. when both $\ephi\eentails\epsi$ and
+$\epsi\eentails\ephi$).
+
+\begin{definition}[Equivalent]
+  \label{def:fol-equivalent-sentences}
+  Two FOL sentences \ephi and \epsi are \emph{equivalent} iff
+  $\elib\ephi\erib=\elib\epsi\erib$ for all models $\mathcal{M}=
+  \langle\mathbf{D},\elib\cdot\erib\rangle$
+\end{definition}
+
+The FOL sentences $\ephi_1,\dots,\ephi_n$ are \emph{jointly satisfiable} when
+there is an interpretation that makes them all true.
+
+\begin{definition}[Joint Satisfiability]
+  \label{def:fol-joint-satisfiability}
+  The FOL sentences $\ephi_1,\dots,\ephi_n$ are \emph{jointly satisfiable} iff
+  $\elib\ephi_i\erib=T$ for all $1\le i\le n$ on some model
+  $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$. Otherwise they are
+  \emph{jointly unsatisfiable}.
+\end{definition}
+
+\subsection{Interpretations and Proofs}
+
+\subsubsection{Proof and Counter-Models}
+
+Disproving the semantic properties discussed in the last section amounts to
+finding an interpretation that conflicts with the conditions in the definition.
+Those requirements in the are summarized in the following table.
+
+\begin{center}
+  \begin{tabular}{c c}
+    \textbf{to disprove} & \textbf{find an interpretation where} \\
+    \hline \\
+    validity & \ephi is false \\
+    contradiction & \ephi is true \\
+    equivalent & \ephi and \epsi differ in truth value \\
+  \end{tabular}
+\end{center}
+
+We will call such a refutory interpretation a \emph{counter-model}. Generalizing
+to multi-sentence arguments we can provide the following set of interlocking
+definitions.
+
+\begin{definition}[Effects of Counter-Models on Arguments]
+  \label{def:fol-countermodel-effects}
+  Let $\mathcal{M}=\langle\mathbf{D},\elib\cdot\erib\rangle$ be an FOL model.
+
+  If $\elib\ephi_1\erib=T,\dots,\elib\ephi_n\erib=T$ but $\elib\epsi\erib=F$,
+  then:\\
+  \begin{enumerate}
+  \item $\ephi_1,\dots,\ephi_n\therefore\epsi$ is \emph{invalid}; and
+  \item $\ephi_1,\dots,\ephi_n\enotentails\epsi$; and
+  \item $\ephi_1,\dots,\ephi_n,\enot\epsi$ are \emph{jointly satisfiable}
+  \end{enumerate}
+\end{definition}
+
+For the examples in the rest of this section, we will assume the following
+model.
+
+\begin{grayarg}
+\item[\textbf{D:}] \{1, 2, 3\}
+\item[s:] 1 (Socrates)
+\item[p:] 2 (Plato)
+\item[ ]  3 (Aristotle)
+\item[F:] \{1,3\}
+\item[G:] \{ \} 
+\item[L:] \{\textlangle 1,2\textrangle,\textlangle 2,3\textrangle,
+  \textlangle 2,1\textrangle,\textlangle 3,3\textrangle\}
+\end{grayarg}
+
+The same model can be used to show none of the following are valid.
+
+\begin{argument}
+\item[ ] Fs\therefore\eforall xFx
+\item[ ] \eexists x(Fx \eor Gx)\therefore\eexists xGx
+\item[ ] \eforall x\eexists yLxy\therefore\eexists y\eforall xLxy
+\end{argument}
+
+First, this model is a counter-model for the validity of $Fm\eif\eforall xFx$.
+To see this we can use the tools introduced in the last two lectures. First, a
+parse tree reveals the deeper structure, including the specific instances that
+need to be evaluated for truth.
+
+\begin{center}
+  \begin{forest}
+    for tree={ grow=south, l sep=12pt, s sep=14pt }
+    [{$Fs\eif\eforall xFx$} [{Fs}] [{\eforall xFx} [{Fc}] ] ] 
+  \end{forest}
+\end{center}
+
+We need to show that $Fs$ is true on a countermodel but that $Fc$ is not, for
+some \elib c\erib\ein\textbf{D}. This is indeed the case since 2 (Plato) is not
+$F$ in our model.
+
+We can evaluate the second example with the following parse tree:
+
+\begin{center}
+  \begin{forest}
+    for tree={ grow=south, l sep=12pt, s sep=14pt }
+    [{\eexists x(Fx \eor Gx)\eif\eexists xGx}
+      [{\eexists x(Fx \eor Gx)}[{$Fa_1 \eor Ga_1$}[{$Fa_1$}][{$Ga_1$}]]]
+      [{\eexists xGx}[{$Ga_2$}]]
+    ] 
+  \end{forest}
+\end{center}
+
+Once again, the antecedant is true. We could assign either 1 or 3 to the name
+$a_1$, since both satisfy $Fx$ and hence $Fx\eor Gx$. We just need to find out
+if anybody is $G$. Nobody is. The sentence is not valid.
+
+\begin{center}
+  \begin{forest}
+    for tree={ grow=south, l sep=12pt, s sep=14pt }
+    [{$\eforall x\eexists yLxy\eif\eexists y\eforall xLxy$}
+      [{$\eforall x\eexists yLxy$} [{$\eexists yLcy$}]]
+      [{$\eexists y\eforall xLxy$} [{$\eforall xLxa$}]]
+    ] 
+  \end{forest}
+\end{center}
+
+To show the sentence to be invalid we need a true antecendent ($\eexists yLcy$)
+and a false consequent ($\eforall xLxa$). A look at the interpretation of $L$
+will help.
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=2cm,
+    every node/.style={minimum size=0.5cm, inner sep=2pt}, % circle, draw
+    ->,
+    >=Stealth
+  ]
+  \node (1) {1};
+  \node (2) [right of=1] {2};
+  \node (3) [below of=2] {3};
+  \draw (1) -- (2);
+  \draw (1) -- (3);
+  \draw (2) -- (1);
+  \draw (3) to [loop below, looseness=6] (3);
+\end{tikzpicture}
+\end{center}
+
+The antecedent is true: every node has an arrow going out (i.e. everyone loves
+someone or other). The consequent, however, is false. There is no one that is
+loved by everyone. 3 is the only individual that loves themselves, and 1 does
+not love them. This is a counter-model.
+$\eforall x\eexists yLxy\eif\eexists y\eforall xLxy$ is not valid.
+
+\subsubsection{Discovering Countermodels}
+
+% working backward to a counter-model (pp350-1)
+
+The countermodel in the last section was given to us in advnace of the review.
+But how can we find one ourselves among the potentially infinite possibilities?
+The answer is to keep it simple. Start from a \emph{minimal model}: a model with
+just one individual and no predicates. Then add in details as needed. It's more
+art than science, so let's look at a simple example. Later we will prove with
+natural deduction that $\eexists y\eforall xLxy\eproves\eforall x\eexists yLxy$.
+Now, consider this proof via counter-model that
+$\eforall x\eexists yLxy\enotentails\eexists y\eforall xLxy$
+
+If we start with just one individual (\textbf{D}=\{1\}) then we are left with
+only reflexive $L$=\{\textlangle 1,1\textrangle\} or empty $L$=\{\}. In the
+first case the conclusion is true so the entailment is valid. In the second case
+the premise is false so the entailment is valid. This is not a counter-model.
+But it we are careful we should be able to find a countermodel with two
+individuals (\textbf{D}=\{1,2\}). We want both individuals to be loved, so as
+to sasify the premise, so we will connect them to each other. We want each
+individual to be unloved by someone to make the conclusion false, so we will
+just make that the person themselves (i.e. no one loves themself).
+
+The resulting interpretation for $L$ can be depicted as:
+
+\begin{figure}[h]
+  \label{mod:minimal-symmetric}  
+  \begin{center}
+    \begin{tikzpicture}[
+        node distance=2cm,
+        every node/.style={minimum size=0.5cm, inner sep=2pt}, % circle, draw
+        ->,
+        >=Stealth
+      ]
+      \node (1) {1};
+      \node (2) [right of=1] {2};
+      \draw (1) -- (2);
+      \draw (2) -- (1);
+    \end{tikzpicture}
+  \end{center}
+  \caption{A simple counter-model proving
+    $\eforall x\eexists yLxy\enotentails\eexists y\eforall xLxy$}
+\end{figure}
+  
+\subsection{Proving Validity}
+
+But proving the opposite (i.e. that there is no counter-model) requires more
+substantial reasoning about all possible models, since we need to know that
+our condition persists no matter what interpretation we use. We will look more
+closely at this kind of metalogical proof in \emph{Logic 2}.
+
+%% TODO: some examples of metalogical reasoning about models (pp349-50)
+
+Ultimately, we can summarize the proof requirements for the various semantic
+properties of FOL in a table, just as we did for TFL.
+
+\begin{center}
+  \begin{tabular}{c|c c}
+    property & \textbf{yes} & \textbf{no} \\
+    \hline
+    validity       & all models & one counter-model \\
+    contradiction  & all models & one counter-model \\
+    equivalent     & all models & one counter-model \\
+    unsatisfiable  & all models & one counter-model \\
+    valid argument & all models & one counter-model \\
+    entailment     & all models & one counter-model \\
+  \end{tabular}
+\end{center}
+
+\subsection{** Bonus Material: Properties of Relations **}
+
+Finally, we can leverage regular properties of relations to characterize some
+predicates without fully specifying their extensions. For instance we know
+that the following argument is valid.
+
+\begin{argument}
+\item[ ] Andy is taller than Bill.
+\item[ ] Bill is taller than Charlie.
+\item[\therefore] Andy is taller than Charlie. 
+\end{argument}
+
+This is because the \emph{taller than} relation is transitive. In other words:
+
+\begin{example}
+  $eforall x\eforall y\eforall z[(R(x,y)\eand R(y,z))\eif R(x,z)]$
+\end{example}
+
+Note that we have defined our relation in the familiar language of first-order
+logic. A handful of useful properties of relations are thus defined in the
+following table.
+
+\begin{center}
+  \begin{tabular}{c c}
+    property & fol definition \\
+    \hline
+    transitive      &
+    $eforall x\eforall y\eforall z[(R(x,y)\eand R(y,z))\eif R(x,z)]$\\
+    reflexive       &
+    $\eforall x(R(x,x))$ \\
+    symmetric       &
+    $\eforall x\eforall y(R(x,y)\eif R(y,x))$ \\
+    anti-symmetric  &
+    $\eforall x\eforall y((R(x,y)\eand x\neq y)\eif\enot R(y,x))$ \\
+  \end{tabular}
+\end{center}
+

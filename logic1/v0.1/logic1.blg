@@ -1,0 +1,21 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'logic1.blg'
+[23] biber-darwin:340> INFO - === Wed Aug 12, 2026, 18:50:55
+[29] Biber.pm:419> INFO - Reading 'logic1.bcf'
+[64] Biber.pm:979> INFO - Found 1 citekeys in bib section 0
+[72] Biber.pm:4419> INFO - Processing section 0
+[76] Biber.pm:4610> INFO - Looking for bibtex file 'logic1.bib' for section 0
+[76] bibtex.pm:1713> INFO - LaTeX decoding ...
+[77] bibtex.pm:1519> INFO - Found BibTeX data source 'logic1.bib'
+[97] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[97] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[97] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[97] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[100] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[100] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[100] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[100] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[102] bbl.pm:660> INFO - Writing 'logic1.bbl' with encoding 'UTF-8'
+[103] bbl.pm:763> INFO - Output to logic1.bbl
+[103] Biber.pm:131> WARN - ISBN '9798859963584' in entry 'Mag25' is invalid - run biber with '--validate_datamodel' for details.
+[103] Biber.pm:133> INFO - WARNINGS: 1

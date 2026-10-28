@@ -1,0 +1,21 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'logic1.blg'
+[24] biber-darwin:342> INFO - === Sat Oct 24, 2026, 17:36:58
+[30] Biber.pm:421> INFO - Reading 'logic1.bcf'
+[65] Biber.pm:1002> INFO - Found 5 citekeys in bib section 0
+[73] Biber.pm:4487> INFO - Processing section 0
+[76] Biber.pm:4678> INFO - Looking for bibtex file 'logic1.bib' for section 0
+[77] bibtex.pm:1713> INFO - LaTeX decoding ...
+[79] bibtex.pm:1519> INFO - Found BibTeX data source 'logic1.bib'
+[104] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[104] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[104] Biber.pm:4307> INFO - Sorting list 'apa/apasortcite//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[104] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[109] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[109] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[109] Biber.pm:4307> INFO - Sorting list 'apa/global//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[109] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[112] bbl.pm:676> INFO - Writing 'logic1.bbl' with encoding 'UTF-8'
+[114] bbl.pm:779> INFO - Output to logic1.bbl
+[114] Biber.pm:132> WARN - I didn't find a database entry for 'def:raa' (section 0)
+[114] Biber.pm:134> INFO - WARNINGS: 1

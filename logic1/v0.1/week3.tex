@@ -1,0 +1,163 @@
+\section{The Grammar of TFL}
+
+So far, despite some basic symbolization as stand-ins for sentences, our
+discussion has been entirely informal: our arguments are built out of
+ordinary English sentences; our symbolizations are likewise parphrases of
+English.
+
+This week we will take our first steps to \emph{formal logic} by describing
+the \emph{syntax} of Truth-Functional Logic (TFL). We will learn what we mean
+by truth-functional when we discuss the \emph{semantics} of TFL. For the time-
+being we will concentrate on the \emph{form} in formal.
+
+First and foremost, we want to know what 'counts' as sentence in TFL. We can
+start with a few definitions about the things that might be sentences:
+\emph{expressions}.
+\\
+\begin{definition}[Basic TFL Expression]
+  A \emph{basic expression} in TFL is any of the following symbols:
+  \begin{enumerate}
+  \item Atomic Sentence Letters: $A, B, C$
+  \item Connectives: \enot, \eand, \eor, \eif, \eiff
+  \item Brackets: (, ), [, ]
+  \end{enumerate}
+\end{definition}
+Note that the atomic sentences can be made both \emph{enumerable} and
+\emph{potentially infintite} with the addition of subscripts and/or
+superscripts: $A_4, B^2, C_1^2$, etc.
+\\
+\begin{definition}[TFL Expression]
+An \emph{expression} in TFL is any sequence of basic TFL expressions.
+\end{definition}
+Many of these expressions will be nonsense. So what we are really interested in
+are the \emph{sentences} of TFL. There are potentially infinitely many of
+these, so we will have to define the sentences \emph{recursively} using rules.
+That is, we will need to explain how to construct sentences from expressions.
+\\
+\begin{definition}[TFL Sentence]\label{def:tfl-sentence}
+  A \emph{sentence} in TFL is defined by the following rules:
+  \begin{enumerate}
+  \item Every atomic sentence letter is a sentence.
+  \item If \ephi is a sentence, then \enot\ephi is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eand\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eor\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eif\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eiff\epsi) is a sentence.
+  \item Nothing else is a sentence.
+  \end{enumerate}
+\end{definition}
+This is called an \emph{inductive} defininition: it uses rules to build infinitely many
+complex expressions from a small number of basic one. Inductive defiitions form the
+backbone of most systems of deductive logic, both in syntax and semantics. Notice that
+the last clause ensures that there are many TFL expressions that are not TFL sentences.
+But of course every TFL sentence is a TFL expression.
+
+These rules allow us to identify a few important components of complex
+sentences.
+\\
+\begin{definition}[Main Logical Operator]
+  The \emph{main logical operator} of a sentence is the last connective applied in its
+  construction.
+\end{definition}
+Given our definition of TFL sentences, we know that there is a unique main logical
+operator for any (non-atomic) sentence. Looked at from the other direction, we can
+say that the \emph{scope} of a connective is just the new sentence that its rule makes.
+\\
+\begin{definition}[Connective Scope]
+  The \emph{scope} of a connective is the sentence for which it is the main logical
+  operator.
+\end{definition}
+When checking to see whether some expression is a sentence, we will need to work
+backward through these rules: break the expression apart into component parts until we
+are left with only atomic sentence letters. Doing this is usually straight-forward and
+involves finding the main logical operator (if any) in the expression under review.
+Indeed, our bracketing conventions make the main logical operator and its scope almost
+immediately apparent. But as we get better at reading complex expressions, we will treat
+these brackets more and more as optional or only occasionally obligatory. For the time
+being, we will adopt the conventions in \cite[][]{Mag25} by omitting outermost brackets
+and sometimes substituting [, and ] for clarity and readability.
+
+In ordinary English, we can find two distinct types of \emph{ambiguity}. \emph{Lexical
+ambiguity} is when on word can mean more than one thing. A popular example is the word
+\emph{bank} which can be either a financial institution or the edge of a river. \emph{
+Structural ambiguity}, on the other hand, is when a sentence can have more than one
+meaning based on how the parts work together. A popular example is the sentence
+`The astronomer saw his student with a telescope', which can have two different readings:
+one where the astronomer has the telescope and one where the student does. A closely
+related concept is \emph{vagueness} which describes terms that are imprecise and often
+difficult to apply.
+
+As intimated above, TFL sentences are \textbf{never} structurally ambiguous. And we can
+make efforts in formulating our symbolization keys to minimize, if not elminate, both
+vagueness and lexical ambiguity. That said, all three forms of ambiguity are rampant in
+ordinary language and our efforts at symbolizing complex arguments from English will
+need to proceed with due care. Unlike TFL, English does not have bracketing rules. We
+will refer to the structural ambiguities that can give more than one TFL sentence as
+\emph{scope ambiguities}. Given the sentence `The professor is literate or not
+dumb and lazy' and the symbolization key:
+
+\begin{argument}
+\item[A:] The professor is literate.
+\item[B:] The professor is dumb.
+\item[C:] The professor is lazy.
+\end{argument}
+
+We can identify a few scope ambiguities, offering plenty of opportunities for the
+professor to be illiterate, dumb or lazy but not, as it turns out, all three. Notice
+how the bracketing helps to distinguish between the different \emph{readings} of the
+English sentence being symbolized.
+
+\begin{argument}
+  \item[] $(A \eor \enot B) \eand C$
+  \item[] $A \eor \enot (B \eand C)$
+  \item[] $A \eor (\enot B \eand C)$
+\end{argument}
+
+In our informal discussion, it was convenient for us to mix together the sentences of
+the logic we were discussing and the sentences about that logic. Now that we are dealing
+with formal logic, we will need to be a bit more careful. We will also need to be clear
+about when we are using English in an ordinary way versus when we are using it to talk
+about a language, whether English or TFL. To this end, a few more conventions and
+definitions are in order.
+
+The most common indicator of level-mixing is quotation marks. Consider the following
+examples.
+
+\begin{argument}
+\item[A:] `Aristotle' is not the original Greek spelling.  
+\item[B:] Aristotle taught Alexander the Great.
+\end{argument}
+
+Whereas B is about an English word, A is about the ancient philosopher. This is an
+importnant distinction: the former is called \emph{use}; and the latter is called
+\emph{mention}. Speaking about the phenomenon more generally, we can adopt the following
+definitions.
+
+\begin{definition}[Object Language and Metalanguage]
+  When talking about TFL (or English), we call the language that we are talking
+  about the \emph{object language} and the language that we are using to talk
+  about it the \emph{metalanguage}.
+\end{definition}
+
+Since TFL and our metalanguage do not use quotes, we will rarely need to worry about
+them. The most important point to make here is that we will use English as our
+metalanguage when discussing TFL (and later FOL). But we will make some adjustments to
+simplify our presentation. As we have already seen in Definition-\ref{def:tfl-sentence},
+we will use Greek lower case letters `\ephi', `\epsi', `\echi', etc as
+\emph{metavariables} for arbitrary TFL sentences. Upper case Latin letters $`A', `B',
+`C'$, etc will continue to be used as atomic sentence letters. After now, we will rarely
+mention these variables, even in the metalanguage. So the quotation marks will almost
+always be omitted.
+
+One more special feature of our English++ metalanguage is the conclusion marker
+`\therefore', which we've seen already in the informal discussion of arguments. We can
+use someshorthand to formalize the notation in our metalanguage as well. For instance,
+we can describe a sequence of premises and conclusion that comprise an argument as:
+
+\begin{argument}
+\item[] $\phi_1,\dots,\phi_n  \therefore  \psi$
+\end{argument}
+
+But we will try to strike a healthy balance in the metalanguage between too much verbiage
+and too much formalism.
+

@@ -1,0 +1,1129 @@
+\section{Truth and Grammar in TFL}
+
+So far, despite some basic symbolization as stand-ins for sentences, our
+discussion has been entirely informal: our arguments are built out of
+ordinary English sentences; our symbolizations are likewise parphrases of
+English.
+
+This week we will take our first steps to \emph{formal logic} by describing
+the \emph{syntax} of Truth-Functional Logic (TFL). We will learn what we mean
+by truth-functional when we discuss the \emph{semantics} of TFL. For the time-
+being we will concentrate on the \emph{form} in formal.
+
+First and foremost, we want to know what ``counts'' as a sentence in TFL. We can
+start with a few definitions about the things that might be sentences:
+\emph{expressions}.
+
+\begin{definition}[Basic TFL Expression]
+  \label{def:tfl-basic-expression}
+  A \emph{basic expression} in TFL is any of the following symbols:
+  \begin{enumerate}
+  \item atomic sentence letters: $A, B, C$
+  \item connectives: \enot, \eand, \eor, \eif, \eiff
+  \item brackets: (, )
+  \end{enumerate}
+  We will refer to the collection of basic expressions in TFL as its
+  \emph{alphabet}.
+\end{definition}
+
+Note that the atomic sentences can be made both \emph{enumerable} and
+\emph{potentially infintite} with the addition of subscripts and/or
+superscripts: $A_4, B^2, C_1^2$, etc.
+
+\begin{definition}[TFL Expression]
+  \label{def:tfl-expression}
+  An \emph{expression} in TFL is any sequence of basic TFL expressions.
+\end{definition}
+
+Many of these expressions will be nonsense. So we are really only interested in
+some of these expressions: the \emph{sentences} of TFL. There are potentially
+infinitely many of these, so we will have to define the sentences
+\emph{recursively} using rules. That is, we will need to explain how to
+construct sentences from expressions.
+
+\begin{definition}[TFL Sentence]
+  \label{def:tfl-sentence}
+  A \emph{sentence} in TFL is defined by the following rules:
+  \begin{enumerate}
+  \item Every atomic sentence letter is a sentence.
+  \item If \ephi is a sentence, then \enot\ephi is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eand\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eor\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eif\epsi) is a sentence.
+  \item If \ephi and \epsi are sentences, then (\ephi\eiff\epsi) is a sentence.
+  \item Nothing else is a sentence.
+  \end{enumerate}
+  A sentence is also called a \emph{well-formed formula} (\emph{wff}).
+\end{definition}
+
+This is called an \emph{inductive} defininition: it uses rules to build
+infinitely many complex expressions from a small number of basic ones. Inductive
+defiitions form the backbone of most systems of deductive logic, both in syntax
+and semantics. Notice that the last clause ensures that there are many TFL
+expressions that are not TFL sentences. But of course every TFL sentence is a
+TFL expression.
+
+Before diving into more detailed issues of TFL syntax, we should pause to
+comment on some of the differences between the connectives of TFL and their
+english analogues.
+
+First, TFL \enot is \emph{logical}. Specifically, it obeys three important
+inter-related laws:
+
+\begin{argument}
+\item[\textbf{LEM:}] \ephi\eor\enot\ephi
+\item[\textbf{LNC:}] \enot(\ephi\eand\enot\ephi)
+\item[\textbf{DN:}]  \enot\enot\ephi\eiff\ephi  
+\end{argument}
+
+We will explore these laws in more detail later. For now it suffices to say that
+they mean that every sentence is either true or false, never anything in
+between. And if A is true, then not-A is false. English ``not'' does not work
+like this and can be applied to all sorts of English expressions, not just to
+sentences.
+
+Second, in English the order of two sentences connected by ``and'' is important.
+We illustrated this last week with the following example:
+
+\begin{argument}
+\item[A:] John left.
+\item[B:] Mary got upset.
+\end{argument}
+
+Suffice it to say, \emph{A and B} can express something different than
+\emph{B and A} ijn English. Typically this will be something about the order
+of the events described in $A$ and $B$, but also sometimes has to do with
+causal relations between them. The TFL connective \eand, on the other hand,
+is \emph{commutative}. $A\eand B$ always means the same thing as $B\eand A$.
+
+Third, English ``or'' is often understood with an \emph{exclusive} reading:
+\emph{either A or B, but not both}. But TFL \eor is understood in an
+\emph{inclusive} way: \emph{A or B, and maybe both}.
+
+Finally, the rules of grammar guarantee that there is no structural ambiguity
+in the sentences of TFL. Each sentence can be decomposed to discover exactly
+one truth-functional meaning. English, of course, is wildly ambiguous. We will
+see a demonstration of this in just a moment.
+
+The rules in \ref{def:tfl-sentence}[Definition] allow us to identify a few
+important components of complex sentences.
+
+\begin{definition}[Main Logical Operator]
+  \label{def:tfl-main-operator}
+  The \emph{main logical operator} of a sentence is the last connective applied
+  in its construction.
+\end{definition}
+
+Given our definition of TFL sentences, we know that there is a unique main
+logical operator for any (non-atomic) sentence. Looked at from the other
+direction, we can say that the \emph{scope} of a connective is just the new
+sentence that its rule makes.
+
+\begin{definition}[Connective Scope]
+  \label{def:tfl-connective-scope}
+  The \emph{scope} of a connective is the sentence for which it is the main
+  logical operator.
+\end{definition}
+
+When checking to see whether some expression is a sentence, we will need to work
+backward through these rules: break the expression apart into component parts
+until we are left with only atomic sentence letters. Doing this is usually
+straight-forward and involves finding the main logical operator (if any) in
+the expression under review. Indeed, our bracketing conventions make the main
+logical operator and its scope almost immediately apparent. But as we get
+better at reading complex expressions, we will treat some brackets more and
+more as optional or only occasionally obligatory. For the time being, we will
+adopt the conventions in \cite{Mag25} by omitting outermost brackets and
+sometimes substituting [, and ] for clarity and readability.
+
+One strategy that we can use to check the well-formedness of a formula is a
+\emph{parse tree}. The idea is that we can \emph{recusrively} break the formula
+down based on the grammar rule for the main connective. We can illustrate this
+process visually in the form of a tree, but traditionally we use a tree with its
+branches pointed down.\footnote{\cite{Smi20} also introduces a notion of
+\emph{construction history} (p74) that ``grows'' upward and serves as a
+stepping-stone to parse trees. But for our purposes, this seems redundant.}
+
+Consider the following example of a parse tree.
+
+\begin{center}
+  \begin{forest}
+    for tree={ grow=south, l sep=12pt, s sep=14pt }
+    [{$(P \lor \lnot Q) \land (R \to S)$}
+      [{$P \lor \lnot Q$}
+        [{$P$}]
+        [{$\lnot Q$}
+          [{$Q$}]
+        ]
+      ]
+      [{$(R \to S)$}
+        [{$R$}][{$S$}]
+      ]
+    ]
+  \end{forest}
+\end{center}
+
+One of the important properties of parse trees is that each is \emph{uniquely}
+associated with a well-formed formula (wff), written at the top (the
+\emph{root}). Likewise, every one of its \emph{nodes} and \emph{leaves} is
+labeled with a well-formed formula (wff), i.e. a TFL sentence. Of course, this
+is just because parse trees are built with a specific process that finds the
+main connective and unfolds it by applying the relevant rule in reverse.
+
+\begin{observation}[Parse Tree Uniqueness]
+  Every TFL sentence has a unique parse tree.
+\end{observation}
+
+Another useful property of parse trees is that we can read important structural
+information directly off of them. For example, evey \emph{node} in a parse tree
+is decorated with a \emph{subformula} of wff. Indeed, the subformulas are also
+exhaustively enumerated by the node decorations.
+
+\begin{observation}[Nodes are subformulas]
+  Every node in a parse tree for a sentence \ephi of TFL is decorated with a
+  subformula of \ephi.
+\end{observation}
+
+Since the \emph{scope} of the main connective of a (sub)formula is just the
+(sub)formula itself, we can define this notion via parse trees as well.
+
+\begin{definition}[Scope of a Connective]
+  The \emph{scope} of a connective is the subformula decorating the node where
+  it is first introduced, reading from the \emph{leaves} of its parse tree up.
+\end{definition}
+
+In ordinary English, we can find two distinct types of \emph{ambiguity}.
+\emph{Lexical ambiguity} is when on word can mean more than one thing. A popular
+example is the word \emph{bank} which can be either a financial institution or
+the edge of a river. \emph{Structural ambiguity}, on the other hand, is when a
+sentence can have more than one meaning based on how the parts work together. A
+popular example is:
+
+\begin{argument}
+\item[\textbf{(T)}] The astronomer saw his student with a telescope.
+\end{argument}
+
+The sentence in \textbf{(T)} can have two different readings: one where the
+astronomer has the telescope and one where the student does. A closely related
+concept is \emph{vagueness} which describes terms that are imprecise and often
+difficult to apply, such as ``tall'' or ``honorable''. For the purposes of our
+logics, we will assume an omniscience about these terms that belies this
+vagueness: in our models we will just suppose that we know for each of these
+terms exactly when they apply. Like other content terms, their precise meanings
+are not important to our rules.
+
+Since Frege set out the preliminaries of propositional logic
+in the late nineteenth century, logicians have made an important distinction
+between two different kinds of meaning that an expression (say a singular term)
+can have. On the one hand, it picks out something in the world (or domain, or
+whatever) that we are taking our sentence to be \emph{about}. Frege called this
+type of meaning \emph{reference} (\emph{Bedeutung} in the orginal German). On
+the other hand, there is what the expression \emph{means} in some more abstract
+way (that is mostly \emph{mental}, but also partly \emph{social}). This aspect
+of the meaning of an expression is called \emph{sense} (\emph{Sinn}).
+
+The touchpoint between our ordinary English content and the symbolization of
+TFL sentences is found in the \emph{symbolization key} that we construct for
+a given argument. We can think of such a key as a \emph{glossary} of the
+content expressions used in the logic. Recall that these expressions in truth-
+functional logic are limited to sentences; and that, following Frege, we take
+the \emph{reference} of these sentences to be just their \emph{truth values}.
+Nevertheless, we can set these values by taking the ``real world'' truth value
+of the sentences expressed in the symbolization key. In other words, each entry
+can be thought of as just a \emph{gloss} of the \emph{sense} of the content
+symbols used in the logic. But importantly, what we care about is the reference
+that the gloss fixes, not the sense itself. We will see how this works in a
+moment.
+
+As intimated above, TFL sentences are \textbf{never} structurally ambiguous.
+And we can make efforts in formulating our symbolization keys to minimize, if
+not elminate, both vagueness and lexical ambiguity. That said, all three forms
+of ambiguity are rampant in ordinary language and our efforts at symbolizing
+complex arguments from English will need to proceed with due care. Unlike TFL,
+English does not have bracketing rules. We will refer to the structural
+ambiguities that can produce more than one TFL sentence as \emph{scope
+ambiguities}.
+
+Consider the following sentence and symbolization key:
+
+\begin{argument}
+\item[\textbf{(P)}] The professor is literate or not dumb and lazy.
+\end{argument}
+
+\begin{argument}
+\item[A:] The professor is literate.
+\item[B:] The professor is dumb.
+\item[C:] The professor is lazy.
+\end{argument}
+
+We can identify a few scope ambiguities, offering plenty of opportunities for
+the professor to be illiterate, dumb or lazy but not, as it turns out, all
+three. Notice how the bracketing helps to distinguish between the different
+\emph{readings} of the English sentence being symbolized.
+
+\begin{argument}
+  \item[] $(A \eor \enot B) \eand C$
+  \item[] $A \eor \enot (B \eand C)$
+  \item[] $A \eor (\enot B \eand C)$
+\end{argument}
+
+In our informal discussion, it was convenient for us to mix together the
+sentences of the logic we were discussing and the sentences about that logic.
+Now that we are dealing with formal logic, we will need to be a bit more
+careful. We will also need to be clear about when we are using English in an
+ordinary way versus when we are using it to talk about a language, whether
+English or TFL. To this end, a few more conventions and definitions are in
+order.
+
+The most common indicator of level-mixing is quotation marks. Consider the
+following examples.
+
+\begin{argument}
+\item[A:] ``Aristotle'' is not the original Greek spelling.  
+\item[B:] Aristotle taught Alexander the Great.
+\end{argument}
+
+Whereas B is about an English word, A is about the ancient philosopher. This is
+an importnant distinction: the former is called \emph{use}; and the latter is
+called \emph{mention}. Speaking about the phenomenon more generally, we can
+adopt the following definitions.
+
+\begin{definition}[Object Language and Metalanguage]
+  When talking about a language such, we call the language that we are talking
+  about the \emph{object language} and the language that we are using to talk
+  about it the \emph{metalanguage}. 
+\end{definition}
+
+For the purpuses of truth-theoretic logic (TFL), our object language is made of
+TFL sentences and our metalanguage is English mixed with greek letters and a few
+other textual decorations mixed in for precision and convenience.
+
+Since TFL and our metalanguage do not use quotes, we will rarely need to worry
+about them. The most important point to make here is that we will use English
+as our metalanguage when discussing TFL (and later FOL). But we will make some
+adjustments to simplify our presentation. As we have already seen in
+\ref{def:tfl-sentence}[Def ], we will use Greek lower case letters ``\ephi'',
+``\epsi'',``\echi'', etc as \emph{metavariables} for arbitrary TFL sentences.
+Upper case Latin letters ``A'', ``B'', ``C'', etc will continue to be used as
+atomic sentence letters. After now, we will rarely mention these variables,
+even in the metalanguage. So the quotation marks will almost always be omitted.
+\footnote{When they are not, we consider them to be part of the mention.}
+
+One more special feature of our English++ metalanguage is the conclusion marker
+(\therefore), which we've seen already in the informal discussion of arguments.
+We can use someshorthand to formalize the notation in our metalanguage as well.
+For instance, we can describe a sequence of premises and conclusion that
+comprise an argument as:
+
+\begin{definition}[Symbolized Argument]
+  \begin{argument}
+  \item[ ] $\phi_1,\dots,\phi_n  \therefore  \psi$
+  \end{argument}
+\end{definition}
+
+But we will try to strike a healthy balance in the metalanguage between too
+much verbiage and too much formalism.
+
+TFL is \emph{truth-functional} as a result of its \emph{semantics}. Put simply,
+we evaluate the \emph{truth} of a complex sentences as a \emph{function} of the
+truth of their component parts. Ultimately this is a complex function of the
+truth of all of its unique atomic sentences. We can define the notion with an
+adaptation of the definition in \cite[][p. 72]{Mag25}
+
+\begin{definition}[Truth-Functional]
+  \label{def:truth-functional}
+  A TFL connective is \emph{truth-functional} iff the truth value of the
+  sentence comprising its scope (i.e. the sentence for which it is the main
+  logical operator) is uniquely determined by the truth values of the
+  sentence(s) it connects.
+\end{definition}
+
+Consider our informal definition of \enot\ephi.
+
+\begin{argument}
+\item[] A TFL sentence of the form \enot\ephi is true just in case \ephi is
+  false. 
+\end{argument}
+
+We can see right away how this sort of principle works in practice. The rule is
+simple. But actually working with TFL sentences within the system outlined by
+TFL requires a substantial shift in how we think about these `sentences'.
+Indeed, even this first definition hints at some important features of
+(classical) logic that are different than those in ordinary English. We will
+discuss these in more detail later, but one is that every TFL sentence is
+either true or false; if it is not true, then it is false; if it is not false,
+then it is true. This rule (the Law of the Excluded Middle) is exceptionless in
+TFL. We will formulate an axiom to that effect later.
+
+\begin{quote}
+  PL languages are not mere \emph{shorthand code} for bits of English; their
+  whole point is to be usefully tidied-up \emph{replacements} for the messy
+  vernacular. (\cite[][p. 83]{Smi20})
+\end{quote}
+
+Recall that the process of symbolization for TFL loses a lot of the force or
+affect that we often take for granted in ordinary language. This list of
+sentences taken from \cite[][p. 73]{Mag25} all have the same truth-value and
+can be symbolized with the same TFL sentence ($A \wedge B$), despite a variety
+of shaded meanings.
+
+\begin{example}
+  Sentences that can be symbolized as $A \wedge B$:
+  \begin{enumerate}
+  \item Dana is a logician and Dana is a nice person.
+  \item Although Dana is a logician, Dana is a nice person.
+  \item Dana is a logician despite being a nice person.
+  \item Dana is a logician and Dana is a nice person.
+  \item Dana is a nice person but also a logician. 
+  \item Dana's being a logician notwithstanding, he is a nice person.
+  \end{enumerate}
+\end{example}
+
+The collapse of these diverse sentences to a single symbolization in TFL happens
+precisely \textbf{because} its semantics is truth-functional. To see this, it
+will help to look at the important terms one at a time: \emph{truth},
+\emph{truth-value} and \emph{function}.
+
+So far we have used ``truth'' to mean something like a metalogical property that
+applies to English sentences. On this informal usage, we can fall back on
+whatever folk definition we like. This one from American Heritage Dictionary
+will do as well as any.
+
+\begin{definition}[Informal Truth] \emph{noun}\footnote{
+  The American Heritage® Dictionary of the English Language, 5th Edition}
+  \begin{enumerate}
+  \item Conformity to fact or actuality. \\ "Does this story have any truth?"
+  \item Reality; actuality. \\ "In truth, he was not qualified for the job."
+  \item The reality of a situation. \\ "The truth is, she respects your work."
+  \end{enumerate}
+\end{definition}
+
+We use this notion in understanding our symbolization keys. On our informal
+treatment, the following key tells us to consider the truth of A and B to be a
+matter of John and Mary's feelings about each other ``in reality.''
+
+\begin{argument}
+\item[A:] John loves Mary.
+\item[B:] Mary loves John.
+\end{argument}
+
+But in TFL, what the key really says is that $A$ has the same \emph{truth value}
+that the English sentence ``John loves Mary'' does in reality. We are using
+\emph{truth value} here as a technical term.
+
+\begin{definition}[Truth Value]
+  A truth value is one of two values: \emph{True}) and \emph{False} (symbolized
+  in the metalogic as T and F, respectively. Every atomic sentence in TFL is
+  assigned one or the other of these values and every complex sentence
+  in TFL can be assigned one on the basis of its atomic parts.
+\end{definition}
+
+Recall from algebra that a \emph{function} takes one or more inputs
+(\emph{arguments}) and produces an output (a \emph{result}). In TFL both the
+arguments and the output of truth-functional connectives are truth values. Put
+differently, the symbol for a TFL sentence is best understood \textbf{as} its
+truth value. The meanings of the English sentences provided in the symbolization
+key are just guides to assigning those values properly. Meaning plays no role in
+TFL, only truth. This is an important point that takes some time to understand.
+
+\begin{definition}[Truth Function]
+  A \emph{truth function} is a function which takes one or more truth values
+  as its \emph{argument(s)} and returns a truth value as its output.
+\end{definition}
+
+One consequnce of the truth-functional treatment of sentences and connectives is
+that we can now fully define the semantics of a TFL connective on the basis of
+how the truth of its complex sentence is determined by the truth of the
+sentences it connects. We do this with the help of truth tables. Truth-tables
+exhaustively spell out the consequences of assigning truth-values to the
+components of a sentence. Note that characteristic truth tables use the
+metalogical variables \ephi and \epsi because the rules can be applied to
+arbitrary TFL sentences, not just to atomic ones.
+
+Recall that we earlier highlighted three generalizations about classical
+negation.
+
+\begin{argument}
+\item[\textbf{LEM:}] \ephi\eor\enot\ephi
+\item[\textbf{LNC:}] \enot(\ephi\eand\enot\ephi)
+\item[\textbf{DN:}]  \enot\enot\ephi\eiff\ephi  
+\end{argument}
+
+We can summararize the aggregate of these rules (which, as we will see later,
+really are all inter-related) by saying that TFL is \emph{bivalent}.
+
+\begin{definition}[Bivalency]
+  A truth-functional language $\mathcal{L}$ is \emph{bivalent} (i.e.
+  \emph{two-valued}) iff every sentence \ephi of $\mathcal{L}$ is associated
+  with \textbf{exactly one} of the two truth values, T and F, in every
+  situation.
+\end{definition}
+
+\begin{definition}[Semantics of \enot]
+  \label{def:tfl-not}
+  For any TFL sentence \ephi, \enot\ephi is true iff \ephi is false.
+\end{definition}
+
+We can flesh out the formal definitions for our major connectives by
+considering what would happen if we assigned either of the possible truth
+values to the sentences that they apply to. We will call this presentation
+a \emph{characteristic truth table}. For the negation operator \enot, the
+table is simple, because it ``connects'' just one sentence. Let's call it \ephi.
+
+\begin{definition}[Charateristic Truth Table: Negation]
+  \label{def:tt-not}
+  The semantics of the negation operator \enot is captured by the following
+  characteristic truth table: \\
+  \begin{center}
+    \begin{tabular}{c|c}
+      \ephi & \enot\ephi\\
+      \hline
+      T & F\\
+      F & T 
+    \end{tabular}
+  \end{center}
+\end{definition}
+
+There is only one argument: the sentence negated; and that sentence has only
+two possible truth values: T and F.
+
+\begin{definition}[Semantics of \eand]
+  \label{def:tfl-and}
+  A TFL sentence of the form \ephi\eand\epsi is true iff both \ephi and \epsi
+  are true.
+\end{definition}
+
+For the two-place connectives, there are two arguments: one for each of the
+sentences connected; and each of those sentence has only two possible truth
+values: T and F. If we vary them independently for each sentence, we get four
+total possibilities.\footnote{Note that the TTFF and TFTF ordering is
+conventional for TFL truth tables. More generally, propositions to the left are
+\emph{chunked} and those on the right are \emph{interleaved}. More on this
+later.}
+
+\begin{definition}[Charateristic Truth Table: Conjunction]
+  \label{def:tt-and}
+  The semantics of the connective \eand is captured by the following
+  characteristic truth table: \\
+  \begin{center}
+    \begin{tabular}{c c|c}
+      \ephi & \epsi & \ephi\eand\epsi\\
+      \hline
+      T & T & T\\
+      T & F & F\\
+      F & T & F\\
+      F & F & F
+    \end{tabular}
+  \end{center}
+\end{definition}
+
+\begin{definition}[Semantics of \eor]
+  \label{def:tfl-or}
+  A TFL sentence of the form \ephi\eor\epsi is true just in case either \ephi
+  is true or \epsi is true (or both).
+\end{definition}
+
+\begin{definition}[Charateristic Truth Table: Disjunction]
+  \label{def:tt-or}
+  The semantics of the connective \eor is captured by the following
+  characteristic truth table: \\
+  \begin{center}
+    \begin{tabular}{c c|c}
+      \ephi & \epsi & \ephi\eor\epsi\\
+      \hline
+      T & T & T\\
+      T & F & T\\
+      F & T & T\\
+      F & F & F
+    \end{tabular}
+  \end{center}
+\end{definition}
+
+The semantics of conditionals is straight-forward, but not entirely without
+controvery. We will present the definition now, but postpone discussion of
+the shortcomings.
+
+\begin{definition}[Semantics of \eif]
+  \label{def:tfl-if}
+  A TFL sentence of the form \ephi\eif\epsi is true just in case either \epsi is
+  true or \ephi is false.
+\end{definition}  
+
+\medskip
+
+\begin{definition}[Charateristic Truth Table: Conditional]
+  \label{def:tt-if}
+  The semantics of the connective `\eif' is captured by the following
+  characteristic truth table: \\
+  \begin{center}
+    \begin{tabular}{c c|c}
+      \ephi & \epsi & \ephi\eif\epsi\\
+      \hline
+      T & T & T\\
+      T & F & F\\
+      F & T & T\\
+      F & F & T
+    \end{tabular}
+  \end{center}
+\end{definition}
+
+\medskip
+
+\begin{definition}[Semantics of \eiff]
+  \label{def:tfl-iff}
+  A TFL sentence of the form \ephi\eiff\ephi is true just in case \ephi and
+  \epsi are either both true or both false.
+\end{definition}
+
+\medskip
+
+\begin{definition}[Charateristic Truth Table: Biconditional]
+  \label{def:tt-iff}
+  A TFL sentence of the form \ephi\eiff\ephi is true just in case \ephi and
+  \epsi are either both true or both false. The semantics of the connective
+  `\eiff' is defined by the following characteristic truth table: \\
+  \begin{center}
+    \begin{tabular}{c c|c}
+      \ephi & \epsi & \ephi\eiff\epsi\\
+      \hline
+      T & T & T\\
+      T & F & F\\
+      F & T & F\\
+      F & F & T
+    \end{tabular}
+  \end{center}
+\end{definition}
+
+Instead of depending on our knowledge of reality to assign truth-values to
+atomic sentencs as we do in the informal assessment of truth in our
+symbolization tables, we can simply assign values to each of the atomic
+sentence letters used in our logic. Recall that we think of a symbolization
+key as a glossary of the \emph{senses} of the atomic sentences in our logic. But
+TFL expects their \emph{references} (i.e. the truth values themselves). We will
+define a \emph{valuation} as the specification of the truth values for all the
+atomic sentences in a given instance of TFL.
+
+\begin{definition}[Valuation]
+  \label{def:valuation}
+  A \emph{valuation} is any assignment of truth values to the atomic sentence
+  letters of TFL. On a valuation, each atomic sentence letter is assigned
+  exaclty one truth value.
+\end{definition}
+
+The completeness of a TFL valutation is refered to as \emph{determinacy}.
+
+\begin{definition}[Determinacy]
+  For any TFL language, once we have stipulated the senses of its atoms--fixed
+  their truth conditions--each of these atoms will be determinately true or
+  determinately false in any possible situation. The atoms of a TFL language
+  are to be interpreted so that they have determinate truth values, exactly
+  one of T and F, in any situation. (modified from \cite[][p. 84-5]{Smi20})
+\end{definition}
+
+But, of course, ordinary English often lacks such determinacy. Nevertheless,
+we will see that it is an important aspect of classical logical systems. One
+such aspect is the resulting determinacy of \textbf{all} the sentences of TFL,
+both atomic and complex.
+
+% valuations uniquely determine every wff (p89)
+\begin{observation}[Valuations uniquely determine all truth]
+  \label{obs:unique-determinacy}
+  Note that determinacy is contagious via rule application.
+  
+  \begin{enumerate}
+  \item A valuation of all the atomic sentences of any TFL sentence \ephi
+    \emph{uniquely determines} a resulting valuation of \ephi.
+  \item A valuation of all the atomic sentences of any TFL language
+    $\mathcal{L}$ \emph{uniquely determines} a resulting valuation of
+    $\mathcal{L}$, however complex.
+  \end{enumerate}
+  
+\end{observation}
+
+% mini-tables for deterministic valuations (pp90-2)
+We can take a deterministic valuation to be a stand-in for what we were earlier
+calling a \emph{situation}. With this meaning, a situation would just be the
+state of affairs defined by the truth values as they are set in the valuation.
+A truth table for such a valuation is easy to construct because we only need to
+consider one option for each sentence: the actual truth value that is assigned
+to it under the valuation. It will have just one row.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c}
+    $A$ & $B$ & $(A$ & \eand & $B)$ & \eif       & $A$ \\
+    \hline
+    F   & T   & F    & F     & T    & \textbf{T} & F
+  \end{tabular}
+\end{center}
+
+The truth value (F) of the entire formula ($(A \eand B) \eif A$) is bolded
+in the column under the main connective. This formula is \emph{vacuously true},
+because its antecedent is false.
+
+But full truth tables are \emph{exhaustive} in the sense that every possible
+valuation for a given set of sentences can be represented as a row in the
+table, with $2^n$ such rows for a TFL sentence with $n$ different atomic
+sentence letters. How this works in practice is best demonstrated by example.
+Consider the TFL sentence $(A\wedge B) \rightarrow A$. We can see how the
+truth of the whole depends on the truth of its parts by working through each of
+the possible valuations ``from the inside out''.
+
+First, set up the table with all of the possible atomic truth values.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c}
+    $A$ & $B$ & $(A$ & \eand & $B)$ & \eif & $A$ \\
+    \hline
+    T & T & & & & &\\
+    T & F & & & & &\\
+    F & T & & & & &\\
+    F & F & & & & &
+  \end{tabular}
+\end{center}
+
+Then add the atomic truth values to the appropriate columns on the right side of
+the table.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c}
+    $A$ & $B$ & $(A$ & \eand & $B)$ & \eif & $A$ \\
+    \hline
+    T & T & T & & T & & T\\
+    T & F & T & & F & & T\\
+    F & T & F & & T & & F\\
+    F & F & F & & F & & F
+  \end{tabular}
+\end{center}
+
+Now we can evaluate the truth of the sentences with connectives, starting with
+the ``innermost'' ones (i.e. the ones that connect only atomic sentences). Here
+we start with the \eand connective.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c}
+    $A$ & $B$ & $(A$ & \eand & $B)$ & \eif & $A$ \\
+    \hline
+    T & T & T & \bf{T} & T & & T\\
+    T & F & T & \bf{F} & F & & T\\
+    F & T & F & \bf{F} & T & & F\\
+    F & F & F & \bf{F} & F & & F
+  \end{tabular}
+\end{center}
+
+We continue the process until we reach the main logical operator (i.e. the
+outermost connective). The truth value assigned at this column is the truth
+value for the entire sentence.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c}
+    $A$ & $B$ & $(A$ & \eand & $B)$ & \eif & $A$   \\
+        &     &      & \ephi &      & \eif & \epsi \\
+    \hline
+    T & T & T & T & T & \bf{T} & T\\
+    T & F & T & F & F & \bf{T} & T\\
+    F & T & F & F & T & \bf{T} & F\\
+    F & F & F & F & F & \bf{T} & F
+  \end{tabular}
+\end{center}
+
+Notice how we can use the metalogical sentence variables as substitutes for more
+complex TFL sentences. Here they are really being used as \emph{logical}
+sentence variables, representing not arbitrary sentences but these specific two:
+
+\begin{argument}
+  \item[\ephi] $A \wedge B$
+  \item[\epsi] $A$
+\end{argument}
+
+Returning to our example from last week about the literacy of a certain
+professor, we can see how this approach becomes complicated fast. Recall that
+the three readings we found for our example were:
+
+\begin{argument}
+  \item[\ephi] $(A \eor \enot B) \eand C$
+  \item[\epsi] $A \eor \enot (B \eand C)$
+  \item[\echi] $A \eor (\enot B \eand C)$
+\end{argument}
+
+We can explore the different truth conditions for these sentences by expressing
+each of them in the form of a truth table. Now that we have three atomic
+sentences ($A$, $B$, and $C$), we will need $2^3 = 8$ rows to express all of
+the possible valuations relevant to this argument. These valuations are
+straight-forward, if time-consuming, to lay out no matter how many atomic
+sentences occur in our argument.
+
+Now ``possible'' can mean a few different things, depending on how it is
+interpreted. Consider the following symbolization key.
+
+\begin{argument}
+\item[A:] John has his cake.
+\item[B:] John ate his cake.
+\end{argument}
+
+In one sense, we can just list out all of this possibilities. In that case,
+$A \eand B$ will be true when both A and B are true. We can say that it is
+\emph{c-possible} that both A is true and B is true, since this is one of the
+possibile combinations of true and false required by the truth-table method.
+
+On the other hand, we all know that you can't $A \and B$. Once you've eaten
+the cake (B), it is gone (\enot A). Although treating both A and B as true is
+combinatorily possible, the situtation that it describes is not
+\emph{realizable} and so we can say that it is not \emph{r-possible}.
+
+We will not lean heavily on these definitions except to note that when we talk
+about possible situations in TFL, we mean that they are c-possible.
+
+\begin{definition}[Complete Truth Table]
+  The complete truth table for a TFL sentence \ephi is a truth table with each
+  c-possible valuation; that is, for each possible combination of truth value
+  assignments to all the unique atomic sentences found in \ephi.
+
+  We can construct a complete truth table for a TFL sentence with $n$ unique
+  atomic sentences using the following procedure:
+  
+  \begin{enumerate}
+  \item Write each atomic sentence letter and the TFL sentence across the top,
+    assuming a column for each of its connectives and atomic sentences.
+  \item Insert $2^n$ rows.
+  \item Populate the first column (the first $n$ columns are the unique atomic
+    sentence letters) by adding `T' to the first half ($2^n/2$) of the rows and
+    then false for the remaining half.
+  \item For each subsequent column $i<=n$, fill in the portion of the column
+    directly to the right of each uninterrupted series of Ts (or Fs) by filling
+    in the first half with `T' and the second half with 'F'.
+  \item If done correctly, the last column of atomic letters (column $n$) should
+    alternate `T' then `F' $2^n/2$ times.
+  \item Fill in the remaining columns according to the parse tree and connective
+    semantics as above.
+  \end{enumerate}
+
+\end{definition}
+
+Now that we know how to build a truth table for three atomic sentences, we can
+build truth tables knowing that they are complete. First, set up the table with
+all of the possible atomic truth values.
+
+%$A$ & $B$ & $C$ & $A$  & \eor & \enot    & $(B$ & \eand & $C)$ \\
+%$A$ & $B$ & $C$ & $(A$ & \eor & $(\enot$ & $B$  & \eand & $C$  \\
+\begin{center}
+  \begin{tabular}{c c c|c c c c c c}
+    $A$ & $B$ & $C$ & $(A$ & \eor & \enot&$B)$ & \eand & $C$  \\
+    \hline
+    T & T & T & & & & & &\\
+    T & T & F & & & & & &\\
+    T & F & T & & & & & &\\
+    T & F & F & & & & & &\\    
+    F & T & T & & & & & &\\
+    F & T & F & & & & & &\\
+    F & F & T & & & & & &\\
+    F & F & F & & & & & &
+  \end{tabular}
+\end{center}
+
+Copy the truth values of the atomic sentences into the approriate columns on the
+right side of the table.
+
+\begin{center}
+  \begin{tabular}{c c c|c c c c c c}
+    $A$ & $B$ & $C$ & $(A$ & \eor & \enot&$B)$ & \eand & $C$  \\
+    \hline
+    T & T & T & T & & & T & & T\\
+    T & T & F & T & & & T & & F\\
+    T & F & T & T & & & F & & T\\
+    T & F & F & T & & & F & & F\\    
+    F & T & T & F & & & T & & T\\
+    F & T & F & F & & & T & & F\\
+    F & F & T & F & & & F & & T\\
+    F & F & F & F & & & F & & F
+  \end{tabular}
+\end{center}
+
+Apply the connective rules up the parse tree, starting with the atomic
+sentences.\footnote{Starting here, we will use the convention from \cite{Smi20}
+where multiple new steps are indicated in the same table by numbering along the
+bottom.}
+
+\begin{center}
+  \begin{tabular}{c c c|c c c c c c}
+    $A$ & $B$ & $C$ & $(A$ & \eor & \enot&$B)$ & \eand & $C$  \\
+    \hline
+    T & T & T & T & T & F & T & \bf{T} & T\\
+    T & T & F & T & T & F & T & \bf{F} & F\\ 
+    T & F & T & T & T & T & F & \bf{T} & T\\
+    T & F & F & T & T & T & F & \bf{F} & F\\    
+    F & T & T & F & F & F & T & \bf{F} & T\\
+    F & T & F & F & F & F & T & \bf{F} & F\\
+    F & F & T & F & T & T & F & \bf{T} & T\\
+    F & F & F & F & T & T & F & \bf{F} & F\\
+    \hline
+      &   &   &   & 2 & 1 &   & 3      &  \\
+  \end{tabular}
+\end{center}
+
+The truth of the main sentence is provided for each valuation in the bolded
+column. Similarly, the truth conditions for the other two sentences are
+expressed in the bolded columns of the following two complete truth tables.
+
+\begin{center}
+  \begin{tabular}{c c c|c c c c c c}
+    $A$ & $B$ & $C$ & $A$ & \eor & \enot & $(B$ & \eand & $C)$ \\
+    \hline
+    T & T & T & T & \bf{T} & F & T & T & T\\
+    T & T & F & T & \bf{T} & T & T & F & F\\
+    T & F & T & T & \bf{T} & T & F & F & T\\
+    T & F & F & T & \bf{T} & T & F & F & F\\    
+    F & T & T & F & \bf{F} & F & T & T & T\\
+    F & T & F & F & \bf{T} & T & T & F & F\\
+    F & F & T & F & \bf{T} & T & F & F & T\\
+    F & F & F & F & \bf{T} & T & F & F & F\\
+    \hline
+      &   &   & 1 & \bf{6} & 5 & 2 & 4 & 3
+  \end{tabular}
+\end{center}
+
+\begin{center}
+  \begin{tabular}{c c c|c c c c c c}
+    $A$ & $B$ & $C$ & $(A$ & \eor & $(\enot$ & $B$  & \eand & $C$  \\
+    \hline
+    T & T & T & T & \bf{T} & F & T & F & T\\ 
+    T & T & F & T & \bf{T} & F & T & F & F\\
+    T & F & T & T & \bf{T} & T & F & T & T\\
+    T & F & F & T & \bf{T} & T & F & F & F\\    
+    F & T & T & F & \bf{T} & F & T & F & T\\
+    F & T & F & F & \bf{F} & F & T & F & F\\
+    F & F & T & F & \bf{T} & T & F & T & T\\
+    F & F & F & F & \bf{F} & T & F & F & F\\
+    \hline
+      &   &   & 1 & \bf{6} & 4 & 2 & 5 & 3
+  \end{tabular}
+\end{center}
+
+If we compare the results in a single collapsed table, it is easy to see that
+these TFL sentences have different truth conditions; that is, these sentences
+not true at the same valuations. I've bolded the outliers to emphasize the
+differences.
+
+\begin{center}
+  \begin{tabular}{c c c|c c c}
+    $A$ & $B$ & $C$ & \ephi & \epsi & \echi \\
+    \hline
+    T & T & T &     T  &     T   &     T \\
+    T & T & F & \bf{F} &     T   &     T \\
+    T & F & T &     T  &     T   &     T \\
+    T & F & F & \bf{F} &     T   &     T \\    
+    F & T & T &     F  &     F   & \bf{T}\\
+    F & T & F &     F  & \bf{T}  &     F \\
+    F & F & T &     T  &     T   &     T \\
+    F & F & F &     F  & \bf{T}  &     F
+  \end{tabular}
+\end{center}
+
+Next lecture, we will discuss the semantic implications of these differences in
+detail. And we will look at some ways to simplify our process of constructing
+truth tables.
+
+\subsection{Expressive Adequacy}
+
+Armed with truth tables and a new found confidence in working through them,
+we can begin to explore some fundamental questions about the logic itself.
+Are these all of the truth-functional connectives that can be defined? Do we
+need them all or will just a few suffice? These are important topics in
+\emph{metalogic}, the major focus of Logic 2. But we shouldn't be afraid to
+think through them a little here, using our new toolbox.
+
+First, notice that we don't really need both \eand \textbf{and} \eor.
+
+% DeMorgan (p113)
+\begin{observation}[\eand and \eor are mutually-definable with \enot]
+  The connectives \eand and \eor could each be used in a definition of the
+  other.
+  \begin{enumerate}
+  \item The sentence \ephi\eand\epsi can be expressed without \eand as
+    \enot(\enot\ephi\eor\enot\epsi).
+ \item The sentence \ephi\eor\epsi can be expressed without \eor as
+    \enot(\enot\ephi\eand\enot\epsi).  
+  \end{enumerate}
+  
+\end{observation}
+
+We can see this by comparing them in truth tables.
+
+\twoitems{
+  \begin{center}
+    \begin{tabular}{c c||c|c c c c}
+      \ephi&\epsi&\ephi\eand\epsi& \enot    &$(\enot\ephi$&\eor&$\enot\epsi)$\\
+      \hline
+        T  &  T  &\textbf{T}     &\textbf{T}&     F       &  F &  F          \\
+        T  &  F  &\textbf{F}     &\textbf{F}&     F       &  F &  T          \\
+        F  &  T  &\textbf{F}     &\textbf{F}&     T       &  F &  F          \\
+        F  &  F  &\textbf{F}     &\textbf{F}&     T       &  T &  T          \\
+    \end{tabular}
+  \end{center}
+}{
+  \begin{center}
+    \begin{tabular}{c c||c|c c c c}
+      \ephi&\epsi&\ephi\eor\epsi& \enot    &$(\enot\ephi$&\eand&$\enot\epsi)$\\
+      \hline
+        T  &  T  &\textbf{T}     &\textbf{T}&     F       &  F &  F          \\
+        T  &  F  &\textbf{T}     &\textbf{T}&     F       &  F &  T          \\
+        F  &  T  &\textbf{T}     &\textbf{T}&     T       &  F &  F          \\
+        F  &  F  &\textbf{F}     &\textbf{F}&     T       &  T &  T          \\
+    \end{tabular}
+  \end{center}
+}
+
+Similarly, we can dispense with \eif as long as we have \eor and \enot.
+
+\begin{observation}[\eif can be defined with \eor and \enot]
+  The sentence \ephi\eif\epsi can be expressed without \eif as
+  \enot\ephi\eor\epsi.
+\end{observation}
+
+\begin{center}
+  \begin{tabular}{c c||c|c c c}
+    \ephi&\epsi&\ephi\eif\epsi&\enot\ephi&\eor&\epsi \\
+    \hline
+      T  &  T  &\textbf{T}    &    F     &\textbf{T}&T \\
+      T  &  F  &\textbf{F}    &    F     &\textbf{F}&F \\
+      F  &  T  &\textbf{T}    &    T     &\textbf{T}&T \\
+      F  &  F  &\textbf{T}    &    T     &\textbf{T}&F
+  \end{tabular}
+\end{center}
+
+Finally, we can dispense with \eiff as long as we have (i.e. can define) \eand
+and \eif.
+
+% A<->B is (A->B)&(B->A) (p 157)
+\begin{observation}[\eiff can be defined with \eif and \eand]
+  The sentence \ephi\eiff\epsi can be expressed without \eiff as
+  $(\ephi\eif\epsi)\eand(\epsi\eif\ephi)$. Note that we can further reduce
+  this, eliminating even \eand and \eif as before.
+\end{observation}
+
+\begin{center}
+  \begin{tabular}{c c||c|c c c}
+    \ephi&\epsi&\ephi\eiff\epsi&\ephi\eif\epsi&   \eand    &\epsi\eif\ephi \\
+    \hline
+      T  &  T  &   \textbf{T}  &      T       &\textbf{T}  &       T \\
+      T  &  F  &   \textbf{F}  &      F       &\textbf{F}  &       T \\
+      F  &  T  &   \textbf{F}  &      T       &\textbf{F}  &       F \\
+      F  &  F  &   \textbf{T}  &      T       &\textbf{T}  &       T \\
+  \end{tabular}
+\end{center}
+
+Taken together, these results suggest that we could do without the connectives
+\eand, \eif, and \eiff, building our system entirely from \eor and \enot.
+
+Before seeing just how far we can strip our system down, let's take a look at
+the first of our questions: is this all of the truth-functional connectives that
+could be defined? It seems the answer is: sort of.
+
+% XOR with existing connectives (p 114)
+We can explore a few well-known candidates to get a sense of what I mean here.
+First, consider the alternative style of disjunction common in ordinary
+English, \emph{exclusive disjunction} (XOR), which means ``either A or B, but
+not both''. Let's suppose that XOR is symbolized in TFL as a connective
+$\bullet$. It's easy to see that such a connective is definable using \eand,
+\eor and \enot.
+
+\begin{center}
+  \begin{tabular}{c c||c|c c c c c}
+    $\ephi$&$\epsi$&$\ephi\bullet\epsi$&$(\ephi\eor\epsi)$&\eand     &\enot&$(\ephi\eand\epsi)$ \\
+    \hline
+      T    &  T    &   \textbf{F}      &         T        &\textbf{F}& F   &          T        \\
+      T    &  F    &   \textbf{T}      &         T        &\textbf{T}& T   &          F        \\
+      F    &  T    &   \textbf{T}      &         T        &\textbf{T}& T   &          F        \\
+      F    &  F    &   \textbf{T}      &         F        &\textbf{T}& T   &          F        \\
+  \end{tabular}
+\end{center}
+
+\begin{definition}[Expressively Adequate]
+  A collection of truth-functional connectives is \emph{expresively adequate}
+  iff they can be used collectively to define
+\end{definition}
+
+% $(x,y,z) with existing connectives (pp 115-6)
+%\begin{definition}[Charateristic Truth Table: $\dagger$]
+%  \label{def:tt-dagger}
+%  The semantics of the connective $\dagger$ is captured by the following characteristic truth table: \\
+%  \begin{center}
+%    \begin{tabular}{c c c|c}
+%      \ephi&\epsi&\echi& $\dagger(\ephi,\epsi,\echi)$ \\
+%      \hline
+%      T    & T   & T   &  F
+%      T    & T   & F   &  T
+%      T    & F   & T   &  F
+%      T    & F   & F   &  T
+%      F    & T   & T   &  F
+%      F    & T   & F   &  F
+%      F    & F   & T   &  T
+%      F    & F   & F   &  F
+%    \end{tabular}
+%  \end{center}
+%\end{definition}
+
+\begin{observation}[TFL is Expressively Adequate]
+  We can define any new possible n-place truth-functional connective $\dagger$
+  given only the connectives already available in TFL: \eand, \eor and
+  \enot.\footnote{See \cite[][pp. 115-117]{Smi20} for a more complete
+  justification of this observation.}
+\end{observation}
+
+So we don't need any more connectives. But how few can we get away with? We
+already know that just \enot and \eor is expressively adequate for TFL. As is
+\enot and \eand. So two? Can we get away with one? The answer is yes, but we
+need to make a new one. Actually, there are two options.
+
+\begin{definition}[Charateristic Truth Tables: Peirce's Arrow and the Sheffer stroke]
+  \label{def:tt-downarrow}
+  The semantics of the connectives $\downarrow$ and $\uparrow$ are captured by
+  the following characteristic truth tables: \\
+  \twoitems{
+    \begin{center}
+      \begin{tabular}{c c|c}
+        \ephi & \epsi & $\ephi\downarrow\epsi$\\
+        \hline
+        T & T & F\\
+        T & F & F\\
+        F & T & F\\
+        F & F & T
+      \end{tabular}
+    \end{center}
+  }{
+    \begin{center}
+      \begin{tabular}{c c|c}
+        \ephi & \epsi & $\ephi\uparrow\epsi$\\
+        \hline
+        T & T & F\\
+        T & F & T\\
+        F & T & T\\
+        F & F & T
+      \end{tabular}
+    \end{center}
+  }
+\end{definition}
+
+Truth tables for the following equivalences are left as an exercise.
+
+\begin{center}
+  \begin{tabular}{c|c|c|c}
+    &
+    TFL &
+    Peirce's Arrow ($\downarrow$) &
+    Sheffer Stroke ($\uparrow$) \\
+    \hline
+    Negation &
+    \enot\ephi &
+    $(P\downarrow P)$ &
+    $(P\uparrow P)$ \\
+    Disjunction &
+    \ephi\eor\epsi &
+    $(P \downarrow Q)\downarrow(P \downarrow Q)$ &
+    $(P \uparrow P)\uparrow(Q \uparrow Q)$ \\
+    Conjunction &
+    \ephi\eand\epsi &
+    $(P \downarrow P)\downarrow(Q \downarrow Q)$ &
+    $(P \uparrow Q)\uparrow(P \uparrow Q)$ \\
+  \end{tabular}
+\end{center}
+

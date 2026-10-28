@@ -1,0 +1,186 @@
+
+\section{Symbolizing English}
+
+% \subsection{First steps to symbolization} \cite[][Chapter 4, pp. 27-31]{Mag25}
+% \subsection{Connectives} \cite[][Chapter 5, pp. 32-48]{Mag25}
+
+Last week we showed how to use capital letters as stand-ins for sentences
+in logical arguments and described this is as fundamental to formal logics.
+This week we will discuss this process--often called \textit{symbolization}
+or \textit{translation}--in more detail. 
+\\ \\ 
+Recall that we can describe a argument using sentence letters to reveal its
+deeper formal structure. For example, we can stipulate that each of the
+following arguments is \textit{valid in virtue of its form}.
+
+\begin{argument}
+\item[] A
+\item[] If A, then C
+\item[\therefore] C
+\end{argument}
+
+\begin{argument}
+\item[] A or B
+\item[] not-A
+\item[\therefore] B
+\end{argument}
+
+\begin{argument}
+\item[] not-(A and B)
+\item[] A
+\item[\therefore] not-B
+\end{argument}
+
+The logic of sentences that we define is called Truth-Functional Logic (TFL)
+or Propositional Logic (PL), depending on the author. We will use TFL but take
+the names to be synomymous references to the same logic.
+\\ \\ 
+Note that by limiting ourselves to sentence letters, we are marking off an
+explicit boundary in our logic between those arguments that depend in some
+way on the 'content' of their sentences and those that depend on form alone.
+\\ \\
+When we look at Predicate Logic (Quantificational Logic) later this semester,
+we will see how to incorporate the contributions of names and properties so
+that we can encode \textbf{some} of the contributions that (sub-sentential)
+content makes to the rules of inference. But, for now, we will focus on
+sentences and the form of the arguments that they appear in.
+
+\begin{quote}
+  At best, TFL will help us to understand arguments that are valid due to
+  their form. \cite[][p30]{Mag25}
+\end{quote}
+
+In the examples above, we have some sentences that contain \textit{sentence
+letters} themselves. For example: \textit{If A, then B}. When we use capital
+letters to stand for sentences (or subsentences) in this way, we are assuming
+that the sentences represented are somewhat simple and can be assessed as true
+or false. We will call sentences of this sort \textit{atomic sentences}. They
+cannot be broken down into parts and we cannot 'peek' inside them to support
+our inferences.
+\\ \\
+When we use letters to represent sentences in this way, we will often provide a
+\textit{symbolization key} to help decode the arguments.
+
+\begin{argument}
+\item[A:] It is a perfect day for fetch.  
+\item[C:] Bandit is happy.
+\end{argument}
+
+Of course, these devices are \textit{ad hoc} since TFL is a formal logic and
+the actual contents of its sentences is immaterial to the analysis.
+\\ \\ 
+We can build complex sentences from simpler ones (including atomic sentences)
+with the help of a few \textit{connectives}. As the name suggests, the
+connectives of TFL are \textit{truth-functional}. In other words, we will
+interpret the truth of a complex sentence as a function of the truth of its
+component subsentences based on the meanings of its connectives and the order
+that they are introduced.
+\\ \\
+Consider the simple one-place connective $\lnot$. We can understand this
+connective as a function from a truth-value to its opposite. So, for example,
+when $A$ is true, $\lnot A$ is false. We can summarize the basic TFL
+connectives as in the following table.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Function} & \textbf{Symbol} & \textbf{Paraphrase} \\
+\hline
+Negation & $\lnot$ & 'It is not the case that \dots' \\
+Conjunction & $\land$ & 'Both \dots and \dots' \\
+Disjunction & $\lor$ & 'Either \dots or \dots' \\
+Conditional & $\rightarrow$ & 'If \dots then \dots' \\
+Biconditional & $\leftrightarrow$ & '\dots if and only if \dots' \\
+\hline
+\end{tabular}
+\caption{Basic TFL Connectives}
+\label{tab:tflconnectives}
+\end{table}
+
+The symbolization of sentences is subtle and not always a simple preservation
+of the surface forms found in the English version. Consider each of the
+connectives in turn.
+
+\begin{argument}
+\item[R:] A recession is inevitable.
+\item[P:] A recession can be prevented.
+\end{argument}
+
+If $P$ is part of our symbolization key, we might want to symbolize $R$ as
+$\lnot P$ to capture the relationship between the sentences, even though
+\textit{not} and \textit{it is not the case that} do not occur anywhere in
+the sentence. Here is where the concept of \textit{paraphrase} comes into
+play. We will want to lean pretty heavily on the flexibility of paraphrase,
+especially when dealing with words that have antonyms or other 'lexical'
+negations with \textit{un-}, \textit{non-}, \textit{de-}, and so on. 
+\\ \\
+We see a similar separation of English forms and TFL forms in our
+treatment of conjunctions. If we want to symbolize \textit{Barbara is a medical
+  doctor and a philosopher}, we need to depart from the English form and treat
+it as a conjunction of sentences ($M \land P$) instead of as one sentence
+(\textit{Barbara M and P}, perhaps). That is, we need to mention Barbara in
+each of the sentences, not just the once. Our symbolization key would be:
+
+\begin{argument}
+\item[M:] Barbara is a medical doctor.
+\item[P:] Barbara is a philosopher.  
+\end{argument}
+
+Note again that the semantics of TFL is bare bones. We will bundle under
+conjunction several English connectives than have slightly different
+implications in their full meaning: \textit{and}, \textit{but}, and
+\textit{although} in the defintion, but many more in practice. In addition to
+collapsing these English connectives to one in TFL, we will also ignore the
+implications of sentence order. 
+
+\begin{argument}
+\item[A:] John left.
+\item[B:] Mary got upset.
+\end{argument}
+
+Although \textit{A and B} and \textit{B and A} have different implications
+about the order of events--and perhaps even about cause--in TFL $A \land B$
+says the exact same thing as $B \land A$. But the interaction of the operators
+is important. The following have a different meaning in TFL, even though each
+could be the correct symbolization of the English sentence schema \textit{It
+  is not the case that A and B}.
+\\
+\\
+\twoitems{$\lnot(A \land B)$}{$(\lnot A \land B)$}
+\\
+\\
+We need to take care in the order we apply the connectives.
+\\
+\\
+With these preliminaries out of the way, we can now provide informal
+definitions for each of the basic TFL connectives by leaning on English
+as our \textit{metalanguage} and expressing the definitions by way of
+paraphrase. We will use lower-case Greek letters $\phi$, $\psi$, $\chi$,
+\dots in our metalanguage to represent arbirtary TFL sentences.
+
+\begin{definition}[Negation]
+  A sentence can be symbolized as $\lnot \phi$ if it can be paraphrased as
+  'It is not the case that $\phi$.'
+\end{definition}
+
+\begin{definition}[Conjunction]
+  A sentence can be symbolized as $\phi\land\psi$ if it can be paraphrased as
+  'Both $\phi$ and $\psi$', as '$\phi$, but $\psi$' or as 'Although $\phi$,
+  $\psi$'.
+\end{definition}
+
+\begin{definition}[Disjunction]
+  A sentence can be symbolized as $\phi\lor\psi$ if it can be paraphrased as
+  'Either $\phi$ or $\psi$'.
+\end{definition}
+
+\begin{definition}[Conditional]
+  A sentence can be symbolized as $\phi\rightarrow\psi$ if it can be
+  paraphrased as 'If $\phi$, then $\psi$' or as '$\psi$ only if $\phi$'.
+\end{definition}
+
+\begin{definition}[Biconditional]
+  A sentence can be symbolized as $\phi\leftrightarrow\psi$ if it can be
+  paraphrased as '$\phi$ if and only if $\psi$'.
+\end{definition}

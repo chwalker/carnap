@@ -1,0 +1,137 @@
+
+\section{Additional Rules}
+
+Last week I mentioned that we will add some of the valid arguments we prove
+to our rule system. We start by defining the ones we proved last week.
+
+\begin{fitchrule}[Disjunctive Syllogism]
+  \label{def:disjunctive-syllogism-rule}
+  \leavevmode
+  % \vspace{-0.9\baselineskip}
+  There are two rules for disjunctive syllogism, one for each disjunct:\\
+  \twoitems{  
+    \begin{fitchproof}
+      \have[m] {1} {\ephi\eor\epsi}
+      \have[n] {2} {\enot\ephi}
+      \have[ ] {3} {\epsi}          \by{DS}{1,2}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[m] {1} {\ephi\eor\epsi}
+      \have[n] {2} {\enot\epsi}
+      \have[ ] {3} {\ephi}          \by{DS}{1,2}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+\begin{fitchrule}[Excluded Middle]
+  \label{def:excluded-middle-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \open
+    \hypo[i] {1} {\ephi}      \by{AS}{}
+    \have[j] {2} {\epsi}
+    \close
+    \open
+    \hypo[k] {3} {\enot\ephi} \by{AS}{}
+    \have[l] {4} {\epsi}
+    \close
+    \have[ ] {5} {\epsi}      \by{LEM}{1-2,3-4}
+  \end{fitchproof}    
+\end{fitchrule}
+
+A few more rules will be extremely helpful. The first is that we can treat the
+negation of a negation as no negation at all.
+
+\begin{fitchrule}[Double Negative Elimination]
+  \label{def:double-negative-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[m] {1} {\enot\enot\ephi}
+    \have[ ] {2} {\ephi} \by{DNE}{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+The proof for this is simple.
+
+\begin{fitchproof}
+  \have {1} {\enot\enot\ephi} \by{PR}{}
+  \open
+  \hypo {2} {\enot\ephi}      \by{AS}{}
+  \have {3} {\ebot}           \ne{1,2}
+  \close
+  \have {4} {\ephi}           \by{IP}{2-3}
+\end{fitchproof}
+
+Another useful technique, called \emph{modus tollens} lets us conclude that
+the antecedant of a true conditional is false when its consequent is. The
+rule works much like disjunctive syllogism.
+
+\begin{fitchrule}[Modus Tollens]
+  \label{def:modus-tollens-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[m] {1} {\ephi\eif\epsi}
+    \have[n] {2} {\enot\epsi}
+    \have[ ] {3} {\enot\ephi}     \by{MT}{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+This is another proof that leverages \ebot.
+
+\begin{fitchproof}
+  \have {1} {\ephi\eif\epsi}  \by{PR}{}
+  \have {2} {\enot\epsi}      \by{PR}{}
+  \open
+  \hypo {3} {\ephi}           \by{AS}{}
+  \have {4} {\epsi}           \ie{1,3}
+  \have {5} {\ebot}           \ne{2,4}
+  \close
+  \have {6} {\enot\ephi}      \ni{3-5}
+\end{fitchproof}
+
+Finally, the \emph{De Morgan rules} tell us how to properly ditribute negation
+into conjunctions and disjunctions.
+
+\begin{fitchrule}[De Morgan Rules]
+  \label{def:de-morgan-rules}
+  \leavevmode
+  % \vspace{-0.9\baselineskip}
+  There are four rules for disjunctive syllogism forming a square of duals
+  and rule reversals.
+
+  We have a pair of rules for negated conjunctions: \\
+  \twoitems{  
+    \begin{fitchproof}
+      \have[m] {1} {\enot(\ephi\eand\epsi)}
+      \have[ ] {2} {\enot\ephi\eor\enot\epsi}   \by{DS}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[m] {1} {\enot\ephi\eor\enot\epsi}
+      \have[ ] {2} {\enot(\ephi\eand\epsi)}     \by{DS}{1}
+    \end{fitchproof}
+  }
+
+  And a dual pair of rules for negated disjunctions: \\
+  \twoitems{  
+    \begin{fitchproof}
+      \have[m] {1} {\enot(\ephi\eor\epsi)}
+      \have[ ] {2} {\enot\ephi\eand\enot\epsi}  \by{DS}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[m] {1} {\enot\ephi\eand\enot\epsi}
+      \have[ ] {2} {\enot(\ephi\eor\epsi)}      \by{DS}{1}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+We will look at these proofs next time, when we work through questions about
+the exercises.
+
+% TODO: fold the De Morgan proofs into an exercises document
+

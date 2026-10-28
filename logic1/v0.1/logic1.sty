@@ -1,0 +1,85 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{logic1}[2026/08/25 support for a course in formal logic]
+\RequirePackage{amssymb,amsthm,hyperref,multicol,ifthen,enumitem,xspace}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+\def\therefore{\ensuremath{\ldotp\dot{}\,\ldotp}}    % therefore
+\def\efollows{\ensuremath{\vdash}\xspace}            % turnstyle 
+\def\enotfollows{\ensuremath{\not\vdash}\xspace} % not turnstyle 
+\def\eentails{\ensuremath{\vDash}\xspace}            % entails 
+\def\enotentails{\ensuremath{\nvDash}\xspace}        % does not entail
+
+\def\esubset{\ensuremath{\subset}\xspace}      % subset
+
+\def\eor{\ensuremath{\vee}\xspace}             % disjunction
+\def\eand{\ensuremath{\wedge}\xspace}          % conjunction
+\def\eif{\ensuremath{\rightarrow}\xspace}      % conditional
+\def\eiff{\ensuremath{\leftrightarrow}\xspace} % biconditional
+\def\enot{\ensuremath{\neg}}                   % negation
+
+%\def\ecirc{\ensuremath{\circ}\xspace}     % circle operator
+%\def\eoplus{\ensuremath{\oplus}\xspace}   % circle-plus operator
+%\def\eotimes{\ensuremath{\otimes}\xspace} % circle-times operator
+%\def\ecap{\ensuremath{\cap}\xspace}       % union operator
+%\def\ecup{\ensuremath{\cup}\xspace}       % intersection operator
+% \supset gives the horseshoe
+% \equiv gives the triple bar
+% {\sim} gives the swung dash
+
+\def\ebot{\ensuremath{\bot}}                   % falsum
+\def\etop{\ensuremath{\top}}                   % verum
+
+\def\eexists{\ensuremath{\exists}}
+\def\eforall{\ensuremath{\forall}}
+
+\def\ealpha{\ensuremath{\alpha}\xspace}
+\def\ebeta{\ensuremath{\beta}\xspace}
+\def\egamma{\ensuremath{\gamma}\xspace}
+\def\edelta{\ensuremath{\delta}\xspace}
+\def\ezeta{\ensuremath{\zeta}\xspace}
+
+\def\ephi{\ensuremath{\phi}\xspace}
+\def\epsi{\ensuremath{\psi}\xspace}
+\def\echi{\ensuremath{\chi}\xspace}
+
+\def\eGamma{\ensuremath{\Gamma}\xspace}
+\def\eDelta{\ensuremath{\Delta}\xspace}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+
+\newtheoremstyle{fitchdef} % name
+                {12pt}     % Space above
+                {3pt}      % Space below
+                {}         % Body font
+                {}         % Indent amount
+                {\bfseries}% Head font
+                {:}        % Punctuation after head
+                { }        % Space after head
+                {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Head
+                
+\theoremstyle{fitchdef}
+\newtheorem{fitchrule}{Rule}[section]
+
+\newlist{argument}{itemize}{1}
+\setlist[argument]{itemsep=0pt, parsep=0pt, topsep=10pt}
+
+\newcommand{\twoitems}[2]{%
+\noindent
+\begin{minipage}{0.5\textwidth}\centering #1\end{minipage}%
+\begin{minipage}{0.5\textwidth}\centering #2\end{minipage}
+}
+
+\newcommand{\threeitems}[3]{%
+\noindent
+\begin{minipage}{0.33\textwidth}\centering #1\end{minipage}%
+\begin{minipage}{0.33\textwidth}\centering #2\end{minipage}%
+\begin{minipage}{0.33\textwidth}\centering #3\end{minipage}%
+}

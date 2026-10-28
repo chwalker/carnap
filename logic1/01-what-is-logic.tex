@@ -1,0 +1,691 @@
+\section{What Is Logic?}
+
+Logic is a method for systematically evaluating arguments of various
+types. It can be used flexibly as a tool for identifying the strengths
+and weaknesses of the various perspectives in a debate; as a way to sort through
+the options in a mystery or puzzle; or as the bedrock of a hypothetico-deductive
+model for science, which compares experimental results to theoretical
+expectations in order to revise the theory or to design addititional
+experiments.\footnote{See \cite{Smi20}[p. 17] for a slightly longer description
+of the so-called \emph{hypothetico-deductive} model for science.}
+
+Although this course is a study in \emph{formal} logic, the main concepts are
+best introduced informally. Only by understanding these concepts can we begin
+construct the formal definitions that we will use as the basis of our two
+logics. And only by understanding these concepts can we even hope to see the
+point of the extensive formal apparatus we will build over the next many weeks.
+
+\subsection{Arguments}
+
+An \emph{argument} is a sequence of sentences. It comprises some \emph{premises}
+and a \emph{conclusion}.
+
+\begin{argument}
+\item[] My shoes are either in the den or in the bedroom.
+\item[] My shoes are not in the den.
+\item[\therefore] My shoes are in the bedroom.
+\end{argument}
+
+The conclusion in this \emph{inference} (i.e. ``one-step'' argument) is
+introduced with a special symbol \therefore, an \emph{inference marker},
+that can be pronounced ``so''.
+
+In real-world examples, the conclusion can occur anywhere.
+
+\begin{argument}
+\item[] My shoes are either in the den or in the bedroom. They must be in
+  the bedroom, because they are not in the den.
+\end{argument}
+
+But when we turn to formal logic, conclusions will be found at the end.
+
+Informal arguments will often use special words to indicate which sentences
+are meant to be premises and which is the conclusion. \\ 
+
+\begin{table}[h]
+  %\centering
+  \begin{center}
+    \begin{tabular}{|c|c|}
+      \hline
+      \textbf{conclusion indicators} & \textbf{premise indicators} \\
+      \hline
+      \makecell{ \emph{so, therefore, hence, thus,} \\
+        \emph{accordingly, consequently, ... } } &
+      \emph{since, because, given that, ... } \\
+      \hline
+    \end{tabular}
+    \label{tab:indicator-words}
+  \end{center}
+  \captionsetup{justification=centering}
+  \caption{Words commonly used to indicate premises \\
+    and conclusions in ordinary English arguments.}
+\end{table}
+
+The premises and conclusions of these informal arguments are \emph{sentences},
+but not just any type of sentence will do. We are not interested in commands or
+questions, but only \emph{declarative} sentences. These are the sentences that
+we can assign a \emph{truth value}; sentences that we can call \emph{true}
+or \emph{false}.
+
+In arguments like the one outlined above, the conclusion is a \emph{consequence}
+of the premises; whenever the premises are true, the conclusion is also true.
+When the consequence of an argument follows in this way from its premises, we
+will say that the argument is \emph{valid}. Otherwise, it is \emph{invalid}.
+
+Although we will keep the discussion informal for the time being, note that we
+can talk about arguments by representing their premises and conclusions using
+capital letters (with or without subscripts). Using this convention, we can
+quickly define this notion of consequence (\emph{entailment}):
+
+\begin{definition}[Informal Entailment]
+  \label{def:informal-entailment}
+  The sentences $A_1,\dots,A_n$ \emph{entail} the sentence $B$ if and
+  only if $B$ is never true when all of $A_1,\dots,A_n$ are true.\footnote{
+  From now on we will use ``iff'' to mean ``if and only if''.}
+\end{definition}
+
+We need to flesh out ``never'' a bit more in our formal definition, but this
+gives us a sense of what we mean by an valid argument and its components.
+
+\begin{definition}[Informal Validity]
+  \label{def:informal-validity}
+  An argument is \emph{valid} iff its premises entail its conclusion. Otherwise,
+  the argument is \emph{invalid}.
+\end{definition}
+
+An invalid argument can be detected by noting a \emph{counter-example}: an
+example of an argument with the same form where the premises are all true but
+the conclusion is false.
+
+%Arguments can be valid in a number of different ways. These depend on the
+%limits we place on the types of counter-examples that we will accept as
+%invalidating.
+
+%\textbf{nomologically valid:} must respect the laws of nature;
+%
+%\textbf{conceptually valid:} must respect conceptual relations between words;
+
+%Instead of focusing on these or other more contingent notions of validity,
+
+We will be focused on a somewhat narrow notion of \emph{formal validity}.
+
+We understand \emph{formal} as pertaining to the \emph{form} of arguments.
+\footnote{Not, for example, as a synonym for \emph{fancy}.} Many conceptually
+valid\footnote{respect conceptual relations between words} and nomologically
+valid\footnote{respect the laws of nature} arguments cannot be \emph{formally}
+validated. As the presentation goes on, we will more and more center our notion
+of \emph{logical validity} on formal validity. 
+
+The replacement of sentences with letters in arguments known to be valid is
+our first step to \emph{formal logic}.
+
+The argument on the left is valid while the one on the right is not.
+\footnote{Unless we make clear the premise that $X\eif Z$}
+
+\twoitems{
+  \begin{argument}
+  \item[] Either X or Y.
+  \item[] Not Y.
+  \item[\therefore] X.
+  \end{argument}
+} {
+  \begin{argument}
+  \item[] Either X or Y.
+  \item[] Not Y.
+  \item[\therefore] Z.
+  \end{argument}
+}
+
+Note that the dependence on the \emph{forms} of arguments is fundamental here.
+We can have both valid arguments with untrue conclusions and invalid arguments
+whose premises and conclusions are all true. Without knowing actual content
+of the sentences X, Y and Z, we can assess the arguments below as valid, based
+entirely on the meaning of the other words being used: \emph{and}, \emph{or}
+and \emph{not}.
+
+\twoitems{
+  \begin{argument}
+  \item[] Both X and Y.
+  \item[\therefore] X.
+  \end{argument}
+} {
+  \begin{argument}
+  \item[] Either X or Y.
+  \item[] Not Y.
+  \item[\therefore] X.
+  \end{argument}
+}
+
+Moreover, these arguments are simple--indeed, minimal. In both cases, the
+conclusion is justified by exactly the premise(s) provided, no more and no
+less. We can use simple, rock-solid entailments of this sort as the basis of
+a system of rules for building larger arguments (\emph{proofs}).
+
+%\begin{quote}
+%  One way of demonstrating that an inferential leap from some premises to a
+%  given conclusion is valid is by breaking down the big leap into smaller
+%  inference steps, each one of which is clearly valid.
+%  \cite{Smi20}[p29, channeling Aristotle]
+%\end{quote}
+
+In the following complex argument (sort of a ``proto-proof'') we use several
+\emph{inference steps} (marked with \therefore), each depending on a simple
+rule and one or more of the sentences that came before it, some of which are
+themselves conclusions.
+
+To make the argument into a proof, we want to decorate it a little bit more,
+most conspicuously by adding \emph{line numbers} and \emph{justifications} for
+each inference step.
+
+\begin{center}
+  \begin{tabular}{c c c}
+    (1) & Either X or Y.         & assumed                       \\
+    (2) & If X, then Z.          & assumed                       \\
+    (3) & Not Y.                 & assumed                       \\
+    (4) & If Z and X, then W.    & assumed                       \\
+    (5) & \therefore X.          & from 1 by ``or''              \\
+    (6) & \therefore Z.          & from 2 and 5 by ``if...then'' \\
+    (7) & \therefore Z and X.    & from 6 and 5 by ``and''       \\
+    (8) & \therefore W.          & from 4 and 7 by ``if...then''
+  \end{tabular}
+\end{center}
+
+\cite{Smi20} has a more extensive example, borrowed from Lewis Carroll, that
+helps to illustrate how rules for the simple inference steps can be put to use
+in such a fully-justified proof. Consider the following informal argument that
+he labels (\textbf{D}):
+
+\begin{argument}
+\item[\textbf{D}] Anyone who understands human nature is clever; every true
+  poet can stir the heart; Shakepeare wrote \emph{Hamlet}; no one who does not
+  understand human nature can stir the heart; no one who is not a true poet
+  wrote \emph{Hamlet}; so Shakespeare is clever.
+  \cite{Smi20}[p31]
+\end{argument}
+
+Just two rules are needed to prove Carroll's argument, specifically.
+
+\twoitems{
+  \begin{argument}
+  \item[ ] \textbf{Rule U:}
+  \item[ ] Any/every B is C.
+  \item[ ] a is B.
+  \item[\therefore] a is C.
+  \end{argument}
+}{
+  \begin{argument}
+  \item[ ] \textbf{Rule V:}
+  \item[ ] No one who is not A is B.
+  \item[\therefore] Any B is A.
+  \end{argument}
+}
+
+Like before, we take each inference step one at a time and list the lines that
+we used to justify it. But now we can also add specific rule to our
+justifications, allowing inference steps only when such a rule is available
+(from \cite{Smi20}[p31]).
+
+\begin{center}
+  \begin{tabular}{c c c}
+    (1) & Anyone who understands human nature is clever. & assumed \\
+    (2) & Every true poet can stir the heart. & assumed \\
+    (3) & Shakepeare wrote \emph{Hamlet}. & assumed \\
+    (4) & No one who doesn't understand human nature can stir the heart. &
+    assumed\\
+    (5) & No one who is not a true poet wrote \emph{Hamlet}. & assumed \\
+    (6) &\therefore Anyone who wrote \emph{Hamlet} is a true poet.&from 5 by V\\
+    (7) & \therefore Shakespeare is a true poet. & from 6 and 3 by U \\
+    (8) & \therefore Shakespeare can stir the heart. & from 2 and 7 by U \\
+    (9) & \therefore Anyone who can stir the heart understands human nature. &
+    from 4 by V \\
+    (10) & \therefore Shakepeare understands human nature.&from 9 and 8 by U\\
+    (11) & \therefore Shakespeare is clever. & from 10 and 1 by U \\
+  \end{tabular}
+\end{center}
+
+\subsection{Enthymemes, Sound Arguments, Valid Arguments}
+
+Returning to more concrete examples, we can see that many arguments in ordinary
+English have assumptions that are silent or otherwise taken for granted. So the
+following argument about my dog is correct.
+
+\begin{argument}
+\item[ ]          It is a perfect day for fetch.
+\item[\therefore] Bandit is happy.
+\end{argument}
+
+But it is missing an important premise. Only once sentence (*) has been added
+do we have an argument that is deductively valid.
+
+\begin{argument}
+\item[ ]          It is a perfect day for fetch.
+\item[(*)]        If it is a perfect day for fetch, then Bandit is happy.
+\item[\therefore] Bandit is happy.
+\end{argument}
+
+\begin{definition}[Enthymeme]
+  \label{def:enthymeme}
+  An argument with unsaid assumptions is called an \emph{enthymeme}.
+\end{definition}
+
+Logic is exceptional for detecting invalid arguments but cannot help at all with
+assessing the truth of premises.
+
+\begin{quote}
+  The important thing to remember is that validity is not about the
+  \emph{actual} truth or falsity of the sentences in the argument. It is about
+  whether it is \emph{possible} for all the premises to be true and the
+  conclusion to be not true at the same time. (\cite[][p15]{Mag25})
+\end{quote}
+
+This important point becomes a little more clear when reflecting on the contrast
+between \emph{valid} arguments and \emph{sound} arguments. A valid argument
+is just a matter of following the rules.
+
+\begin{definition}[Valid Argument]
+  An argument is \emph{valid} iff all of the inference steps from its premises
+  to its conclusion are allowed by the relevant rules of logic.
+\end{definition}
+
+But a sound argument requires that we do not make any untrue assumptions.
+
+\begin{definition}[Sound Argument]
+  An argument is \emph{sound} iff (i) it is valid; \textbf{and} (ii) all of
+  its premises are true.
+\end{definition}
+
+\subsection{Inductive Arguments, Deductive Arguments}
+
+Our formal logics will have plenty to say about valid arguments, but will remain
+mostly mute on the subject of sound arguments. Additionally, formal logic is
+limited to the assessment of \emph{deductive} arguments. It does not help with
+the assessment of the many \emph{inductive} arguments that populate both
+empirical sciences and everyday experience.
+
+\begin{argument}
+\item[] The sun has risen every day so far.
+\item[\therefore] The sun will rise tomorrow.
+\end{argument}
+
+While this is a perfectly reasonable inference to make, it is not a deductivley
+valid argument. What do we mean by this?
+
+\begin{definition}[Deductively Valid Argument]
+  A \emph{deductively valid argument} is an argument where the conclusion
+  follows directly from the premises via only a series of deductively valid
+  steps: \emph{inference steps} such as those informally demonstrated above,
+  where the conclusion follows from the premise(s) in \emph{every situtation}.
+  \label{def:deductively-valid}
+\end{definition}
+
+We will not discuss \emph{inductive arguments} here, except to note that they
+are not deductively valid. But we will need to eventually get a handle on what
+we mean by ``situation''. First, we consider what kinds of inference steps are
+appropriate to a deductive system of sentences.
+
+Beyond valid inference steps, we can also define some other properties of
+sentences and relations between them:
+
+\Needspace{8\baselineskip}
+\begin{definition}[Some logical properties of sentences]
+  Sentences and collections of sentences can be assigned labels based on their
+  truth in some or all situations:
+  
+  \begin{enumerate}
+  \item Sentences that are always true are \emph{necessary truths}.
+  \item Sentences that are never true are \emph{necessary falsehoods}.
+  \item Sentences that are neither necessary truths nor necessary falshoods are
+    \emph{contingent sentences}; they are sometimes true and sometimes false.
+  \item Pairs of sentences that have the same truth value in every situation
+    are \emph{necessarily equivalent}.
+  \item Collections of sentences that are all true together in some situation
+    are \emph{jointly possible}; those that are not are \emph{jointly
+    impossible}.
+  \end{enumerate}
+  
+\end{definition}
+
+Negative results play an important role in the processes of logical deduction.
+Most blatantly, if a sentence is not true, then its negation must be. The fact
+that this rule works exceptionlessly is an important part of classical logic. In
+a similar vein, we repeat the following rule from \cite[p. 13]{Smi20}.
+
+\begin{definition}[The Invalidity Principle]
+  \label{def:invalidity-principle}
+  An inference step with actually true premises and an actually false conclusion
+  must be invalid.  
+\end{definition}
+
+Thus when we find a counter-example to an argument, the argument is not valid.
+
+\subsection{Proof by Absurdity}
+
+One ancient approach to logical proofs is to show that assuming the opposite of
+a conclusion will lead to a contradiction. We will see how the basic treatment
+of negation leans heavily on this inference when we start to explore the syntax
+and semantics of actual logics next week.
+
+\begin{definition}[Reductio Ad Absurdum]
+  \label{def:raa}
+  If $\ephi_1\dots\ephi_n$ are taken as premises and the addition of \spsi
+  would result in a contradiction, then $\ephi_1\dots\ephi_n$ entail not-\epsi.
+\end{definition}
+
+People often struggle taking reductio ad absurdum (RAA) seriously when they are
+first introduced to it. One naive reading would take the following to be an
+acceptable argument that Elvis is still alive.
+
+\begin{argument}
+  \item[ ] John lives in Amsterdam.
+  \item[ ] It is not the case that John lives in Amsterdam.
+  \item[\therefore] Elvis is still alive.
+\end{argument}
+
+No one likes this result, not even proponents of RAA. The most compelling
+complaint is that Elvis' ongoing survival likely has nothing at all to do with
+John's residence in the Netherlands. Still, like democracy, this is the worst
+outcome except for all the rest. Most logicians are willing to accept this
+result, despite its oddity, simply because the simplicity offered by the
+overall system is worth preserving.
+
+And it's worth noting that these examples are arguably just edge cases to begin
+with. Indeed, by our existing definition of RAA the premises \sphi and
+\enot\sphi are already inconsistent. This has a bunch of implications which
+suggest that this premise set simply never comes up for serious consideration.
+
+\begin{enumerate}
+\item ``John lives in Amsterdam'' entails ``It is not the case that John
+does not live in Amsterdam''.
+\item ``John lives in Amsterdam'' and ``John does not live in Amsterdam''
+  together entail ``Elvis is not alive.''
+\end{enumerate}
+
+Nevertheless, we will see RAA used all the time in service of formal proofs.
+
+\subsection{Symbolization and Argument Schemas}
+
+So far we showed how to use capital letters as stand-ins for sentences (i.e.
+as \emph{schematic variables} in logical arguments and described this is as
+fundamental to formal logics. Now we will discuss this process--often called
+\emph{symbolization} or \emph{translation}--in more detail.
+
+As we pull apart arguments attempting to ascertain their form, a basic
+distinction that emerges is between \emph{content expressions} and \emph{topic
+neutral terms}. So far, we have represented the former using capital letters
+($A, B, C, X, Y, Z$) and the latter with their ordinary English counterparts
+(\emph{and, not, either...or, if...then}. The important thing to note is that
+formal logic is concerned primarily with the behavior of topic-neutral terms,
+abstracting away the content expressions into mostly inert symbols.
+\emph{Logical validity}\footnote{and \emph{logical entailment}} is just
+deductive validity by virtue of topic-neutral terms alone. This is what
+\emph{purely logical schemas} represent.
+
+Consider again the two mini-arguments presented above, which we will give simple
+names for reference.
+
+\twoitems{
+  \begin{argument}
+  \item[] \textbf{And Rule:}
+  \item[] Both X and Y.
+  \item[\therefore] Z.
+  \end{argument}
+} {
+  \begin{argument}
+  \item[] \textbf{Or Rule:}
+  \item[] Either X or Y.
+  \item[] Not Y.
+  \item[\therefore] X.
+  \end{argument}
+}
+
+Thinking of \textbf{And Rule} and \textbf{Or Rule} as \emph{proto-schemas}, we
+can glean a few informal observations:
+
+\begin{observation}[Properties of Argument Proto-Schemas]
+  \label{obs:argument-proto-schemas}
+  Argument schemas have some regular properties:
+  \begin{outline}[enumerate]
+  \1 Schemas are intended to be a somewhat ``loose fit'' with the English
+    expressions that they are intended to symbolize. The same logical form
+    might apply to a whole range of different (but related) sentences of
+    ordinary English.
+    \1 Schemas depend on the radical abstraction of content expressions.
+    \2 Letters are used to symbolize the content expressions of the object
+    language.
+    \2 The meaning of the expressions that these symbols represent is dropped or
+    simplified dramatically.
+    \1 The choice of content symbol is relatively unimportant, we just need to
+    keep straight ``which ones are which.''
+  \end{outline}
+\end{observation}
+
+The last point is worth lingering on. We can paraphrase it by saying that
+schemas depend on the equivalence of substitution instances. In our rules, we
+will use greek letters (\ephi, \epsi, \echi, ...) to represent arbitrary
+expressions (mostly sentences):
+
+\twoitems{
+  \begin{argument}
+  \item[ ] \textbf{And Rule:}
+  \item[ ] \sphi and \epsi
+  \item[\therefore] \epsi
+  \end{argument}
+} {
+  \begin{argument}
+  \item[ ] \textbf{Or Rule:}
+  \item[ ] \sphi or \epsi
+  \item[ ] not \ephi
+  \item[\therefore] \epsi
+  \end{argument}
+}
+
+By choosing a metalanguage variable in this role, we are stressing and important
+property of our schemas, namely that they can be applied to all of the sentences
+that share the form in question. Recall that we can describe a argument using
+sentence letters to reveal its deeper formal structure. For example, we can
+stipulate that each of the following inference steps is valid in virtue of its
+form alone. \\
+
+\threeitems{
+  \begin{argument}
+  \item[] A
+  \item[] If A, then C
+  \item[\therefore] C
+  \end{argument}
+}{
+  \begin{argument}
+  \item[] A or B
+  \item[] not-A
+  \item[\therefore] B
+  \end{argument}
+}{
+  \begin{argument}
+  \item[] not-(A and B)
+  \item[] A
+  \item[\therefore] not-B
+  \end{argument}
+}
+
+The logic of sentences that we define is called \emph{Truth-Functional Logic}
+($TFL$) or \emph{Propositional Logic} ($PL$), depending on the author. We will
+use $TFL$ but take the two names to refer to one and the same logic.
+
+I mentioned that logic is concerned with arguments built out of declarative
+sentences. However, there are good reasons to use a different name for the
+so-called sentences of formal logic. I repeat here just a few, as listed by
+\cite{Smi20}[pp54-55]
+
+\begin{observation}[TFL sentences are not like sentences of English]
+  \begin{enumerate}
+  \item Some grammatical English declarative sentences lack an interpretation
+    and thus cannot be assigned a truth-value based on their sense.
+  \item Some grammatical English sentences have more than one interpretation.
+  \item Some TFL sentences can be used to express more than one grammatical
+    English sentence.
+  \item Some English sentences cannot be fully interpreted without consideration
+    of the context.
+  \item Surely there is a sense in which Aristotle and Frege are making many of
+    \textbf{the same} arguments that we will consider: arguments that we would
+    surely be mistaken to take as sentences of ancient Greek, late nineteenth
+    century German or contemporary English
+  \item TFL sentences cannot be distinguished except in their truth or falsity.
+  \end{enumerate}
+\end{observation}
+
+Nevertheless, we will not adopt a specialized term (such as \emph{proposition})
+for TFL sentences, noting only that we are using \emph{(TFL) sentence} as a
+technical term, not as a synonym for the ordinary English concept
+\emph{sentence}.
+
+Recall that by limiting ourselves to sentence letters, we are marking off an
+explicit boundary in our logic between those arguments that depend in some
+way on the ``content'' of their sentences and those that depend on form alone.
+
+When we look at Predicate Logic (Quantificational Logic) later this semester,
+we will see how to incorporate the contributions of names and properties so
+that we can encode \textbf{some} of the contributions that (sub-sentential)
+content makes to the rules of inference. But, for now, we will focus on just
+sentences and the forms of the arguments that they appear in.
+
+%\begin{quote}
+%  At best, TFL will help us to understand arguments that are valid due to
+%  their form. \cite[][p30]{Mag25}
+%\end{quote}
+
+In the examples above, we have some sentences that contain \emph{sentence
+letters} themselves. For example: ``If A, then B''. When we use capital
+letters to stand for sentences (or subsentences) in this way, we are assuming
+that the sentences represented are somewhat simple and can be directly assessed
+as either \emph{true} or \emph{false}. We will call sentences of this sort
+\emph{atomic sentences}. They cannot be broken down into parts and we cannot
+``peek'' inside them to support our inferences.
+
+When we use letters to represent sentences in this way, we will often provide a
+\emph{symbolization key} to help decode the arguments.
+
+\begin{argument}
+\item[A:] It is a perfect day for fetch. 
+\item[C:] Bandit is happy.
+\end{argument}
+
+Of course, these devices are \emph{ad hoc} since TFL is a formal logic and
+the actual contents of its sentences is immaterial to the analysis.
+
+\subsection{Logical Connectives}
+
+We can build complex sentences from simpler ones (including atomic sentences)
+with the help of a few \emph{connectives}. As the name suggests, the
+connectives of TFL are \emph{truth-functional}. In other words, we will
+interpret the truth of a complex sentence as a function of the truth of its
+component subsentences based on the meanings of its connectives and the order
+that they are introduced.
+
+Consider the simple one-place connective $\lnot$. We can understand this
+connective as a function from a truth-value to its opposite. So, for example,
+when $A$ is true, $\lnot A$ is false. We can summarize the basic TFL
+connectives as in the following table.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Function} & \textbf{Symbol} & \textbf{Paraphrase} \\
+\hline
+Negation & $\lnot$ & 'It is not the case that \dots' \\
+Conjunction & $\land$ & 'Both \dots and \dots' \\
+Disjunction & $\lor$ & 'Either \dots or \dots' \\
+Conditional & $\rightarrow$ & 'If \dots then \dots' \\
+Biconditional & $\leftrightarrow$ & '\dots if and only if \dots' \\
+\hline
+\end{tabular}
+\caption{Basic TFL Connectives}
+\label{tab:basic-tfl-connectives}
+\end{table}
+
+The symbolization of sentences is subtle and not always a simple preservation
+of the surface forms found in the English version. Consider each of the
+connectives in turn.
+
+\begin{argument}
+\item[R:] A recession is inevitable.
+\item[P:] A recession can be prevented.  
+\end{argument}
+
+If $P$ is part of our symbolization key, we might want to symbolize $R$ as
+$\lnot P$ to capture the relationship between the sentences, even though
+\emph{not} and \emph{it is not the case that} do not occur anywhere in
+the sentence. Here is where the concept of \emph{paraphrase} comes into
+play. We will want to lean pretty heavily on the flexibility of paraphrase,
+especially when dealing with words that have antonyms or other 'lexical'
+negations with \emph{un-}, \emph{non-}, \emph{de-}, and so on. 
+
+We see a similar separation of English forms and TFL forms in our
+treatment of conjunctions. If we want to symbolize \emph{Barbara is a medical
+  doctor and a philosopher}, we need to depart from the English form and treat
+it as a conjunction of sentences ($M \land P$) instead of as one sentence
+(\emph{Barbara M and P}, perhaps). That is, we need to mention Barbara in
+each of the sentences, not just the once. Our symbolization key would be:
+
+\begin{argument}
+\item[M:] Barbara is a medical doctor.
+\item[P:] Barbara is a philosopher.  
+\end{argument}
+
+Note again that the semantics of TFL is bare bones. We will bundle under
+conjunction several English connectives than have slightly different
+implications in their full meaning: \emph{and}, \emph{but}, and
+\emph{although} in the defintion, but many more in practice. In addition to
+collapsing these English connectives to one in TFL, we will also ignore the
+implications of sentence order. 
+
+\begin{argument}
+\item[A:] John left.
+\item[B:] Mary got upset.
+\end{argument}
+
+Although \emph{A and B} and \emph{B and A} have different implications
+about the order of events--and perhaps even about cause--in TFL $A \land B$
+says the exact same thing as $B \land A$. But the interaction of the operators
+is important. The following have a different meaning in TFL, even though each
+could be the correct symbolization of the English sentence schema \emph{It
+  is not the case that A and B}.
+
+\twoitems{$\lnot(A \land B)$}{$(\lnot A \land B)$}
+
+We need to take care in the order we apply the connectives.
+
+With these preliminaries out of the way, we can now provide informal definitions
+for each of the basic TFL connectives by way of paraphrase. We will use
+lower-case Greek letters \ephi,\epsi,\echi,\dots to represent arbirtary TFL
+sentences.
+
+\begin{definition}[Truth-Functional Connectives]
+  Truth-functional logic (TFL) comprises some atomic sentences and a few logical
+  connectives to assemble them into sentences and arguments:
+  \begin{enumerate}
+  \item A sentence can be symbolized as \enot\sphi if it can be paraphrased as
+    ''It is not the case that \ephi.''
+  \item A sentence can be symbolized as \ephi\eand\spsi if it can be paraphrased
+    as ``Both \sphi and \epsi'', as ``\ephi, but \epsi'' or as ``Although
+    \ephi, \epsi''.
+  \item A sentence can be symbolized as \ephi\eor\spsi if it can be paraphrased
+    as ``Either \sphi or \epsi''.
+  \item A sentence can be symbolized as \ephi\eif\spsi if it can be paraphrased
+    as ``If \sphi, then \epsi'' or as ``\spsi only if \ephi''.
+  \item A sentence can be symbolized as \ephi\eiff\spsi if it can be paraphrased
+    as ``\sphi if and only if \epsi''.
+  \end{enumerate}
+\end{definition}
+  
+%\begin{definition}[Negation]
+%\end{definition}
+%\begin{definition}[Conjunction]
+%\end{definition}
+%\begin{definition}[Disjunction]
+%\end{definition}
+%\begin{definition}[Conditional]
+%\end{definition}
+%\begin{definition}[Biconditional]
+%\end{definition}
+
+  

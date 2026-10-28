@@ -1,0 +1,23 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'notes.blg'
+[23] biber-darwin:340> INFO - === Wed Aug 19, 2026, 16:31:33
+[29] Biber.pm:419> INFO - Reading 'notes.bcf'
+[63] Biber.pm:979> INFO - Found 2 citekeys in bib section 0
+[71] Biber.pm:4419> INFO - Processing section 0
+[74] Biber.pm:4610> INFO - Looking for bibtex file 'logic1.bib' for section 0
+[75] bibtex.pm:1713> INFO - LaTeX decoding ...
+[76] bibtex.pm:1519> INFO - Found BibTeX data source 'logic1.bib'
+[95] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[95] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[95] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[95] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[98] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[98] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[98] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[98] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[101] bbl.pm:660> INFO - Writing 'notes.bbl' with encoding 'UTF-8'
+[101] bbl.pm:763> INFO - Output to notes.bbl
+[101] Biber.pm:131> WARN - ISBN '9798859963584' in entry 'Mag25' is invalid - run biber with '--validate_datamodel' for details.
+[101] Biber.pm:131> WARN - Possible typo (case mismatch) between citation and datasource keys: 'smi20' and 'Smi20' in file 'logic1.bib'
+[101] Biber.pm:131> WARN - I didn't find a database entry for 'smi20' (section 0)
+[101] Biber.pm:133> INFO - WARNINGS: 3

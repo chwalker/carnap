@@ -1,0 +1,789 @@
+\section{Truth Table Strategies}
+
+\subsection{Simplification Methods}
+
+The truth table method is tedious to say the least. Even when the number of
+atomic sentences makes the overall number of rows manageable, a logician would
+need to write dozens of T and F symbols to completely fill in a table. We can
+introduce a number of shortcuts to make the process much more ergonomic.
+
+\begin{observation}[Methods to Simplify Truth Tables]
+  \label{obs:tt-simplified-methods}
+  \begin{enumerate}
+  \item You do not need to repeat truth values for the atomic letters. They are
+    easy enough to read right off the left column.
+  \item Since \ephi\eor\epsi is true just in case either \ephi or \epsi is true,
+    we can skip one disjunct if the other is already marked T.
+  \item Since \ephi\eand\epsi is false just in case either \ephi or \epsi is
+    false, we can skip one conjunct if the other is already marked F.
+  \item Since \ephi\eif\epsi is true in case either \epsi is true or \ephi is
+    false, we can skip one component if the other is already so marked.
+  \end{enumerate}
+\end{observation}
+
+This truth table with four atomic sentences shows how much savings we can get
+from the simplified approach. Not only does it have 16 rows, but the complexity
+of the sentence involves quite a few columns too. % (p 109)
+
+\begin{center}
+  \begin{tabular}{c c c c|c c c c c c c c c c c c c c c c}
+    P&Q&R&S&$(((S$&\eand&$Q)$&\eand&\enot&\enot&$R)$&\eor         &\enot&$(\enot$&$(P$&\eor&\enot&$P)$&\eand&$Q))$ \\
+    \hline
+    T&T&T&T&      &     &    &     &     &     &    &           T &  T  &        &    &    &     &    &   F & \\
+    T&T&T&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    T&T&F&T&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    T&T&F&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    T&F&T&T&      &     &    &     &     &     &    &           T &  T  &        &    &    &     &    &   F & \\
+    T&F&T&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    T&F&F&T&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    T&F&F&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    F&T&T&T&      &     &    &  T  &     &     &    &\underline{T}&  F  &        &    &    &     &    &   T & \\
+    F&T&T&F&      &     &    &  F  &     &     &    &\underline{F}&     &        &    &    &     &    &     & \\
+    F&T&F&T&      &     &    &  F  &     &     &    &\underline{F}&     &        &    &    &     &    &     & \\
+    F&T&F&F&      &     &    &  F  &     &     &    &\underline{F}&     &        &    &    &     &    &     & \\
+    F&F&T&T&      &     &    &     &     &     &    &           T &  T  &        &    &    &     &    &   F & \\
+    F&F&T&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    F&F&F&T&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    F&F&F&F&      &     &    &     &     &     &    &           T &     &        &    &    &     &    &     & \\
+    \hline
+     & & & &      &     &    &  4  &     &     &    & 3/5         &  2  &        &    &    &     &    &   1 & \\
+  \end{tabular}
+\end{center}
+
+We can summarize the steps of the reasoning as follows.
+
+\begin{enumerate}
+\item The chunking of truth values that we use in constructing the table
+  exhaustively is really paying off here. Since P and Q are the first two
+  sentences in the table, they have long runs of rows where the truth values of
+  both remains unchanged. So whatever the value of $\enot(P \eor P) \eand Q$ is
+  it will be the same for each four-row block and when we figure it out we can
+  just write it down every four lines. In another lucky break, we know that
+  $P \eor P$ is always just whatever P is. Taking this all together
+  $\enot(P \eor P) \eand Q$ is true just in case P is false and Q is true: so
+  only for the four rows in the third block.
+\item The same reasoning about the chunking means that we can just reverse
+  these values in the columns for $\enot(\enot(P \eor P) \eand Q)$: making all
+  the F values T, and vice-versa.
+\item Since the main connective is \eor, we know that only one of the disjuncts
+  needs to be true. The right disjunct is true on 12 rows, so we can just fill
+  those all in for the main connective now. We don't need to know the value of
+  the left disjunct in these cases.
+\item We need to compute the truth value of the left disjunct for the remaining
+  4 rows. Noting the double negation $\enot\enot R$, we can see that the entire
+  expression $(S \eand Q)\eand\enot\enot R$ is true just in case all of S, Q and
+  R are. This is just one of the remaining rows. The rest are false.
+\item Now we have all we need to fill in the last 4 rows for the main
+  connective. These four truth values are \underline{underlined} in the truth
+  table.
+\end{enumerate}
+
+% more examples (pp 132-3)
+
+\subsection{Truth-Theoretic Concepts}
+
+Now that we have a handle on the truth-functional semantics of TFL, we are
+better positioned to put meat on the bones of some informal concepts introduced
+a few weeks ago: necessary truth/falsehood, contingent truth/falsehood,
+equivalence and joint possibility.
+
+We can use truth tables to define a technical notions that approximate the
+concepts of \emph{necessary truth} and \emph{necessary falsity}. First, we can
+think of these concepts in terms of the forms of arguments. Let's start by
+firming up our definition of \emph{argument} from week 1.
+
+\begin{definition}[Argument]
+  \label{def:tfl-argument}
+  An \emph{argument} is a sequence of sentences
+  $\ephi_1\dots\ephi_n \therefore \epsi$. It comprises some \emph{premises},
+  ($\ephi_1\dots\ephi_n$) and a \emph{conclusion} (\epsi), separated by an
+  inference marker (\therefore).
+\end{definition}
+
+Beware that not all arguments are \emph{valid}. We can make bad arguments and
+checking to see if an argument is good is a big part of the point of our formal
+apparatus. We just want to define the kinds of things that we will check for
+validity. Indeed, eventually we'll just drop the reference to arguments from our
+definition altogether.
+
+\begin{definition}[Tautologically Valid]
+  \label{def:tfl-tautologically-valid}
+  A TFL argument $\ephi_1,\dots,\ephi_n \therefore \epsi$ is
+  \emph{tautologically valid} (i.e. \emph{logically valid}) iff there is no
+  valuation where all of $\ephi_1,\dots,\ephi_n$ are true but $\epsi$ is false.
+\end{definition}
+
+We can characterize the relationship between the premises and conclusion of
+a tautologically valid argument as one of \emph{entailment}.
+
+\begin{definition}[Tautologically Entail]
+  \label{def:tfl-tautologically-entail}
+  A collection of TFL sentences $\ephi_1,\dots,\ephi_n$ \emph{tautologically
+  entails} (i.e. \emph{logically entails}) a TFL sentence \epsi iff
+  $\ephi_1,\dots,\ephi_n \therefore \epsi$ is tautologically valid. When this
+  is the case, we will use the symbol \eentails instead of \therefore.
+
+  \begin{argument}
+    \item[ ] $\ephi_1,\dots,\ephi_n \eentails \epsi$
+  \end{argument}
+
+  Otherwise, we will say that $\ephi_1,\dots,\ephi_n$ \emph{does not entail}
+  \epsi and use the symbol \enotentails.
+
+    \begin{argument}
+    \item[ ] $\ephi_1,\dots,\ephi_n \enotentails \epsi$
+    \end{argument}
+\end{definition}
+
+We can recast the notion of tautologocal validity to apply not just to
+arguments, but to individual sentences as well. Naturally, the definition is
+extremely similar.
+
+\begin{definition}[Tautology]
+  \label{def:tfl-tautology}
+  \ephi is a \emph{tautology} in TFL iff it is true on every valuation. When
+  a \ephi is a tautology, we will signify this by using \eentails with no
+  premises.
+
+  \begin{argument}
+    \item[ ] \eentails\ephi
+  \end{argument}
+
+  Otherwise \ephi is not a tautology, which we can signify in the metalogic with
+  \enotentails.
+  
+  \begin{argument}
+    \item[ ] \enotentails\ephi
+  \end{argument}
+  
+\end{definition}
+
+Some well-known examples of a tautologies have come up already:
+
+\begin{argument}
+\item[\textbf{LEM:}] A\eor\enot A
+\item[\textbf{LNC:}] \enot(A\eand\enot A)
+\item[\textbf{DN:}]  \enot\enot A\eiff A  
+\end{argument}
+
+We can confirm that each is invariably true using simplified truth tables
+
+\begin{table}[h]
+
+  \threeitems{
+  \begin{center}
+    \begin{tabular}{c|c c c}
+      A      & A     & \eor           & \enot A \\
+      \hline
+      T      &       & \textbf{T}     &      F \\
+      F      &       & \textbf{T}     &      T    
+    \end{tabular}
+  \end{center}
+  }{
+  \begin{center}
+    \begin{tabular}{c|c c c c}
+      $A$& \enot      & $(A$ & \eand  & $\enot A)$ \\
+      \hline
+      T      & \textbf{T} &          & F      &     F \\
+      F      & \textbf{T} &          & F      &     T
+    \end{tabular}
+  \end{center}
+  }{
+  \begin{center}
+    \begin{tabular}{c|c c c c}
+      A & \enot & \enot A & \eiff      & A  \\
+      \hline
+      T      &   T   &      F     & \textbf{T} & \\
+      F      &   F   &      T     & \textbf{T} &
+    \end{tabular}
+  \end{center}
+  }
+  \label{tab:tt-neg-equivalences}
+  \caption{Simplified truth tables demonstrating \textbf{LEM}, \textbf{LNC}, and \textbf{DN}}
+\end{table}
+
+Conversely, a sentence that is false on every valuation is a
+\emph{contradiction}.
+
+\begin{definition}[Contradiction]
+  \label{def:tfl-contradiction}
+  The TFL sentence \ephi is a \emph{contradiction} iff it is false on every
+  valuation.
+\end{definition}
+
+For example, $A\eand\enot A$ is a contradiction whereas
+$A\eor\enot A$ is a tautology.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c||c|c}
+      $A$ & $A \eand \enot A$ & $A \eor \enot A$ \\
+      \hline
+      T & \textbf{F} & \textbf{T} \\
+      F & \textbf{F} & \textbf{T}
+    \end{tabular}
+  \end{center}
+  \label{tab:truth-table-example}
+  \caption{A simplified truth table with a contradition and a tautology}
+\end{table}
+
+We will not add a symbol like \eentails that we can use for contradictions,
+but we can leverage the fact that tautologies and contradictions are complements
+to symbolize it in the metalogic anyway. If \ephi is a contradiction then
+\eentails\enot\ephi and if \eentails\ephi then \enot\ephi is a contradiction.
+
+A sentence that is neither a tautology nor a contradiction is called
+\emph{contingent}.
+
+\begin{definition}[Contingent Sentence]
+  \label{def:tfl-contingent}
+  A TFL sentence \ephi is a \emph{contingent} iff neither \eentails\ephi nor
+  \eentails\enot\ephi.
+\end{definition}
+
+Similarly, we can test whether two sentences are equivalent by checking to
+see if they have the same truth tables.
+
+\begin{definition}[Equivalence]
+  \label{def:tfl-equivalence}
+  Two TFL sentences \ephi and \epsi are \emph{equivalent} in TFL iff \ephi and
+  \epsi have the same truth value as each other in every valuation.
+\end{definition}
+
+So we can easily verify that $\enot(A\eand B)$ is equivalent to $\enot A \eor
+\enot B$ since they have the same truth value in every row.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c|c c c c|c c c c c}
+      $A$&$B$ & \enot&$(A$&\eand&$B)$ & \enot&$A$&\eor&\enot&$B$ \\
+      \hline
+      T & T  &  \bf{F} & T & T & T  &  F & T & \bf{F} & F & T \\
+      T & F  &  \bf{T} & T & F & F  &  F & T & \bf{T} & T & F \\
+      F & T  &  \bf{T} & F & F & T  &  T & F & \bf{T} & F & T \\
+      F & F  &  \bf{T} & F & F & F  &  T & F & \bf{T} & T & F
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-demorgans-nand}
+  \caption{A complete truth table demonstrating the equivalence of
+    $\enot(A\eand B)$ and $\enot A\eor\enot B$.}
+\end{table}
+
+Similarly, we can confirm that $\enot(A\eor B)$ is equivalent to
+$\enot A \eand \enot B$.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c|c c c c c|c c c}
+      $A$&$B$&\enot  &$(A$&\eor&$B)$ & $\enot A$&$\eand$&$\enot B$ \\
+      \hline
+      T      & T     &\bf{F} &        & T  &         &  F          &\bf{F} & F \\
+      T      & F     &\bf{F} &        & T  &         &  F          &\bf{F} & T \\
+      F      & T     &\bf{F} &        & T  &         &  T          &\bf{F} & F \\
+      F      & F     &\bf{T} &        & F  &         &  T          &\bf{T} & T
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-demorgans-nor}
+  \caption{A simplified truth table demonstrating the equivalence of
+    $\enot(A\eor B)$ and $\enot A\and\enot B$.}
+\end{table}
+
+%% NB: mention DeMorgans here?
+
+Being able to show equivalence is a powerful capability. We've seen how we can
+make use of it in the metalogic by abstracting away to \emph{forms} in our
+rule schemas. We can also lean on the same inter-substitutability as we try to
+assess the tautological status of various complex sentences.
+
+\begin{observation}[Substitution instances and tautologies]
+  If \eentails\ephi and \epsi is a substitution-instance of \ephi, then
+  \eentails\epsi. But the same is not true of \enotentails\ephi.
+\end{observation}
+
+We can just as easily use truth table methods to evaluate the logical properties
+of sets of sentences, including arguments.
+
+\begin{definition}[Joint Satisfiability]
+  \label{def:tfl-jointly-satisfiable}
+  The sentences $\ephi_1\dots\ephi_n$ are \emph{jointly satisfiable} in TFL iff
+  some valuation makes them all true. Otherwise, they are \emph{jointly
+  unsatisfiable}.
+\end{definition}
+
+We can clean up our definition of \emph{entailment} now, too, dropping the
+references to arguments and the inference marker (\therefore), which really
+are not important to the concept as now understood.
+
+\begin{definition}[Entailment]
+  \label{def:tfl-entailment}
+  The TFL sentences $\ephi_1\dots\ephi_n$ \emph{entail} the TFL sentence \epsi
+  ($\ephi_1\dots\ephi_n\eentails\epsi$) iff no valuation makes
+  $\ephi_1\dots\ephi_n$ all true but \epsi false.
+\end{definition}
+
+Now that we've dropped the references to arguments, we can look for symmetry in
+entailment: \emph{equivalence}.
+
+\begin{definition}[Mutual Entailment]
+  \label{def:tfl-mutual-entailment}
+  The TFL sentences \ephi and \epsi \emph{mutually entail} each other
+  (\ephi\emutual\epsi) iff both \ephi\eentails\epsi and \epsi\eentails\ephi.
+  \\
+  When \ephi\emutual\epsi, we say that \ephi and \epsi are \emph{tautologically
+  equivalent}.
+\end{definition}
+
+And as we've mentioned already, equivalence plays a fundamental role in formal
+logic.
+
+We've postponed a lot of discussion about the material conditional (\eif), the
+limits of its interpretation, and its relationship to similar metalogical
+notions like entailment. This is as good a time as any to wade into that
+quagmire.
+
+Let's start by (re-)defining the major components of a conditional.
+
+\begin{definition}[Antecedent]
+  If the material conditional \ephi\eif\epsi is a sentence of TFL, then \ephi
+  is its \emph{antecedent}.
+\end{definition}
+
+\begin{definition}[Consequent]
+  If the material conditional \ephi\eif\epsi is a sentence of TFL, then \epsi
+  is its \emph{consequent}.
+\end{definition}
+
+We can also define some some basic structural relationships between material
+conditionals, for example:
+
+\begin{definition}[Converse]
+  If the material conditional \ephi\eif\epsi is a sentence of TFL, then
+  \epsi\eif\ephi is its \emph{converse}.
+\end{definition}
+
+\begin{definition}[Contrapositive]
+  If the material conditional \ephi\eif\epsi is a sentence of TFL, then
+  \enot\epsi\eif\enot\ephi is its \emph{contrapositive}.
+\end{definition}
+
+Likewise, we have some patterns of valid inference steps that amount to
+hard-and-fast rules that we can apply without exception.
+
+\begin{observation}[Modus Ponens (MP)]
+  \label{obs:tfl-modus-ponens}
+  If \ephi and \epsi are TFL sentences, then
+  $ \epsi,\ephi\eif\epsi\eentails\epsi$ and this can be used as an inference
+  step. This mode of inference is called \emph{modus ponens}.
+\end{observation}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c|c||c}
+       A& B &  A\eif B &  A &  B \\
+      \hline
+      T & T  & T & T & T \\
+      T & F  & F & T & F \\
+      F & T  & T & F & T \\
+      F & F  & T & F & T
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-modus-ponens}
+  \caption{A truth table showing Modus Ponens is valid}
+\end{table}
+
+\begin{observation}[Modus Tollens (MT)]
+  If \ephi and \epsi are TFL sentences, then
+  $\enot\epsi,\ephi\eif\epsi\eentails\enot\ephi$ and this can be used as an
+  inference step in TFL. This mode of inference is called \emph{modus tollens}.
+\end{observation}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c|c||c}
+       A& B &  A\eif B & \enot B & \enot A \\
+      \hline
+      T    & T    &      T         &    F       &    F \\
+      T    & F    &      F         &    T       &    F \\
+      F    & T    &      T         &    F       &    T \\
+      F    & F    &      T         &    T       &    T \\
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-modus-tollens}
+  \caption{A truth table showing Modus Tollens is valid}
+\end{table}
+
+\begin{observation}[Falsehood Condition (FC)]
+  If \epsi and \epsi are TFL sentences where \ephi is true and \epsi is false,
+  then $\ephi\eif\epsi$ must be false.
+\end{observation}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c|c||c}
+       A& B &  A\eif B \\
+      \hline
+      T    & F    &      F
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-falsehood-condition}
+  \caption{A truth table showing the Falsehood Condition is valid}
+\end{table}
+
+\begin{observation}[Non-Reversability (NR)]
+  If \ephi and \epsi are TFL sentences, then we cannot infer
+   \ephi\eif\epsi from \ephi\eif\epsi . This is known as the
+  \emph{non-reversability} of the material conditional.
+\end{observation}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c|c||c}
+       A& B &  A\eif B &  B\eif A \\
+      \hline
+      T    & T    &        T       &        T  \\
+      T    & F    &        F       &        T  \\
+      F    & T    &\textbf{T}      &\textbf{F} \\
+      F    & F    &        T       &        T
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-non-reversability}
+  \caption{A truth table showing Non-Reversability is valid}
+\end{table}
+
+We've been mixing logic and metalogic in this lecture so haphazardly that it's
+worth pausing here to make an important distinctions.
+
+\begin{observation}[Entailment and material implication are truth-functionally equivalent]
+   \ephi\eif\epsi iff  \ephi\eentails\epsi
+\end{observation}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{c c||c||c}
+       A& B &  A\eif B &  A\eentails B \\
+      \hline
+      T    & T    &       T        &          T \\
+      T    & F    &       F        &          F \\
+      F    & T    &       T        &          T \\
+      F    & F    &       T        &          T
+    \end{tabular}
+  \end{center}
+  \label{tab:tt-non-reversability}
+  \caption{A truth table showing Non-Reversability is valid}
+\end{table}
+
+Nevertheless, \eif is a connective of truth-functional logic and \eentails is
+a symbol of the metalogic that we've built by augmenting English. We should
+refrain from using one when we mean the other.
+
+\subsection{Worries about the Material Conditional}
+
+Now we are equipped with the vocabulary necessary to discuss the controversy
+about material conditionals.
+
+One way to think of these inference rules if pre-theoretically. In other words,
+the reason that the entailments for \textbf{MP}, \textbf{MT}, \textbf{FC} and
+\textbf{NR} come out the way they do is that we designed the truth table for
+the material conditional (\eif) so that they would. In this light, we can view
+them as \emph{assumptions} about how implication should work, given whatever
+definition we decide to impose on the material conditional. They are working
+as intended.
+
+But one might still wonder if these assumptions are correct. Should we abandon
+one or more of these principles in order to support a more ``natural'' type of
+implication?
+
+Most of the heartburn about the material conditional comes from the fact that
+it is taken to be true whenever its antecedant is false. This has the effect
+of making many conditionals \emph{vacuously} true: true \textbf{only} by virtue
+of that fact.
+
+\begin{argument}
+  \item[ ] If Lions won the last Super Bowl, then pigs can fly.
+\end{argument}
+
+We know the truth of both antecedant (they did not) and consequent (they can
+not), so we can calculate the truth of the conditional (it's true). But this
+does not ``feel'' right. One might even argue that there is no situation in
+which the consequent is true. Nevertheless ...
+
+Let's try to firm up our discomfort with some help from
+\cite[][pp. 166-167]{Smi20}. Recall that our definition of material implication
+A \eif B is equivalent to \enot A\eor B. So when we allow the
+inference in (D) we are also allowing the inferences in (M).
+
+\threeitems{
+  \begin{argument}
+  \item[ ]\textbf{D} 
+  \item[ ] \enot A
+  \item[\therefore] \enot A\eor B
+  \end{argument}
+}{
+  \begin{argument}
+  \item[ ] \textbf{M1}
+  \item[ ] \enot A
+  \item[\therefore] A\eif B
+  \end{argument}
+}{
+  \begin{argument}
+  \item[ ] \textbf{M2}
+  \item[ ] not A
+  \item[\therefore] if A then B
+  \end{argument}
+}
+
+But while (D) seems trivially correct, (M1) is not immediately obvious. And (M2)
+comes across as just plain wrong.
+
+But the Lions example is not so bad. The example is at least \emph{indicative},
+meaning that its truth or falsity is fully settled and not hypothetical or
+contingent on future events or the attitudes of human judges. We can live
+with the idea that the conditional sentence is true, if only because its
+implication will never come to pass. It is indeed \emph{vacuous}.
+
+Suffice it to say, the material conditional just does not imply any sort of
+\emph{causal connection} between its antecedent and its consequent. That's just
+not part of how truth-functional logic works. Still, the material conditional
+is a pretty good appoximation for what is actually said in an indicative
+\emph{if...then} sentence of ordinary English, even if it leaves out most of
+the pragmatic nuance. Its shortfalls are problably no worse than those of \eand
+and \eor: ordinary English just behaves differently than TFL and that's OK.
+
+Some evidence from ordinary English supports this acquiescence.
+
+\begin{observation}[English conditionals are sometimes like A \eif B]
+  \begin{outline}[enumerate]
+    \1 English tautologies are typically equivalent to their
+    contrapositives.
+    \2 \emph{If I won the Powerball, then I am rich.}
+    \2 \emph{If I am not rich, then I did not win the Powerball.}
+    \1 The material conditional  A\eif B is just like \emph{if A then B}
+    in some simple cases, and even correctly invalidates two common logical
+    fallacies:
+    \2 affirming the consequent: A\eif B,B \therefore A; and
+    \2 denying the antecedent: A\eif B,\enot B \therefore \enot B.
+    \1 Often \emph{if A then B} and \emph{A only if B} are equivalent, such as
+    these examples (from \cite[][p. 155]{Smi20}):
+    \2 \emph{Einstein's theory is right only if space-time is curved.}
+    \2 \emph{If space-time isn't curved, then Einstein's theory isn't right.}
+    \2 \emph{If Einstein's theory is right, then space-time is curved.}
+  \end{outline}
+\end{observation}
+
+To see how indicative conditionals still have problems around the edges, it
+helps to think about how we negate them. Consider the following symbolization
+key.
+
+\begin{argument}
+\item[E:] God exists. 
+\item[P:] God answers malevolent prayers.
+\end{argument}
+
+Putting these sentences together into a conditional ($E\eif P$) reads something
+like (G).
+
+\begin{argument}
+\item[G:] If God exists, then God answers malevolent prayers.
+\end{argument}
+
+We can think of two ways of negating this sentence, but both are unsatisfying.
+
+\begin{center}
+  \begin{tabular}{|c|c|}
+    \hline
+    $\enot(E\eif P)$ & \makecell{It is not the case that if God exists\\God answers malevolent prayers.} \\
+    \hline
+    $E\eif\enot P$ & \makecell{If God exists, then God does not\\answer malevolent prayers.} \\
+    \hline
+  \end{tabular}
+\end{center}
+
+In the first example ($\enot(E\eif P)$), we would have to accept the truth of
+$E$ (i.e. God exists), otherwise $G$ could not be false and so $\enot G$ could
+not be true. In the second example ($E\eif\enot P$), the atheist is faced with
+a different conundrum: when $E$ is false (i.e. when God does not exist), then
+we can conclude \textbf{either} $P$ or $\enot P$, since $E\eif\enot P$ and
+$E\eif P$ would then \textbf{both} be true.
+
+Other the other end of the spectrum, we have \emph{counterfactuals} (i.e.
+\emph{subjunctive} conditionals). David Lewis, perhaps the best known
+philosopher of counterfactuals, suggests the following pair of examples
+to illustrate the difference.\footnote{from \cite[][p 162]{Smi20})}
+
+\begin{argument}
+\item[I:] If Oswald didn't shoot Kennedy, then someone else did.
+\item[S:] If Oswald hadn't shot Kennedy, then someone else would have.
+\end{argument}
+
+(I) basically just says that someone shot Kennedy. Of course, this seems more
+or less right. In the case of (S), however, the sentence asks us to contemplate
+a state of affairs that does not actually exist: the one where Oswald did not
+shoot Kennedy. In \textbf{that} state of affairs, Kennedy may or may not have
+been shot at all, which makes (S) less than a slam-dunk claim. This seems like
+something we could debate, not something we should just take to be
+\emph{vacuously true}, even if Oswald \textbf{did} shoot Kennedy.
+
+Although the subjunctive/indicative division lines up well with the English
+grammar conventions in the Oswald example, the alignment is not always
+consistent (and mode is not always expressed using verbs). A better approach
+is to think of the states-of-affairs as \emph{possible worlds} where we can
+check what the truth-value of our counter-facutal sentence \textbf{would be} if
+if it was evaluated in a world where the antecedant was true. This approach,
+called \emph{intuitionistic logic}, is a type of \emph{modal logic} and
+dissatisfaction with material implication was a major motive for its
+formulation. But we will leave a survey of modal logic for Logic 2 and a
+complete treatment for Modal Logic. For now we just note that possible worlds
+semantics is not truth functional.
+
+\begin{observation}
+  The conditional expressed with a possible world semantics
+  ($\ephi\Rightarrow\epsi$)is not truth-functional.
+\end{observation}
+
+To see this, we merely need to note that $\ephi\Rightarrow\epsi$ is true just
+in case \epsi is true at the possible world where the sentence is evalauated.
+Nothing about whether or not \ephi and \epsi are \emph{actually true} can help
+us to figure this out.
+
+Nevertheless, like democracy, the material conditional is the worst option
+available, except for all the others. We just need to be careful to avoid
+using it for the treatment of counterfactuals.
+
+As we've already seen, the symbolization of English sentences into TFL leaves
+much of the linguistic nuance out of the resulting TFL sentence. We can
+summarize some of the important shortcomings of TFL symbolization as follows:
+
+\begin{observation}[Shortcomings of TFL Symbolization]
+  \label{obs:tfl-shortcomings}
+  \begin{enumerate}
+  \item TFL does not support the types of inferences depicted in Aristotles
+    syllogisms (quantification).
+  \item TFL insists on \textbf{LEM} (every TFL is either true
+    or false), but some adjectives do not quite work like that.
+  \item TFL comes with a number of ``paradoxes'' that make the material
+    conditional unsatisfying for symbolizing English sentences: one the one
+    hand, negating the whole conditional often gives the wrong conclusions
+    about its antecedent sentence; on the other hand, negating the consequent
+    sentence opens up the possibility of contradiction when the antecedant
+    sentence is false.
+  \end{enumerate}
+\end{observation}
+
+With the simiplified methods in \ref{obs:tt-simplified-methods}, we can much
+more efficiently evaluate the validity of TFL arguments. Like the validity of
+individual sentences, testing the validity of arguments depends on identifying
+the load-bearing sentences in the structure of the argument. Tersely, we look
+for \emph{bad lines}.
+
+\begin{observation}[Bad Lines in a Truth Table for Entailment]
+  \label{obs:tt-bad-lines}
+  \begin{enumerate}
+  \item When the conclusion is true, the line is not bad.
+  \item When any of the premises is false, the line is not bad.
+  \item Truth tables with no bad lines depict valid arguments.
+  \end{enumerate}
+\end{observation}
+
+%TODO: Examples?? (p139ish?)
+
+Last week, we saw how we can save time by only filling in the parts of our
+truth tables that matter to the evaluation of the overall formula (i.e.
+to its \emph{main operator}). But these are still \emph{complete} truth tables,
+it's just that many of the cells are silent because they do not matter or are
+obvious.
+
+We can simplify our approach even more if we take a step back and consider what
+we are trying to do in building truth tables in the first place. They are not
+interesting in their own right. But they do give us a clear method for being
+thorough in our exploration of the various logical possibilities, gven the rules
+of the system.
+
+One more step back. Why do we want to explore all of the logical possibilities
+anyway? We want to be thorough in this way because we have defined a number of
+our logical notions (e.g. \emph{tautology}, \emph{validity}, \emph{entailment})
+in terms of these possibilities. When we explore these properties, we want to
+show that the sentences being evaluated are true (or false) in all of the
+possibilities. In our parlance from last week, we are looking for \emph{bad
+lines} in the table.
+
+But what about showing that a sentence \emph{does not} have these properties?
+Surely it will suffice to just find one bad line, a \emph{counter-example} so
+to speak. And indeed it will. Thus, we will refer to a such a bad line as a
+\emph{contervaluation} We can describe the landscape with this table modified
+from \cite{Mag25}[Chapter 15].
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+                  & \bf{yes} & \bf{no} & should be (always)     \\
+    \hline
+    tautology     &  all     &  one    & true                   \\
+    contradiction &  all     &  one    & false                  \\
+    \hline
+    equivalent    &  all     &  one    & same                   \\
+    unsatisfiable &  all     &  one    & false                  \\
+    \hline
+    valid         &  all     &  one    & true conclusion or false premise  \\
+    entailment    &  all     &  one    & true conclusion or false premise  \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Recall from \ref{def:tfl-tautology} that a TFL sentence is a tautology just in
+case it is true in all scenarios. Showing that a TFL sentence is not a
+tautology amounts to finding a scenario where it is not true. Since we know
+we are trying to find a bad (i.e. false) line, we work backward through the
+columns with this assumption in mind.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c c c}
+    A & B & (A & \eif   & B) & \eif   & (B & \eif & A)  \\
+    \hline
+    F & T &    & T      &    & \bf{F} &  T & F    & F   \\
+    4 & 4 &    & 2      &    &   1    &  3 & 2    & 3   \\
+  \end{tabular}
+\end{center}
+
+The TFL sentence $(A \eif B) \eif (B \eif A)$ is false when $A$ is false and
+$B$ is true. It is not a tautology.
+
+Similarly, we can show that a TFL sentence is not a contradiction by showing
+that it is sometimes true. So this time we start by assuming a true line.
+
+\begin{center}
+  \begin{tabular}{c c|c c c c c c c}
+    A & B & (A & \eif   & B) & \eif   & (B & \eif & A)  \\
+    \hline
+    T & F &  T & F      & F  & \bf{T} &    &      &     \\
+    4 & 4 &  3 & 2      & 3  &   1    &    &      &     \\
+  \end{tabular}
+\end{center}
+
+This time we had to decide what to do next, since there are two ways to make
+the main operator true: let its antecedant be false or let its consequent be
+true. We chose the former, because that choice (a false material implication)
+forces our truth value assignment to the atomic letters: $A$ must be true and
+$B$ must be false. We have found a counter-example. The TFL sentence
+$(A\eif B)\eif(B\eif A)$ is also not a contradiction.
+
+We can extend this practice to truth tables with multiple TFL sentences in
+order to find counter-examples for equivalence, satisfiability, validity and
+entailment. For example, the following partial table demonstrates that $A \eand
+B$ and $A \eand \enot B$ are not equivalent.
+
+\begin{center}
+  \begin{tabular}{c c||c c c|c c c c}
+    A & B    &    A & \eand  & B    &    A & \eand & \enot & B \\
+    \hline
+    T & T    &      & \bf{T} &      &      & \bf{F} &  F    &   \\
+    2 & 2    &      &   1    &      &      &  4     &  3    &   \\
+  \end{tabular}
+\end{center}
+
+When we set the values of $A$ and $B$ to make $A \eand B$ true, the truth value
+of $A \eand \enot B$ correspondingly becomes false. The two TFL sentences have
+different truth values in some scenarios. They cannot be equivalent. A similar
+process can be applied to the remaining logical properties.
+
+% TODO: satisfiability, validity and entailment tables ??
+

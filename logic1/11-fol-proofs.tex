@@ -1,0 +1,974 @@
+\section{FOL Proofs}
+
+Proofs for FOL will be governed by the same rule system as TFL, with the
+addition of some new rules for dealing with singular terms, predicates and
+quantifiers. Of course, these rules will take the form of our familiar
+introduction and elimination rules, plus some derived rules that let us avoid
+repeating frequently needed subproofs.
+
+%% quine: only help yourself to as much structure as you need (p322)
+
+\subsection{Basic Natural Deduction Rules for FOL}
+
+%% TODO: check versus quantifier rules summarized (p315)
+%        summary of quantifier rules (p354)
+
+Given the definitions for substitution instances discussed last week, defining
+elimination rules for $\eforall x$ and introduction rules for $\eexists x$ is
+particularly straight-forward. In our rules, we let \exi be a metavariable for
+FOL variables, \etau be a metavariable for FOL terms and \edelta be a
+metavariable for FOL dummy names.
+
+With \emph{universal elimination}, we can replace a universally quantified
+variable with any term.
+
+\begin{fitchrule}[Universal Elimination ($\eforall$E)]
+  \label{def:universal-elimination-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\eforall\exi\ephi(\exi)$}
+    \have[ ] {2} {$\ephi(\etau)$} \Ae{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+With \emph{existential introduction}, we can replace any one or more instances
+of a given name with an existentially-quantified variable.
+
+\begin{fitchrule}[Existential Introduction ($\eexists$I)]
+  \label{def:existential-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\ephi(\edelta)$}    
+    \have[ ] {2} {$\eexists\exi\ephi(\exi)$} \Ee{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+The two complementary operations, (\emph{existential elimination} and
+\emph{universal introduction}), are more constrained in their definitions.
+
+For \emph{universal introduction} ($\eforall$I), we should only allow the rule
+to apply when the name in question is \emph{arbitrary}. For the purposes of
+proofs, this amounts to not being found in premises or unresolved subproofs
+since their use there makes them non-arbitrary.
+
+\begin{fitchrule}[Universal Introduction ($\eforall$I)]
+  \label{def:universal-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\ephi(\edelta)$}    
+    \have[ ] {2} {$\eforall\exi\ephi(\exi)$} \Ee{1}
+  \end{fitchproof}
+  But only if \edelta does not occur in a premise or an undischarged assumption.
+\end{fitchrule}
+
+Finally, with \emph{existential elimination}, if we have \eexists\exi\ephi(\exi)
+and can prove \ephi(\edelta)\eif\epsi via subproof, then we can infer \epsi,
+provided that it does not contain \edelta.
+
+\begin{fitchrule}[Existential Elimination ($\eexists$E)]
+  \label{def:existential-elimination-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\eexists\exi\ephi(\exi)$}
+    \open
+    \hypo[i] {2} {$\ephi(\edelta)$} \by{AS}{}
+    \have[j] {3} {\epsi}
+    \close
+    \have[ ] {4} {\epsi} \Ee{1,2-3}
+  \end{fitchproof}
+  But \edelta must not occur in:
+  \begin{enumerate}
+  \item any assumption discharged before line $i$
+  \item $\eexists\exi\ephi(\exi)$
+  \item \epsi
+  \end{enumerate}
+\end{fitchrule}
+
+\subsection{Subproofs and Dummy Names}
+
+We should pause for a moment to consider the rules for the use of dummy names
+(\edelta) in subproofs. Note that both universal introduction and existential
+elimination have strict rules about when a dummy name can be used in an
+inference step. Let's look at some examples of bad inferences (modified from
+\cite{Smi20}).
+
+\begin{fitchproof}
+  \hypo      {1} {\eexists xFx} \by{PR}{}
+  \open
+  \hypo      {2} {Fa}           \by{AS}{}
+  \have[**3] {3} {\forall xFx}  \Ai{1,2}
+  \close
+  \have      {4} {\eforall xFx} \ee{1,2-3}
+\end{fitchproof}
+
+We cannot infer that everyone is F just from the fact that someone is. This
+proof mistakenly generalizes Fa by misusing the \eforall I rule. The name $a$
+is introduced in an assumption that has not yet been discharged (i.e. it is an
+assumption of an open subproof.
+
+Here's another one.
+
+\begin{fitchproof}
+  \hypo      {1} {\eexists xFx} \by{PR}{}
+  \open
+  \hypo      {2} {Fa}           \by{AS}{}
+  \have      {3} {Fa}           \by{R}{2}
+  \close
+  \have[**4] {4} {Fa}           \ee{1,2-3}
+  \have      {5} {\eforall xFx} \Ai{4}
+\end{fitchproof}
+
+This time the problem is that we are trying to draw an instance from a closed
+subproof. But the subject of that instance ($a$) is entirely hypothetical,
+a representative example introduced by the assumptions of the subproof. The
+\eexists E rule does not allow this kind of inference.
+
+Similarly, we cannot reuse representative names. Once we've introduced
+$\edelta_i$ via assumption, we need to later use a new name ($\edelta_{i+1}$) if
+we want to assume a name for a different existential sentence.
+
+%%% TODO: check line 6 ?
+\begin{fitchproof}
+  \hypo      {1} {\eexists xFx}           \by{PR}{}
+  \hypo      {2} {\eexists xGx}           \by{PR}{}
+  \open
+  \hypo      {3} {Fa}                     \by{AS}{}
+  \open
+  \hypo      {4} {Ga}                     \by{AS}{}
+  \have      {5} {Fa\eand Ga}             \ai{3,4}
+  \have      {6} {}
+  \close
+  \have[**7] {7} {\eexists x(Fx\eand Gx)} \ee{2,4-6}
+  \close
+  \have      {8} {\eforall xFx}           \ee{1, 3-7}
+\end{fitchproof}
+
+The ``error'' is the reuse of a dummy name in a new subproof (line 4). We cannot
+assume that the x who Fs is the same as the x who Gs. But the bad inference step
+is actually on line 7. We are not allowed to eliminate dummy names from dummy
+sentences when the name is introduced within a closed subproof.
+
+\subsection{Proof Strategies for First-Order Logic}
+
+Similarly, proofs in FOL will proceed with a strategy based on the one we
+devised for FOL, with the addition of some new techniques to deal with
+quantifiers. Quite tersely, we can describe these new techniques as follows.
+
+\begin{enumerate}
+\item Work forward when dealing with the existential quantifier (\eexists)
+\item Work backward when dealing with universal quantifiers (\eforall)
+\end{enumerate}
+
+Consider this example proving $\eforall x(Px\eif Q)\eproves\eexists x Px\eif Q$.
+
+First we set up the proof with premise and conclusion at their respective ends.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Px\eif Q)$} \by{PR}{}
+  \have[ ]   {2} {$\vdots$}
+  \have[n]   {3} {$\eexists x Px\eif Q$}
+\end{fitchproof}
+
+Then we can work backward from the conclusion, a conditional.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Px\eif Q)$} \by{PR}{}
+  \open
+  \hypo      {2} {$\eexists x Px$}          \by{AS}{}
+  \have[ ]   {3} {$\vdots$}
+  \have[m]   {4} {$Q$}
+  \close
+  \have[n]   {5} {$\eexists x Px\eif Q$} \ie{2-4}
+\end{fitchproof}
+
+Now our best move is to work forward from the existential in the subproof,
+adding a new subproof with an instance as its assumption and $Q$ as its
+conclusion.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Px\eif Q)$} \by{PR}{}
+  \open
+  \hypo      {2} {$\eexists x Px$}          \by{AS}{}
+  \open
+  \hypo      {3} {$Pa$}                     \by{AS}{}
+  \have[ ]   {4} {$\vdots$}
+  \have[l]   {5} {$Q$}
+  \close
+  \have[m]   {6} {$Q$}                     \ee{2,3-5}
+  \close
+  \have[n]   {7} {$\eexists x Px\eif Q$} \ie{2-}
+\end{fitchproof}
+
+Now we can unpack the universal quantifier inside the subproof, working forward
+from the first line. We can use $a$ for its instance, which will be helpful,
+since the conclusion follows by modus ponens.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Px\eif Q)$} \by{PR}{}
+  \open
+  \hypo      {2} {$\eexists x Px$}          \by{AS}{}
+  \open
+  \hypo      {3} {$Pa$}                     \by{AS}{}
+  \have      {4} {$Pa\eif Q$}               \Ae{1}
+  \have      {5} {$Q$}                      \ie{3,4}
+  \close
+  \have      {6} {$Q$}                     \ee{2,3-5}
+  \close
+  \have      {7} {$\eexists x Px\eif Q$} \ie{2-6}
+\end{fitchproof}
+
+After merging the new proof strategies into the ones for TFL in Obs.
+\ref{obs:tfl-proof-strategies}, we get the following complete list of proof
+strategies for first-order logic.
+
+\begin{observation}[Proof Strategies for FOL]
+  \label{obs:fol-proof-strategies}
+  We can tersely describe the basic strategy for FOL proofs as follows.
+  \begin{outline}[enumerate]
+
+    \1 Work backwards from the conclusion.
+    \2 Conjunction: what components needed to use the \eand I rule as the
+    last step? i.e. what are the conjuncts?
+    \2 Conditional: what are the assumption and conclusion of the subproof
+    we need to take the last step? i.e. what are the antecedant and consequent
+    of the conditional?
+    \2 Negation: what subproof is needed to show a contradiction?
+    \2 Disjunction: which of the disjuncts looks easiest to prove?
+    \2 Universal quantification: how can we prove an arbitrary instance?
+    
+    \1 Work forwards from the current step.
+    \2 Conjunction: unpack the conjuncts
+    \2 Disjunction: what sentence do you need to prove from both disjuncts?
+    \2 Conditional: how can you prove the antecedant?
+    \2 Negation: how can you prove a contradiction?
+    \2 Existential quantification: how can we work from an assumed instance to
+    the conclusion?
+    
+    \1 Leverage \ebot
+    \2 Work toward a contradiction to conclude anything, especially in a
+    subproof
+    \2 Indirect proof: build a contradictory subproof that assumes the negation
+
+  \end{outline}
+\end{observation}
+
+\subsection{Some Examples of FOL Proofs}
+
+Let's looks at a few more examples of proofs in first-order logic.
+
+First, we'll prove $\eexists xFx,\eforall x(Fx\eif Gx)\eproves\eexists xGx$.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eexists xFx$}          \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$} \by{PR}{}
+  \have      {3} {$\vdots$}
+  \have[n]   {4} {$\eexists xGx$}
+\end{fitchproof}
+
+Working forward from the first line, we start a subproof assuming $Fa$. And
+working backward from the last line, we end that subproof with $\eexists xGx$.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eexists xFx$}          \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$} \by{PR}{}
+  \open
+  \hypo      {3} {$Fa$}                    \by{AS}{}
+  \have      {4} {$\vdots$}
+  \have[m]   {5} {$\eexists xGx$}
+  \close
+  \have[n]   {6} {$\eexists xGx$}          \ee{1,3-5}
+\end{fitchproof}
+
+Now we can unpack the universal with an instance using $a$, get $Ga$ by modus
+ponens. The existential generalization $\eexists xGx$ follows immediately. And
+we are done.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eexists xFx$}          \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$} \by{PR}{}
+  \open
+  \hypo      {3} {$Fa$}                    \by{AS}{}
+  \have      {4} {$Fa\eif Ga$}             \Ae{2}
+  \have      {5} {$Ga$}                    \ie{3,4}
+  \have      {6} {$\eexists xGx$}          \ei{5}
+  \close
+  \have      {7} {$\eexists xGx$}          \ee{1,3-6}
+\end{fitchproof}
+
+We can show the validity of $\eforall x(Hx\eif\enot Gx),\forall x(Fx\eif Gx)
+\eproves \eforall x(Hx\eif\enot Fx )$ with a more involved proof.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Hx\eif\enot Gx)$}   \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$}         \by{PR}{}
+  \have      {3} {$\vdots$}
+  \have[n]   {4} {$\eforall x(Hx\eif\enot Fx )$}
+\end{fitchproof}
+
+Working backward from the conclusion suggests that we are trying to prove an
+arbitrary instance $(Ha\eif\enot Fa)$.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Hx\eif\enot Gx)$}   \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$}         \by{PR}{}
+  \have      {3} {$\vdots$}
+  \have[m]   {4} {$(Ha\eif\enot Fa )$}
+  \have[n]   {5} {$\eforall x(Hx\eif\enot Fx )$}  \Ai{4}
+\end{fitchproof}
+
+Let's unpack the premises with that instance in mind.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Hx\eif\enot Gx)$}   \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$}         \by{PR}{}
+  \have      {3} {$Ha\eif\enot Gx$}               \Ae{1}
+  \have      {4} {$Fa\eif Ga$}                    \Ae{2}
+  \have      {5} {$\vdots$}
+  \have[m]   {6} {$(Ha\eif\enot Fa )$}
+  \have[n]   {7} {$\eforall x(Hx\eif\enot Fx )$}  \Ai{6}
+\end{fitchproof}
+
+Now we can build a subproof for $Ha\eif\enot Fa$.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Hx\eif\enot Gx)$}   \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$}         \by{PR}{}
+  \have      {3} {$Ha\eif\enot Ga$}               \Ae{1}
+  \have      {4} {$Fa\eif Ga$}                    \Ae{2}
+  \open
+  \hypo      {5} {$Ha$}                           \by{AS}{}
+  \have      {6} {$\vdots$}
+  \have[l]   {7} {$\enot Fa$}
+  \close
+  \have[m]   {8} {$(Ha\eif\enot Fa )$}            \ie{5-7}
+  \have[n]   {9} {$\eforall x(Hx\eif\enot Fx )$}  \Ai{8}
+\end{fitchproof}
+
+Now we will use modus ponens and modus tollens with those conditionals we
+unpacked before. And we are done.
+
+\begin{fitchproof}
+  \hypo      {1} {$\eforall x(Hx\eif\enot Gx)$}   \by{PR}{}
+  \hypo      {2} {$\eforall x(Fx\eif Gx)$}         \by{PR}{}
+  \have      {3} {$Ha\eif\enot Ga$}               \Ae{1}
+  \have      {4} {$Fa\eif Ga$}                    \Ae{2}
+  \open
+  \hypo      {5} {$Ha$}                           \by{AS}{}
+  \have      {6} {$\enot Ga$}                     \ie{3,5}
+  \have      {7} {$\enot Fa$}                     \by{MT}{4,6}
+  \close
+  \have      {8} {$(Ha\eif\enot Fa )$}            \ii{5-7}
+  \have      {9} {$\eforall x(Hx\eif\enot Fx )$}  \Ai{8}
+\end{fitchproof}
+
+Things get more difficult when we start to apply more subproof-oriented
+strategies. Consider this example from \cite[][p. 308]{Smi20}.
+
+\begin{fitchproof}
+  \hypo {1} {\eexists xFx\eor\exists xGx} \by{PR}{}
+  \open
+  \hypo {2} {\eexists xFx}                \by{AS}{}
+  \open
+  \hypo {3} {Fa}                          \by{AS}{}
+  \have {4} {Fa\eor Ga}                   \oi{3}
+  \have {5} {\eexists x(Fx\eor Gx)}       \Ei{4}
+  \close
+  \have {6} {\eexists x(Fx\eor Gx)}       \Ee{2,3-5}
+  \close
+  \open
+  \hypo {7} {\eexists xgx}                \by{AS}{}
+  \open
+  \hypo {8} {Ga}                          \by{AS}{}
+  \have {9} {Fa\eor Ga}                   \oi{6}
+  \have {10}{\eexists x(Fx\eor Gx)}       \Ei{7}
+  \close
+  \have {11} {\eexists x(Fx\eor Gx)}      \Ee{7,8-10}
+  \close
+  \have {12} {\eexists x(Fx\eor Gx)}      \oe{1,2-6,7-11}
+\end{fitchproof}
+
+\subsection{Generalizing from Proofs}
+
+As with TFL, we can prove the validity of entire classes of arguments in FOL
+by using \emph{substitution instances}. Indeed, by using metalogical notation in
+place of FOL formulas, we can generalize our arguments into \emph{schemas}.
+
+\begin{observation}[FOL wffs can be generalized into metalogical schemas]
+  Since the validity of a formal argument is dependent on its shape alone (i.e.
+  its form), any valid sentence (or argument) can be reformulated as a
+  \emph{schema} by consistently replacing expressions in the sentence with
+  metalogical variables of the appropriate type.
+\end{observation}
+
+One corollary of this observation is that we can use the same practice with
+proofs.
+
+\begin{observation}[Substitution Instances of Proofs are Proofs]
+  For any proof \eGamma in the natural deduction system of first-order logic, a
+  substitution instance $\eGamma'$ of \eGamma is also a proof.
+\end{observation}
+
+As a result, we can just prove the schema itself. Given all the different ways
+we can do a consistent substitution, this means we can often prove arguments for
+formulas that are superficially quite distinct. Consider this example from
+\cite{Smi20}, where the justifications are omitted for space, but should be
+obvious enough.
+
+\threeitems{
+    \begin{fitchproof}
+      \hypo {1} {\eforall xFx}
+      \hypo {2} {\eforall x(Fx\eif Gx)}
+      \have {3} {Fa}
+      \have {4} {Fa\eif Ga}
+      \have {5} {Ga}
+      \have {6} {\eforall xGx}
+    \end{fitchproof}
+}{
+\begin{fitchproof}
+  \hypo {1} {\eforall\exi\ephi(\exi)}
+  \hypo {2} {\eforall\exi(\ephi(\exi)\eif\epsi(\exi))}
+  \have {3} {\ephi(\etau)}
+  \have {4} {\ephi(\etau)\eif\epsi(\etau)}
+  \have {5} {\epsi(\etau)}
+  \have {6} {\eforall\exi\epsi(\exi)}
+\end{fitchproof}
+}{
+\begin{fitchproof}
+  \hypo {1} {\eforall z(\eexists yRzy\eand Hz)}
+  \hypo {2} {\eforall z((\eexists yRzy\eand Hz)\eif\eforall xSxz)}
+  \have {3} {\eexists yRcy\eand Hc}
+  \have {4} {(\eexists yRcy\eand Hc)\eif\eforall xSxc}
+  \have {5} {\eforall xSxc}
+  \have {6} {\eforall z\eforall xSxz}
+\end{fitchproof}
+
+}
+
+We will call such a schematic proof a \emph{proof schema}. Just like proofs
+in the object language, a proof using proof schemas shows the validity of the
+arguments that they prove. As in TFL, we can convert back and forth between
+schematic theorems and theorems in the object language. The advantage of the
+schematic proofs is that they distill the problem as much as possible to a mere
+matter of form. The relationships that matter are revealed as directly as
+possible.
+
+\subsection{Equivalences between Quantified Sentences}
+
+Like conjunction and disjunction, existential and universal quantifiers are
+mutually-definable with the help of the negation operator. We saw the conversion
+rules for quantifers in Observation \ref{obs:quantifer-duals}, but we did not
+prove them. But we can do so now with natrual deduction. As a reminder:
+
+\begin{observation}[Duals of Negative Quantified Sentences]
+  \label{obs:quantifer-duals-formal}
+  The quantified sentences of FOL can be related via negation with the following
+  equivalences:
+  \begin{enumerate}
+  \item $\enot\eforall\exi\ephi\eiff\eexists\exi\enot\ephi$
+  \item $\enot\eexists\exi\ephi\eiff\eforall\exi\enot\ephi$
+  \end{enumerate}
+\end{observation}
+
+As usual, we will prove these results one conditional at a time. We will
+express the sentences schematically, but we could easily do the same proof
+with $Fx$ and $Fa$ in place of \ephi(\exi) and \ephi(\edelta), respectively.
+\footnote{Similalrly for \ephi(\exi) and \ephi(\etau).}
+
+\subsubsection{$\enot\eforall\exi\ephi\eiff\eexists\exi\enot\ephi$}
+
+\twoitems{
+  \begin{fitchproof}
+    \hypo   {1} {\enot\eforall\exi\ephi(\exi)}      \by{PR}{}
+    \open
+    \hypo   {2} {\enot\eexists\exi\enot\ephi(\exi)} \by{AS}{}
+    \open
+    \hypo   {3} {\enot\ephi(\etau)}                 \by{AS}{}
+    \have   {4} {\eexists\exi\enot\ephi(\exi)}      \ei{3}
+    \have   {5} {\ebot}                             \ne{2,4}
+    \close
+    \have   {6} {\enot\enot\ephi(\etau)}            \by{IP}{3-5}
+    \have   {7} {\eforall\exi\ephi(\exi)}            \Ai{6}
+    \have   {8} {\ebot}                             \ne{1,7}
+    \close
+    \have   {9} {\eexists\exi\enot\ephi(\exi)}      \by{IP}{2-8}
+  \end{fitchproof}
+}{
+  \begin{fitchproof}
+    \hypo   {1}  {\eexists\exi\enot\ephi(\exi)}  \by{PR}{}
+    \open
+    \hypo   {2}  {\eforall\exi\ephi(\exi)}        \by{AS}{}
+    \open
+    \hypo   {3}  {\enot\ephi(\edelta)}             \by{AS}{}
+    \have   {4}  {\ephi(\edelta)}                  \Ae{2}
+    \have   {5}  {\ebot}                           \ne{3,4}
+    \close
+    \have   {6}  {\ebot}                           \ee{1,3-5}
+    \close
+    \have   {7} {$\enot\eforall\exi\ephi$}         \ni{2-6}
+  \end{fitchproof}
+}
+
+\subsubsection{$\enot\eexists\exi\ephi\eiff\eforall\exi\enot\ephi$}
+  
+\twoitems{
+  \begin{fitchproof}
+    \hypo {1} {\enot\eexists\exi\ephi}        \by{PR}{}
+    \open
+    \hypo {2} {\ephi(\etau)}                  \by{AS}{}
+    \have {3} {\eexists\exi\ephi(\etau)}      \ei{2}
+    \have {4} {\ebot}                         \ne{1,3}
+    \close
+    \have {5} {\not\ephi(\etau)}              \ni{2-4}
+    \have {6} {\eforall\exi\enot\ephi(\exi)}  \Ai{5}
+  \end{fitchproof}
+}{
+  \begin{fitchproof}
+    \hypo {1} {\eforall\exi\enot\ephi(\exi)}   \by{PR}{}
+    \open
+    \hypo {2} {\eexists\exi\ephi(\exi)}        \by{AS}{}
+    \open
+    \hypo {3} {\ephi(\edelta)}                 \by{AS}{}
+    \have {4} {\enot\ephi(\edelta)}            \Ae{1}
+    \have {5} {\ebot}                          \ne{3,4}
+    \close
+    \have {6} {\ebot}                          \ee{2,3-5}
+    \close
+    \have {7} {$\enot\eexists\exi\ephi(\exi)$} \ni{2-6}
+  \end{fitchproof}
+}
+
+\subsection{Quantifier Conversion Rule}
+
+Now that we've proved the schemas valid, we can introduce natural deduction
+rules for the conversion of quantifiers as follows.
+
+\begin{fitchrule}[Conversion of Quantifiers ($CQ$))]
+  \label{def:quantifier-conversion-rule}
+  We can relate the quantifiers of first-order logic, with the following two
+  pairs of complementary rules. One pair for handling a negated existential
+  quantifier:\\
+  \leavevmode
+  %\vspace{-0.9\baselineskip}
+  \twoitems{
+    \begin{fitchproof}
+      \have[n] {1} {$\eforall\exi\enot\ephi$}
+      \have[ ] {2} {$\enot\eexists\exi\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[n] {1} {$\enot\eexists\exi\ephi$}
+      \have[ ] {2} {$\eforall\exi\enot\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }
+  \\
+  and one pair for handling a negated universal quantifier: \\
+  \twoitems{
+    \begin{fitchproof}
+      \have[n] {1} {$\eexists\exi\enot\ephi$}
+      \have[ ] {2} {$\enot\eforall\exi\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[n] {1} {$\enot\eforall\exi\ephi$}
+      \have[ ] {2} {$\eexists\exi\enot\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+We will use the rules in a few examples. First, since we use the two kinds of
+quantifiers differently in quantified sentences, we'll prove
+$\enot\eexists x(Fx\eand Gx)\eproves\eforall x(Fx\eif Gx)$.
+
+\begin{fitchproof}
+  \hypo {1} {\enot\eexists x(Fx\eand Gx)} \by{PR}{}
+  \have {2} {\eforall x\enot(Fx\eand Gx)} \by{CQ}{1}
+  \open
+  \hypo {3} {Fa}                          \by{AS}{}
+  \open
+  \hypo {4} {Ga}                          \by{AS}{}
+  \have {5} {Fa\eand Ga}                  \ai{3,4}
+  \have {6} {\enot(Fa\eand Ga)}           \Ae{2}
+  \have {7} {\ebot}                       \ne{5,6}
+  \close
+  \have {8} {\enot Ga}                    \ni{4-7}
+  \close
+  \have {9} {Fa\eif Ga}                   \ii{3-8}
+  \have {10}{\eforall x(Fx\eif Gx)}       \Ai{9}
+\end{fitchproof}
+
+Similarly, working with the contents of a complex expression that is within the
+scope of a quantifier is challenging. Quantifier conversion rules make it easier
+to get them to interact in a way that aligns better with the natural deduction
+rules. Consider this proof of
+$\eforall x(Fx\eor Gx),\enot\eforall xFx\eproves\eexists xGx$ where line 2 is
+inert until we apply CQ.
+
+\begin{fitchproof}
+  \hypo {1} {\eforall x(Fx\eor Gx)} \by{PR}{}
+  \hypo {2} {\enot\eforall xFx}     \by{PR}{}
+  \have {3} {\eexists x\enot Fx}    \by{CQ}{2}
+  \open
+  \hypo {4} {\enot Fa}              \by{AS}{}
+  \have {5} {Fa\eor Ga}             \Ae{1}
+  \have {6} {Ga}                    \by{DS}{}
+  \have {7} {\eexists xGx}          \Ei{6}
+  \close
+  \have {8} {\eexists xGx}          \ee{3,4-7}
+\end{fitchproof}
+
+We can even use CQ twice to reach inside universally quantified sentences in a
+way reminicent of modus tollens:
+$\eforall x(Fx\eif Gx),\enot\eforall xGx\eproves\enot\eforall xFx$
+
+\begin{fitchproof}
+  \hypo {1} {\eforall x(Fx\eif Gx)} \by{PR}{}
+  \hypo {2} {\enot\eforall xGx}     \by{PR}{}
+  \have {3} {\eexists x\enot Gx}    \by{CQ}{}
+  \open
+  \hypo {4} {\enot Ga}              \by{AS}{}
+  \have {5} {Fa\eif Ga}             \Ae{1}
+  \have {6} {\enot Fa}              \by{MT}{4,5}
+  \have {7} {\eexists x\enot Fx}    \Ei{6}
+  \close
+  \have {8} {\eexists xFx}          \Ee{3,4-7}
+  \have {9} {\enot\eforall xFx}     \by{CQ}{}
+\end{fitchproof}
+
+Derived rules can simplify to triviality a proof that would be extremely
+convoluted with just the basic rules. Consider
+$\enot\eforall x\enot Fx\eproves\eexists xFx$.
+
+\begin{fitchproof}
+  \hypo {1} {\enot\eforall x\enot Fx} \by{PR}{}
+  \have {2} {\eexists x\enot\enot Fx} \by{CQ}{}
+  \open
+  \hypo {3} {\enot\enot Fa}           \by{AS}{}
+  \have {4} {Fa}                      \by{DNE}{}
+  \have {5} {\eexists xFx}            \Ei{4}
+  \close
+  \have {} {\eexists xFx}             \Ee{2,3-5}
+\end{fitchproof}
+
+\subsection{Proofs of Inferences with Quantified Sentences}
+
+The natutal deduction system makes it possible to prove the validity of a
+variety of inferences involving quantified sentences. First, we can show that
+a universal generalization proves the related existential generalization.
+$\eforall xFx\eproves\eexists xFx$, which is the expected result for a non-empty
+domain. The proof is a trivial application of the rules.
+
+\begin{fitchproof}
+  \hypo {1} {\eforall xFx} \by{PR}{}
+  \hypo {2} {Fa}           \Ae{1}
+  \have {3} {\eexists xFx} \Ei{2}
+\end{fitchproof}
+
+The system starts to get more complex with multiple quantifiers. But the simple
+cases are still pretty easy to prove. For example:
+$\eexists y\eforall xLxy\eproves\eforall x\eexists yLxy$
+
+\begin{fitchproof}
+  \have {1} {\eexists y\eforall xLxy} \by{PR}{}
+  \open
+  \hypo {2} {\eforall xLxa}           \by{AS}{}
+  \have {3} {Lba}                     \Ae{2}
+  \have {4} {\eexists yLby}           \Ei{3}
+  \have {5} {\eforall x\eexists yLxy} \Ai{4}
+  \close
+  \hypo {6} {\eforall x\eexists yLxy} \Ee{1,2-5}
+\end{fitchproof}
+
+The reverse is invalid, as we proved earlier with a counterexample (see: Fig.
+\ref{mod:minimal-symmetric}).
+
+Finally, consider this example which shows how a universal implication can be
+factored out of a disjunction, simplifying the formula significantly.
+$\eforall x(Fx\eif Gx)\eor\eforall x(Fx\eif Hx)\eproves
+\eforall x(Fx\eif(Gx\eor Hx))$
+
+\begin{fitchproof}
+  \hypo {1} {\eforall x(Fx\eif Gx)\eor\eforall x(Fx\eif Hx)} \by{PR}{}
+  \open
+  \hypo {2} {\eforall x(Fx\eif Gx)}                          \by{AS}{}
+  \have {3} {Fa \eif Ga}                                     \Ae{2}
+  \open
+  \hypo {4} {Fa}                                             \by{AS}{}
+  \have {5} {Ga}                                             \ie{3,4}
+  \have {6} {Ga\eor Ha}                                      \oi{5}
+  \close
+  \have {7} {Fa \eif (Ga\eor Ha)}                            \ii{4-6}  
+  \have {8} {\eforall x(Fx\eif(Gx\eor Hx))}                  \Ai{7}
+  \close
+  \open
+  \hypo {9} {\eforall x(Fx\eif Hx)}                          \by{AS}{}
+  \have {10}{Fa \eif Ga}                                     \Ae{2}
+  \open
+  \hypo {11}{Fa}                                             \by{AS}{}
+  \have {12}{Ha}                                             \ie{10,11}
+  \have {13}{Ga\eor Ha}                                      \oi{12}
+  \close
+  \have {14}{Fa \eif (Ga\eor Ha)}                            \ii{11-13}  
+  \have {15}{\eforall x(Fx\eif(Gx\eor Hx))}                  \Ai{7}
+  \close
+  \have {16} {\eforall x(Fx\eif(Gx\eor Hx))}                 \by{DS}{1,2-8,9-15}
+\end{fitchproof}
+
+\subsection{Identity}
+
+Finally, we will need some rules for handling the identity predicate ($=$). As
+usual, these will take to form of introduction and elimination rules for $=$.
+
+If \etau is a term, we can add a sentence at any point that says $\etau=\etau$.
+
+\begin{fitchrule}[Identity Introduction ($=$I)]
+  \label{def:identity-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[ ] {1} {$\etau=\etau$} \by{$=$I}{}
+  \end{fitchproof}
+\end{fitchrule}
+
+And, as with existential introduction, we can perform \emph{identity
+elimination} on any one or more instances of the relevant term. Whenever we
+know that $\etau_1=\etau_2$ for terms $\etau_1$ and $\etau_2$, we can replace
+all of the occurences of $\etau_1$ in $\ephi(\etau_1)$ with $\etau_2$ and the
+resulting $\ephi(\etau_2)$ will have exactly the same truth value. $=$E is also
+known as \emph{Leibniz's Law}.
+
+\begin{fitchrule}[Leibniz's Law ($=$E)]
+  \label{def:identity-elimination-rule}
+  Since identity is a symmetric relation, we define a pair of rules for the
+  elimination of non-trivial identity sentences like $\etau=\edelta$. \\
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \twoitems{
+    \begin{fitchproof}
+      \have[m] {1} {$\etau=\edelta$}
+      \have[n] {2} {$\ephi(\etau)$}    
+      \have[ ] {3} {$\ephi(\edelta)$} \by{$=$E}{1,2}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[m] {1} {$\etau=\edelta$}
+      \have[n] {2} {$\ephi(\edelta)$}    
+      \have[ ] {3} {$\ephi(\etau)$}   \by{$=$E}{1,2}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+As always, the best way to understand the rules is to see them used in proofs.
+
+Here's a trivial one that we could use to prove identity is symmetric:
+$a=b\eproves b=a$. Recall that $=$ is just a two-place predicate, so line 2 is
+playing \textbf{that} role in the inference to line 3.
+
+\begin{fitchproof}
+  \hypo {1} {a=b} \by{PR}
+  \have {2} {a=a} \by{$=$I}
+  \have {3} {b=a} \by{$=$E}{1,2}
+\end{fitchproof}
+
+We can also prove that $=$ is transitive. Here we will prove the generalization,
+not just an arbitrary instance.
+
+\begin{fitchproof}
+  \open
+  \hypo {1} {$a=b \eand b=c$}                                 \by{AS}{}
+  \have {2} {$a=b$}                                           \ae{1}
+  \have {3} {$b=c$}                                           \ae{1}
+  \have {4} {$a=c$}                                           \by{$=$E}{2,3}
+  \close
+  \have {5} {$(a=b \eand b=c)\eif a=c$}                       \ii{1-4}
+  \have {6} {$\eforall z((a=b \eand b=c)\eif a=c)$}           \Ai{5}
+  \have {7} {$\eforall y\eforall z((a=b \eand b=c)\eif a=c)$} \Ai{6}
+  \have {8} {$\eforall x\eforall y\eforall z((a=b \eand b=c)\eif a=c)$} \Ai{7}
+\end{fitchproof}
+
+So we can say that
+$\eproves\eforall x\eforall y\eforall z((a=b \eand b=c)\eif a=c)$ is a
+\emph{theorem} of first-order logic.
+
+\begin{definition}[Theorem of First-Order Logic]
+  A \emph{theorem} in first-order logic is any FOL sentence \ephi which can be
+  proven without premises (i.e. $\eproves\ephi$).
+\end{definition}
+
+Not all theorems are as straightforward to prove as the symmetry and
+transitivity of identity, however. Many proceed inirectly and involve multiple
+layers of subproof. For example, consider this proof of
+$\eproves\enot\eexists x\eforall y((Lxy\eif\enot Lyy)\eand(\enot Lyy\eif Lxy))$,
+which is short but far from simple.
+
+\begin{fitchproof}
+  \open
+  \hypo {1} {\eexists x\eforall y(
+    (Lxy\eif\enot Lyy)\eand(\enot Lyy\eif Lxy))}                   \by{AS}{}
+  \open
+  \hypo {2} {\eforall y((Lay\eif\enot Lyy)\eand(\enot Lyy\eif Lay))} \by{AS}{}
+  \have {3} {(Laa\eif\enot Laa)\eand(\enot Laa\eif Laa)}             \Ae{2}
+  \have {4} {Laa\eif\enot Laa}                                       \ae{3}
+  \have {5} {\enot Laa\eif Laa}                                      \ae{3}
+  \open
+  \hypo {6} {Laa}                                                    \by{AS}{}
+  \have {7} {\enot Laa}                                              \ie{4,6}
+  \have {8} {\ebot}                                                  \ne{6,7}
+  \close
+  \have {9} {\enot Laa}                                              \ni{6-8}
+  \have {10}{Laa}                                                    \ie{5,9}
+  \have {11}{\ebot}                                                  \ne{9,10}
+  \close
+  \have {12}{\ebot}                                                  \Ee{1,2-11}
+  \close
+  \have {13}{\enot\eexists x\eforall y(
+    (Lxy\eif\enot Lyy)\eand(\enot Lyy\eif Lxy))}                   \by{IP}{1-12}
+
+\end{fitchproof}
+
+\subsection{Basic FOL Metalogic}
+
+Without getting too deep into the metalogic, we will make some basic claims
+about first-order logic.
+
+First, note that the system never fails to provide a truth value for well-formed
+formulas of the language. Whenever we have a sentence \ephi built by the grammar
+of first-order logic, we know that $\elib\ephi\erib\ein\mathbf{T}$. Consider
+this informal proof adapted from \cite[][pp. 342-343]{Smi20}.
+
+\begin{observation}[Every sentence of FOL has a truth value]
+  Let $\mathcal(M)=\langle\boldsymbol{T},\boldsymbol{D},\elib\cdot\erib\rangle$
+  be a model for FOL $\mathcal{L}$. We will say that $\ephi\ein\mathcal{L}$ just
+  in case \ephi is a well-formed formula of $\mathcal{L}$. We will say that
+  $\elib\ephi\erib\ein\mathbf{T}$ just in case \ephi is assigned a truth value
+  by $\elib\cdot\erib$.
+
+  Now suppose we have a wff \epsi. We know that we can iteratively break \epsi
+  down into a parse tree $\mathcal{T}$ by reversing the rule associated with its
+  main operator \etheta. We also know that the leaves of $\mathcal{T}$ will each
+  be an atomic sentence $\echi(\edelta_i)$ with dummy names replacing all the
+  variables. We further know that $\elib\echi(\edelta_i)\erib^{[n/\delta_i]}$ is
+  defined for every \echi that can be built by the grammar of $\mathcal{L}$,
+  since it has been updated to account for the dummy names $\edelta_i$.
+
+  Reversing our course in the parse tree, we know by the rules of FOL semantics
+  that we can compute the truth of a complex sentence built by FOL connectives
+  on the basis of the truth of the sentences that are connected. Since we know
+  the truth value at each of the leaves, computing the truth of any node is just
+  a matter of working up the part of the tree that it \emph{dominates}. When we
+  reach the top of the tree, the truth value that we compute there will be the
+  truth value of the entire formula.
+\end{observation}
+
+A more complete proof would walk through the rules in detail: how do each of
+the rules for a parse tree preserve the FOL syntax? and how do each of the rules
+for computing FOL truth preserve the FOL semantics? But the informal sketch
+gives us a good idea how that might proceed.
+
+\begin{definition}[Validity and Entailment]
+  Let $\mathcal{L}$ be a system of first-order logic. Also let \epsi be a
+  sentence of $\mathcal{L}$ and $\eGamma=\{\ephi_1,\dots,\ephi_n\}$ be a set of
+  sentences of $\mathcal{L}$. The inference $\eGamma\therefore\epsi$ is
+  \emph{valid} iff there is no model
+  $\mathcal(M)=\langle\mathbf{T},\mathbf{D},\elib\cdot\erib\rangle$
+  where $\elib\ephi_i\erib=T$ for all $\ephi_i\ein\eGamma$ but
+  $\elib\epsi\erib=F$.
+
+  When $\eGamma\therefore\epsi$ is valid, we say that \eGamma \emph{entails}
+  \epsi ($\eGamma\eentails\epsi$).
+\end{definition}
+
+Similarly, we can define a notions like \emph{tautology} and \emph{consistency}
+against a backdrop of possible models.
+
+\begin{definition}[Tautology]
+  \label{def:fol-logical-truth}
+  We will say that an FOL sentence \ephi is a \emph{tautology} iff
+  $\elib\ephi\erib=T$ on \textbf{every} possible model
+  $\mathcal(M)=\langle\mathbf{T},\mathbf{D},\elib\cdot\erib\rangle$.
+\end{definition}
+
+\begin{definition}[Consistency]
+  We will say that a set of FOL sentences $\eGamma=\{\ephi_1,\dots,\ephi_n\}$ is
+  \emph{consistent} iff
+  $\elib\ephi_i\erib=T$ for all $\ephi_i\ein\eGamma$ on \textbf{some} possible
+  model $\mathcal(M)=\langle\mathbf{T},\mathbf{D},\elib\cdot\erib\rangle$.
+\end{definition}
+
+Finally note that FOL is both \emph{sound} and \emph{complete}.
+
+\begin{observation}[Soundness and Completeness of First-Order Logic]
+  The system comprising the syntax and semantics of first-order logic is both
+  \emph{sound} and \emph{complete}
+  \begin{argument}
+  \item[ ] $ephi_1,\dots,\ephi_n\eproves\epsi$ iff
+    $ephi_1,\dots,\ephi_n\eentails\epsi$
+  \end{argument}
+  The observation consists of two parts. First, our system is \emph{sound} in
+  that every provable argument is also a valid argument.
+  \begin{argument}
+  \item[ ] if $ephi_1,\dots,\ephi_n\eproves\epsi$
+    then $ephi_1,\dots,\ephi_n\eentails\epsi$
+  \end{argument}
+  Second, our system is \emph{complete} in that every valid argument is also
+  provable.
+  \begin{argument}
+  \item[ ] if $ephi_1,\dots,\ephi_n\eentails\epsi$
+    then $ephi_1,\dots,\ephi_n\eproves\epsi$
+  \end{argument}
+\end{observation}
+
+Corollary to this observation is the practical equivalence of several analogous
+proof-theoretic and model-theoretic concepts.
+
+\begin{definition}[Properties of First-Order Logic]
+  Since first-order logic is sound and complete, the following pairs of concepts
+  are analogues.\\
+  \vspace{0.2cm}
+  \begin{center}
+  \begin{tabular}{c c c}
+    \textbf{model-theoretic} &     & \textbf{proof-theoretic} \\
+    % \hline
+    valid                    & iff & provable           \\
+    validity                 & iff & theorem            \\
+    equivalent               & iff & interderivable     \\
+    jointly satisfiable      & iff & jointly equivalent \\
+  \end{tabular}
+  \end{center}
+\end{definition}
+
+Strategies for proving these concepts in FOL metalogic can be summarized in the
+usual table.
+
+\begin{center}
+  \begin{tabular}{c c c}
+    & \textbf{yes} & \textbf{no} \\
+    \hline
+    &&\\    
+    \emph{valid (sentence)?}    &
+    prove $\efollows \ephi$ &
+    find \ephi counter-model \\
+    &&\\
+    \emph{contradiction?}       &
+    prove $\ephi\efollows\ebot$ &
+    find $\enot\ephi$ counter-model \\
+    &&\\    
+    \emph{equivalent?}          &
+    \makecell{prove $\ephi\efollows\epsi$ and\\$\epsi\efollows\ephi$} &
+    \makecell{find model where \\\ephi and \epsi differ} \\
+    &&\\    
+    \emph{jointly satisfiable?} &
+    \makecell{model where $\ephi_i$\\are all true} &
+    prove $\ephi_1\dots\ephi_n\efollows\ebot$ \\
+    &&\\    
+    \emph{valid (argument)?}    &
+    prove $\ephi_1\dots\ephi_n\efollows\epsi$ &
+    \makecell{find model with $\ephi_1\dots\ephi_n$\\all true but \epsi false}\\
+  \end{tabular}
+\end{center}
+
+%% Exercises: quantifier equivalence proofs (pp308-11)
+

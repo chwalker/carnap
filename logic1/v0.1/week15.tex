@@ -1,0 +1,231 @@
+
+
+\section{Week 15: FOL Proofs}
+
+%\subsection{Basic rules for FOL} \cite[][Chapter 36, pp. 297-315]{Mag25}
+
+Proofs for FOL will be governed by the same rule system as TFL, with the
+addition of some new rules for dealing with singular terms, predicates and
+quantifiers. Of course, these rules will take the form of our familiar
+introduction and elimination rules, plus some derived rules that let us avoid
+repeating frequently needed subproofs.
+
+Given the definitions for substitution instances discussed last week, defining
+elimination rules for $eforall x$ and introduction rules for $eexists x$ is
+particularly straight-forward.\footnote{In our rules, we let \egamma be
+metavariables for FOL variables and \ealpha be a metavariable for FOL names}.
+
+\begin{fitchrule}[Universal Elimination ($\eforall$E)]
+  \label{def:universal-elimination-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\eforall\egamma\ephi(\dots\egamma\dots\egamma\dots)$}
+    \have[ ] {2} {$\ephi(\dots\ealpha\dots\ealpha\dots)$} \Ae{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+With existential introduction, we can even substitute the variable for any one
+or more instances of the relevant name, which we will depict as
+$\eexists\egamma\ephi(\dots\egamma\dots\ealpha\dots)$.
+
+\begin{fitchrule}[Existential Introduction ($\eexists$I)]
+  \label{def:existential-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\ephi(\dots\ealpha\dots\ealpha\dots)$}    
+    \have[ ] {2} {$\eexists\egamma\ephi(\dots\egamma\dots\ealpha\dots)$} \Ee{1}
+  \end{fitchproof}
+\end{fitchrule}
+
+The two complementary operations (\emph{existential elimination} and
+\emph{universal introduction}) are more contrained in their definitions. For
+universal introduction ($\eforall$I), we should only allow the rule to apply
+when the name in question is \emph{arbitrary}. For the purposes of proofs, this
+amounts to not being found in premises or unresolved subproofs since their use
+there makes them non-arbitrary.
+
+\begin{fitchrule}[Universal Introduction ($\eforall$I)]
+  \label{def:universal-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\ephi(\dots\ealpha\dots\ealpha\dots)$}    
+    \have[ ] {2} {$\eforall\egamma\ephi(\dots\egamma\dots\egamma\dots)$} \Ee{1}
+  \end{fitchproof}
+  But only if \ealpha does not occur in a premise or an undischarged assumption.
+\end{fitchrule}
+
+\begin{fitchrule}[Existential Elimination ($\eexists$E)]
+  \label{def:existential-elimination-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[n] {1} {$\eexists\egamma\ephi(\dots\egamma\dots\egamma\dots)$}
+    \open
+    \hypo[i] {2} {$\ephi(\dots\ealpha\dots\ealpha\dots)$} \by{AS}{}
+    \have[j] {3} {\epsi}
+    \close
+    \have[ ] {4} {\epsi} \Ee{1,2-3}
+  \end{fitchproof}
+  But \ealpha must not occur in:\\
+  \begin{enumerate}
+  \item any assumption discharged before line $i$
+  \item $\eexists\egamma\ephi(\dots\egamma\dots\egamma\dots)$
+  \item \epsi
+  \end{enumerate}
+\end{fitchrule}
+
+%\subsection{Proofs with quantifiers} \cite[][Chapter 37, pp. 316-22]{Mag25}
+
+Similarly, proofs in FOL will proceed with a strategy based on the one we
+devised for FOL, with the addition of some new techniques to deal with
+quantifiers. Quite tersely, we can describe these new techniques as follows.
+
+\begin{enumerate}
+\item Work forward when dealing with the existential quantifier (\eexists)
+\item Work backward when dealing with universal quantifiers (\eforall)
+\end{enumerate}
+
+% TODO: complete list of techniques ??
+
+%\subsection{Conversion of quantifiers} \cite[][Chapter 38, pp. 323-5]{Mag25}
+
+Like conjunction and disjunction, existential and universal quantifiers are
+mutually-definable with the help of the negation operator.
+
+\begin{fitchrule}[Conversion of Quantifiers ($CQ$))]
+  \label{def:quantifier-conversion-rule}
+  We can relate the quantifiers of first-order logic, with the following two
+  pairs of complementary rules. One pair for handling a negated existential
+  quantifier:\\
+  \leavevmode
+  %\vspace{-0.9\baselineskip}
+  \twoitems{
+    \begin{fitchproof}
+      \have[n] {1} {$\eforall\egamma\enot\ephi$}
+      \have[ ] {2} {$\enot\eexists\egamma\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[n] {1} {$\enot\eexists\egamma\ephi$}
+      \have[ ] {2} {$\eforall\egamma\enot\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }
+  \\
+  and one pair for handling a negated universal quantifier: \\
+  \twoitems{
+    \begin{fitchproof}
+      \have[n] {1} {$\eexists\egamma\enot\ephi$}
+      \have[ ] {2} {$\enot\eforall\egamma\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[n] {1} {$\enot\eforall\egamma\ephi$}
+      \have[ ] {2} {$\eexists\egamma\enot\ephi$} \by{CQ}{1}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+%\subsection{Rules for identity} \cite[][Chapter 39, pp. 326-9]{Mag25}
+
+Finally, we will need some rules for handling the identity predicate ($=$). As
+usual, these will take to form of introduction and elimination rules for $=$.
+
+\begin{fitchrule}[Identity Introduction ($=$I)]
+  \label{def:identity-introduction-rule}
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \begin{fitchproof}
+    \have[ ] {1} {$\ealpha=\ealpha$} \by{$=$I}{}
+  \end{fitchproof}
+\end{fitchrule}
+
+And, as with existential introduction, we can perform \emph{identity
+elimination} on any one or more instances of the relevant term.
+
+\begin{fitchrule}[Leibniz's Law ($=$E)]
+  \label{def:identity-elimination-rule}
+  Since identity is a symmetric relation, we define a pair of rules for the
+  elimination of non-trivial identity sentences like $\ealpha=\edelta$. \\
+  \leavevmode
+  \vspace{-0.9\baselineskip}
+  \twoitems{
+    \begin{fitchproof}
+      \have[m] {1} {$\ealpha=\edelta$}
+      \have[n] {2} {$\ephi(\dots\ealpha\dots\ealpha\dots)$}    
+      \have[ ] {3} {$\ephi(\dots\edelta\dots\ealpha\dots)$} \by{$=$E}{1,2}
+    \end{fitchproof}
+  }{
+    \begin{fitchproof}
+      \have[m] {1} {$\ealpha=\edelta$}
+      \have[n] {2} {$\ephi(\dots\edelta\dots\edelta\dots)$}    
+      \have[ ] {3} {$\ephi(\dots\ealpha\dots\edelta\dots)$} \by{$=$E}{1,2}
+    \end{fitchproof}
+  }
+\end{fitchrule}
+
+%\subsection{Derived rules **} \cite[][Chapter 40, pp. 330-1]{Mag25}
+
+% TODO: Proofs of the CQ rules ??
+
+%\subsection{Proofs and semantics **} \cite[][Chapter 41, pp. 332-5]{Mag25}
+
+Without getting too deep into the metalogic, we can make some basic claims about
+first-order logic. The most important observation is that FOL is both
+\emph{sound} and \emph{complete}.
+
+\begin{definition}[Soundness and Completeness of First-Order Logic]
+  $ephi_1,\dots,\ephi_n\efollows\epsi$ iff
+  $ephi_1,\dots,\ephi_n\eentails\epsi$  
+\end{definition}
+
+Corollary to this observation is the practical equivalence of several analogous
+proof-theoretic and model-theoretic concepts.
+
+\begin{definition}[Properties of First-Order Logic]
+  Since first-order logic is sound and complete, the following pairs of concepts
+  are analogues.\\
+  \vspace{0.2cm}
+  \begin{center}
+  \begin{tabular}{c c c}
+    \textbf{model-theoretic} & \textbf{iff} & \textbf{proof-theoretic} \\
+    % \hline
+    valid               & = & provable           \\
+    validity            & = & theorem            \\
+    equivalent          & = & interderivable     \\
+    jointly satisfiable & = & jointly equivalent \\
+  \end{tabular}
+  \end{center}
+\end{definition}
+
+Strategies for proving these concepts in FOL metalogic can be summarized in the
+usual table.
+
+\begin{center}
+  \begin{tabular}{c c c}
+    & \textbf{yes} & \textbf{no} \\
+    \hline
+    &&\\    
+    \emph{valid (sentence)?}    &
+    prove $\efollows \ephi$ &
+    find \ephi counter-model \\
+    &&\\
+    \emph{contradiction?}       &
+    prove $\ephi\efollows\ebot$ &
+    find $\enot\ephi$ counter-model \\
+    &&\\    
+    \emph{equivalent?}          &
+    \makecell{prove $\ephi\efollows\epsi$ and\\$\epsi\efollows\ephi$} &
+    \makecell{find model where \\\ephi and \epsi differ} \\
+    &&\\    
+    \emph{jointly satisfiable?} &
+    \makecell{model where $\ephi_i$\\are all true} &
+    prove $\ephi_1\dots\ephi_n\efollows\ebot$ \\
+    &&\\    
+    \emph{valid (argument)?}    &
+    prove $\ephi_1\dots\ephi_n\efollows\epsi$ &
+    \makecell{find model with $\ephi_1\dots\ephi_n$\\all true but \epsi false}\\
+  \end{tabular}
+\end{center}
