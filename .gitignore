@@ -1,0 +1,8 @@
+*~
+logic1/v0.*
+*.aux
+*.pdf
+*.run.xml
+*.log
+*.out
+*/.DS_Store
