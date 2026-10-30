@@ -5,4 +5,4 @@ logic1/v0.*
 *.run.xml
 *.log
 *.out
-*/.DS_Store
+logic1/.DS_Store

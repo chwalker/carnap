@@ -64,40 +64,42 @@ counter-examples.
 
 \subsection{Preliminaries}
 
-In the last lecture or two, we have sometimes used greek letters \ephi, \epsi
-and \echi in truth tables and definitions as a stand-in for \textbf{any} TFL
+In the last lecture or two, we have sometimes used greek letters \ephi, \spsi
+and \schi in truth tables and definitions as a stand-in for \textbf{any} TFL
 sentence, not just atomic sentences. But more broadly, we can think of formulas
 like these as \emph{schemas}. They each represent an entire class of sentences.
 
-We already discussed schemas informally in \ref{obs:argument-proto-schemas},
-but we can firm up some concepts here before we start to use them in
-defining the rule system of \emph{natural deduction}. In an argument schema, a
-given \emph{metalogical variable} always stands for the same thing, that's the
-whole point of using them. Will need to add a few new definitions.
+We already discussed schemas informally in Obs.
+\ref{obs:argument-proto-schemas}, but we can firm up some concepts now before we
+start to use them in defining the rule system of \emph{natural deduction}. In
+an argument schema, a given \emph{metalogical variable} always stands for the
+same thing, that's the whole point of using them. Will need to add a few new
+definitions.
 
 \begin{definition}[Substitution Instance]
-  A \emph{substitution instance} of a metalogical schema is any formula that
-  can be made by substituting a well-formed formula of the language for each
-  of the metalogical variables in the schema.
+  A \emph{substitution instance} of a metalogical schema \schi is any wff \sphi
+  that can be made by substituting a wff $\epsi_i$ for each of the metalogical
+  variables $\egamma_i$ in \echi.
 \end{definition}
 
 Substitution instances make it possible for us to generalize the notion of
 \emph{form} into \emph{metalogical schemas}.
 
 \begin{definition}[Form of a Well-Formed Expression]
-  A formula of a logic has the \emph{form} of a metalogical schema iff the
-  formula is a substitution instance of the schema. 
+  A wff \sphi of a logic has the \emph{form} of a metalogical schema \schi iff
+  \sphi is a substitution instance of \echi. 
 \end{definition}
 
 Turning things around, we can make schemas by generating substitution instances
 of the well-formed formulas of a language.
 
 \begin{definition}[Basic Schema]
-  A \emph{basic schema} is a metalogical expression that is obtained from a
-  well-formed formula of the relevant logic by replacing each of the content
-  symbols with a consistent metalogical variable (i.e. each symbol A always gets
-  replaced by the same metalogical variable \ephi and no other symbol B is
-  also replaced by \ephi but by some other variable \epsi).
+  A \emph{basic schema} \schi is a metalogical expression that is obtained from
+  a well-formed formula \sphi of the relevant logic by replacing each of the
+  content symbols in \sphi with a consistent metalogical variable (i.e. each
+  symbol A in \sphi always gets replaced by the same metalogical variable
+  $\psi_i$ and no other symbol B is also replaced by $\psi_i$ but by some other
+  variable $\psi_j$).
 \end{definition}
 
 The ones we make from tautologies are \emph{tautological schemas}. When we note
@@ -117,7 +119,7 @@ We begin with a basic definition of proofs (aka \emph{derivations}).
   A \emph{proof} in Truth Functional Logic is a sequence of sentences that:
   \begin{enumerate}
   \item Begin with zero or more \emph{premises}
-  \item Introduce new sentence only when they can be made by applying
+  \item Introduce new sentences only when they can be made by applying
     \emph{rules} to lines already in the proof
   \item End with a \emph{conclusion} (the sentence that we want to prove)
   \end{enumerate}  
@@ -147,8 +149,8 @@ them to be true by assumption.
 \end{fitchproof}
 
 In this simple proof, we show that we can conclude $P$ if we assume $P\eand Q$.
-In other words, $P\eand Q\efollows P$. The single premise ($P\eand Q$) is marked
-(PR) and the conclusion is the sentence on the final line ($P$).
+In other words, $P\eand Q\eproves P$. The single premise ($P\eand Q$) is marked
+``PR'' and the conclusion is the sentence on the final line ($P$).
 
 \subsection{Rules of Natural Deduction}
 
@@ -169,7 +171,7 @@ already seen.
   where $m<n$
 \end{fitchrule}
 
-Trivially, we could use this to prove \ephi\eentails\ephi.
+Trivially, we could use this to prove $\ephi\eproves\ephi$.
 
 \begin{fitchproof}
   \have[] {1} \ephi \by{PR}{}
@@ -177,16 +179,15 @@ Trivially, we could use this to prove \ephi\eentails\ephi.
 \end{fitchproof}
 
 For each of the operators, we will want to introduce a pair of rules: one an
-introduction rule and the other an elimination rule.
+\emph{introduction rule} and the other an \emph{elimination rule}.
 
 \subsubsection{Rules for Conjunction}
 
 Conjunction has the most straightforward rules. When both conjuncts occur in a
-proof, we can introduce a conjunction of them. When a conjunction occurs in a
-proof, we can eliminate it for either of the conjuncts.
+proof, we can introduce a conjunction of them.
 
 \Needspace{6\baselineskip}
-\begin{fitchrule}[\eand Introduction]
+\begin{fitchrule}[\eand-Introduction]
   \label{def:and-introduction-rule}
   \leavevmode
   \vspace{-0.9\baselineskip}
@@ -197,11 +198,14 @@ proof, we can eliminate it for either of the conjuncts.
   \end{fitchproof}
 \end{fitchrule}
 
+When a conjunction occurs in a proof, we can eliminate it for either of the
+conjuncts.
+
 \Needspace{5\baselineskip}
-\begin{fitchrule}[\eand Elimination]
+\begin{fitchrule}[\eand-Elimination]
   \label{def:and-introduction-rule}
   \leavevmode
-  There are two rules for \eand elimination, one for each conjunct: \\
+  There are two rules for \eand-elimination, one for each conjunct: \\
   \twoitems{
   \begin{fitchproof}
     \have[n] {1} {\ephi\eand\epsi}
@@ -215,7 +219,7 @@ proof, we can eliminate it for either of the conjuncts.
   }
 \end{fitchrule}
 
-With just the introduction and elimination rules for \eand we can prove many
+With just the introduction and elimination rules for \sand we can prove many
 valid arguments such as $A \eand B, C \eand D \therefore A \eand D$.
 
 \begin{fitchproof}
@@ -254,8 +258,7 @@ proofs:
 
 So far, pretty simple. But for the introduction rule, we will need to make use
 of assumptions that are not included in the premises. We will mark their
-introduction with a new horizontal line and a justification of AS. We will
-discuss assumptions in more detail after the introduction rule for conditionals.
+introduction with a new horizontal line and a justification of AS.
 
 \Needspace{6\baselineskip}
 \begin{fitchrule}[\eif Introduction]
@@ -295,7 +298,7 @@ the proof using indentation, is called a \emph{subproof}. When we use the \eif
 introduction rule we collapse the subproof and treat its assumption as the
 antecedant of the new conditional. At this point, the subproof is \emph{closed}.
 
-Consider the following proof of $A\eif B, B \eif C \therefore A \eif C$.
+Consider the following proof of $A\eif B, B \eif C \eproves A \eif C$.
 
 \begin{fitchproof}
   \hypo {1} {A \eif B} \by{PR}{}
@@ -309,7 +312,7 @@ Consider the following proof of $A\eif B, B \eif C \therefore A \eif C$.
 \end{fitchproof}
 
 When the subproof is closed, the assumption that $A$ is true is set aside
-(\emph{discharged}). We only needed it to establish that $A \eif C$, which is
+(\emph{discharged}). We only needed it to establish that $(A \eif C)$, which is
 true regardless of whether $A$ is. We should pause here and take a closer look
 at this process.
 
@@ -321,7 +324,7 @@ subproofs.
 \begin{definition}[Permissible Line Citations]
   \label{def:permissible-line-citations}
   When we want to justify a rule in a formal proof, we can only cite lines:
-  \vspace{-0.9\baselineskip}
+  %\vspace{-0.9\baselineskip}
   \begin{enumerate}
   \item that occur before the current line
   \item that do not occur in a closed subproof
@@ -348,7 +351,6 @@ cannot be nested too deeply.
 \begin{definition}[Permissible Subproof Citations]
   \label{def:permissible-subproof-citations}
   When we want to justify a rule in a formal proof, we can only cite subproofs:
-  \vspace{-0.9\baselineskip}
   \begin{enumerate}
   \item that occur entirely before the current line
   \item that do not occur inside another closed subproof
@@ -421,7 +423,7 @@ introduction and \eif elimination, the rules for biconditionals are trivial.
 \end{fitchrule}
 
 Here we see a proof that uses both the introduction and elination rules for
-\eiff to show its transitivity.
+\siff to show its transitivity.
 
 \begin{fitchproof}
   \hypo     {1} {A \eiff B}        \by{PR}{}
@@ -445,11 +447,11 @@ possibility.
 Introduction, however, is quite straightforward.
 
 \Needspace{5\baselineskip}
-\begin{fitchrule}[\eor Introduction]
+\begin{fitchrule}[\eor-Introduction]
   \label{def:eor-introduction-rule}
   \leavevmode
   %\vspace{-0.9\baselineskip}
-  There are two rules for \eor introduction, one for each sentence: \\
+  There are two rules for \eor-introduction, one for each sentence: \\
   \twoitems{
     \begin{fitchproof}
       \have[n] {1} {\ephi}
@@ -464,10 +466,10 @@ Introduction, however, is quite straightforward.
 \end{fitchrule}
 
 We can handle the ambiguity involved in disjunction elimination with multiple
-subproofs, much as we do when intoducing biconditionals.
+subproofs, much as we do when introducing biconditionals.
 
 \Needspace{8\baselineskip}
-\begin{fitchrule}[\eor Elimination]
+\begin{fitchrule}[\eor-Elimination]
   \label{def:eor-elimination-rule}
   \leavevmode
   \vspace{-0.9\baselineskip}
@@ -487,7 +489,7 @@ subproofs, much as we do when intoducing biconditionals.
 
 Now that we have almost a complete set of rules for the basic operators of TFL,
 we can prove a variety of valid arguments, such as this one demonstrating the
-distributivity of \eand and \eor.
+distributivity of \sand and \eor.
 
 \begin{fitchproof}
   \hypo {1} {A \eand (B \eor C)}          \by{PR}{}
@@ -513,11 +515,16 @@ the negation operator (\enot). The nature of negation in TFL is wrapped up in
 two of its core assumptions: \emph{non-contradiction} and \emph{the excluded
 middle}. We've seen these before:
 
-\begin{argument}
-\item[\textbf{LEM:}] \ephi\eor\enot\ephi
-\item[\textbf{LNC:}] \enot(\ephi\eand\enot\ephi)
-\item[\textbf{DN:}]  \enot\enot\ephi\eiff\ephi  
-\end{argument}
+%\begin{argument}
+%\item[\textbf{LEM:}] \ephi\eor\enot\ephi
+%\item[\textbf{LNC:}] \enot(\ephi\eand\enot\ephi)
+%\item[\textbf{DN:}]  \enot\enot\ephi\eiff\ephi  
+%\end{argument}
+\begin{center}
+    \textbf{LEM:} $\ephi\eor\enot\ephi$         \\
+    \textbf{LNC:} $\enot(\ephi\eand\enot\ephi)$ \\
+    \textbf{DN:} $\enot\enot\ephi\eiff\ephi$    \\
+\end{center}
 
 The first (\textbf{LEM}) says that one of either \ephi or \enot\ephi must be
 true. The second (\textbf{LNC}) says that \ephi and \enot\ephi cannot both be
@@ -528,12 +535,15 @@ when we encounter a contradiction. We know that the negation of \textbf{LNC}
 leveraging \textbf{LNC}, we can instead leverage its negation, as in
 \textbf{LNC2}.
 
-\begin{argument}
-\item[\textbf{LNC2:}] \ephi\eand\enot\ephi\eentails\ebot
-\end{argument}
+%\begin{argument}
+%\item[\textbf{LNC2:}] \ephi\eand\enot\ephi\eentails\ebot
+%\end{argument}
+\begin{center}
+    \textbf{LNC2:} $\ephi\eand\enot\ephi\eentails\ebot$
+\end{center}
 
-There are several ways to think about \ebot (e.g. as a zero-place connective or
-as a logical constant), but we will assume that it is just a sentence that is
+There are several ways to think about $\ebot$ (e.g. as a zero-place connective
+or as a logical constant), but we will assume that it is just a sentence that is
 always false, regardless of situation. This makes it easy to use in other rules
 and does not obscure its use to indicate a contradiction. Given \textbf{LNC2},
 the elimination rule is simple.
@@ -550,16 +560,16 @@ the elimination rule is simple.
   \end{fitchproof}
 \end{fitchrule}
 
-We will need to wait for some rules that tell use what to do with \ebot before
+We will need to wait for some rules that tell use what to do with $\ebot$ before
 we can demonstrate \enot elimination in proofs.
 
-Recall reductio ad adsurdum (RAA) from the first lecture (\cite{def:raa}),
+Recall reductio ad adsurdum (RAA) from the first lecture (\ref{def:raa}),
 repeated here:
 
 \begin{definition}[Reductio Ad Absurdum]
   \label{def:raa-repeated}
-  If $\ephi_1\dots\ephi_n$ are taken as premises and the addition of \epsi would
-  result in a contradiction, then $\ephi_1\dots\ephi_n$ entail not-\epsi.
+  If $\ephi_1\dots\ephi_n$ are taken as premises and the addition of \spsi would
+  result in a contradiction, then $\ephi_1\dots\ephi_n$ entails \enot\epsi.
 \end{definition}
 
 So how do we introduce a negation? We assume the non-negated sentence and use
@@ -615,7 +625,7 @@ the introduction or elimation of any operators outside of the subproof.
 
 Indirect proof is really just a reversal of the \enot I rule. IP is convenient
 for proving double-negative elimination (\textbf{DNE}):
-\enot\enot A \efollows A
+$\enot\enot A \eproves A$
 
 \begin{fitchproof}
   \hypo {1} {\enot\enot A} \by{PR}{}
@@ -626,7 +636,7 @@ for proving double-negative elimination (\textbf{DNE}):
   \have {4} {A}            \by{IP}{2-3}
 \end{fitchproof}
 
-One additional rule can be thought of as \ebot elimination. A long-standing
+One additional rule can be thought of as $\ebot$ elimination. A long-standing
 assumption in classical logic is that proving a contradiction allows us to
 conclude anything at all (\emph{ex falso quodlibet}). This follows trivially
 from the fact that we cannot find a bad line in entailments with a pair of
@@ -634,7 +644,7 @@ contradictions in the premises because there is no situation in which they are
 all true.
 
 \begin{argument}
-  \item[\textbf{X:}] \ebot\eentails\ephi for any TFL sentence \ephi
+  \item[\textbf{X:}] $\ebot\eentails\ephi$ for any TFL sentence \ephi.
 \end{argument}
 
 We will refer to this kind of inference step as \emph{explosion}. Like vacuous
@@ -644,7 +654,7 @@ first). Nevertheless it is effective and widely adopted.
 \begin{quote}
   [O]fficial definitions of entailment--as with many other definitions of
   logical concepts--are best thought of as rational reconstructions of our
-  messy-pre-theoretic ideas. We try to fit the range of informal desiderata as
+  messy pre-theoretic ideas. We try to fit the range of informal desiderata as
   best we can, balancing considerations of theoretical simplicity and ease of
   use against the cost of departures from our initial intuitions.
   (from \cite[][p. 145]{Smi20})
@@ -662,7 +672,7 @@ first). Nevertheless it is effective and widely adopted.
 \end{fitchrule}
 
 We can prove the \emph{disjunctive syllogism} rule
-(A \eor B, \enot A \efollows B) using explosion:
+($A \eor B, \enot A \eproves B$) using explosion:
 
 \begin{fitchproof}
   \hypo {1} {A \eor B} \by{PR}{}

@@ -212,12 +212,12 @@ Conversely, a sentence that is false on every valuation is a
 
 \begin{definition}[Contradiction]
   \label{def:tfl-contradiction}
-  The TFL sentence \ephi is a \emph{contradiction} iff it is false on every
+  The TFL sentence \sphi is a \emph{contradiction} iff it is false on every
   valuation.
 \end{definition}
 
-For example, $A\eand\enot A$ is a contradiction whereas
-$A\eor\enot A$ is a tautology.
+For example, $A\eand\enot A$ is a contradiction whereas $A\eor\enot A$ is a
+tautology.
 
 \begin{table}[h]
   \begin{center}
@@ -301,7 +301,7 @@ assess the tautological status of various complex sentences.
 
 \begin{observation}[Substitution instances and tautologies]
   If \eentails\sphi and \spsi is a substitution-instance of \sphi, then
-  \eentails\epsi. But the same is not true of \enotentails\ephi.
+  \eentails\epsi. But the same is not true of \enotentails\ephi. %% say why not
 \end{observation}
 
 We can just as easily use truth table methods to evaluate the logical properties
@@ -350,7 +350,8 @@ quagmire.
 Let's start by (re-)defining the major components of a conditional.
 
 \begin{definition}[Antecedent and Consequent]
-  If the material conditional \ephi\eif\spsi is a sentence of TFL, then:
+  \label{def:antecedent-consequent}
+  Let the TFL sentence \ephi\eif\spsi be a material conditional, then:
   \begin{enumerate}
   \item \sphi is its \emph{antecedent}; and
   \item \spsi is its \emph{consequent}.
@@ -361,10 +362,10 @@ We can also define some some basic structural relationships between material
 conditionals, for example:
 
 \begin{definition}[Converse and Contrapositive]
-  If the material conditional \ephi\eif\epsi is a sentence of TFL, then:
+  If the material conditional (\ephi\eif\epsi) is a sentence of TFL, then:
   \begin{enumerate}  
-  \item \epsi\eif\sphi is its \emph{converse}; and
-  \item \enot\epsi\eif\enot\sphi is its \emph{contrapositive}.
+  \item the sentence (\epsi\eif\sphi) is its \emph{converse}; and
+  \item the sentence (\enot\epsi\eif\enot\sphi) is its \emph{contrapositive}.
   \end{enumerate}
 \end{definition}
 %\begin{definition}[Converse]
@@ -403,7 +404,7 @@ hard-and-fast rules that we can apply without exception.
 \end{table}
 
 \begin{observation}[Modus Tollens (MT)]
-  If \ephi and \epsi are TFL sentences, then
+  If \sphi and \spsi are TFL sentences, then
   $\enot\epsi,\ephi\eif\epsi\eentails\enot\ephi$ and this can be used as an
   inference step in TFL. This mode of inference is called \emph{modus tollens}.
 \end{observation}
@@ -424,7 +425,7 @@ hard-and-fast rules that we can apply without exception.
 \end{table}
 
 \begin{observation}[Falsehood Condition (FC)]
-  If \epsi and \epsi are TFL sentences where \ephi is true and \epsi is false,
+  If \spsi and \spsi are TFL sentences where \sphi is true and \spsi is false,
   then $\ephi\eif\epsi$ must be false.
 \end{observation}
 
@@ -441,8 +442,8 @@ hard-and-fast rules that we can apply without exception.
 \end{table}
 
 \begin{observation}[Non-Reversability (NR)]
-  If \ephi and \epsi are TFL sentences, then we cannot infer
-   \ephi\eif\epsi from \ephi\eif\epsi . This is known as the
+  If \sphi and \spsi are TFL sentences, then we cannot infer
+   \ephi\eif\spsi from \ephi\eif\epsi. This is known as the
   \emph{non-reversability} of the material conditional.
 \end{observation}
 
@@ -462,10 +463,10 @@ hard-and-fast rules that we can apply without exception.
 \end{table}
 
 We've been mixing logic and metalogic in this lecture so haphazardly that it's
-worth pausing here to make an important distinctions.
+worth pausing here to make some important distinctions.
 
-\begin{observation}[Entailment and material implication are truth-functionally equivalent]
-   \ephi\eif\epsi iff  \ephi\eentails\epsi
+\begin{observation}[Entailment and material implication are related]
+  \ephi\eif\spsi iff \ephi\eentails\epsi
 \end{observation}
 
 \begin{table}[h]
@@ -483,7 +484,7 @@ worth pausing here to make an important distinctions.
   \caption{A truth table showing Non-Reversability is valid}
 \end{table}
 
-Nevertheless, \eif is a connective of truth-functional logic and \eentails is
+Nevertheless, \sif is a connective of truth-functional logic and $\eentails$ is
 a symbol of the metalogic that we've built by augmenting English. We should
 refrain from using one when we mean the other.
 
@@ -492,7 +493,7 @@ refrain from using one when we mean the other.
 Now we are equipped with the vocabulary necessary to discuss the controversy
 about material conditionals.
 
-One way to think of these inference rules if pre-theoretically. In other words,
+One way to think of these inference rules is pre-theoretically. In other words,
 the reason that the entailments for \textbf{MP}, \textbf{MT}, \textbf{FC} and
 \textbf{NR} come out the way they do is that we designed the truth table for
 the material conditional (\eif) so that they would. In this light, we can view
@@ -503,6 +504,8 @@ as intended.
 But one might still wonder if these assumptions are correct. Should we abandon
 one or more of these principles in order to support a more ``natural'' type of
 implication?
+
+\subsubsection{Vacuous Truth}
 
 Most of the heartburn about the material conditional comes from the fact that
 it is taken to be true whenever its antecedant is false. This has the effect
@@ -519,9 +522,9 @@ does not ``feel'' right. One might even argue that there is no situation in
 which the consequent is true. Nevertheless ...
 
 Let's try to firm up our discomfort with some help from
-\cite[][pp. 166-167]{Smi20}. Recall that our definition of material implication
-A \eif B is equivalent to \enot A\eor B. So when we allow the
-inference in (D) we are also allowing the inferences in (M).
+\cite[][pp. 166-167]{Smi20}. Recall that on our definition of material
+implication (A\eif B) is equivalent to (\enot A\eor B). So when we allow the
+inference in (\textbf{D}) we are also allowing the inferences in (\textbf{M}).
 
 \threeitems{
   \begin{argument}
@@ -557,38 +560,41 @@ Suffice it to say, the material conditional just does not imply any sort of
 not part of how truth-functional logic works. Still, the material conditional
 is a pretty good appoximation for what is actually said in an indicative
 \emph{if...then} sentence of ordinary English, even if it leaves out most of
-the pragmatic nuance. Its shortfalls are problably no worse than those of \eand
+the pragmatic nuance. Its shortfalls are problably no worse than those of \sand
 and \eor: ordinary English just behaves differently than TFL and that's OK.
 
 Some evidence from ordinary English supports this acquiescence.
 
-\begin{observation}[English conditionals are sometimes like A \eif B]
+\begin{observation}[]
+  English conditionals are sometimes like A\eif B
   \begin{outline}[enumerate]
     \1 English tautologies are typically equivalent to their
     contrapositives.
-    \2 \emph{If I won the Powerball, then I am rich.}
-    \2 \emph{If I am not rich, then I did not win the Powerball.}
-    \1 The material conditional  A\eif B is just like \emph{if A then B}
+    \2 ``If I won the Powerball, then I am rich.''
+    \2 ``If I am not rich, then I did not win the Powerball.''
+    \1 The material conditional (A\eif B) is just like ``if A then B''
     in some simple cases, and even correctly invalidates two common logical
     fallacies:
     \2 affirming the consequent: A\eif B,B \therefore A; and
-    \2 denying the antecedent: A\eif B,\enot B \therefore \enot B.
-    \1 Often \emph{if A then B} and \emph{A only if B} are equivalent, such as
+    \2 denying the antecedent: A\eif B,\enot B \therefore\enot B.
+    \1 Often ``if A then B'' and ``A only if B'' are equivalent, such as in
     these examples (from \cite[][p. 155]{Smi20}):
-    \2 \emph{Einstein's theory is right only if space-time is curved.}
-    \2 \emph{If space-time isn't curved, then Einstein's theory isn't right.}
-    \2 \emph{If Einstein's theory is right, then space-time is curved.}
+    \2 ``Einstein's theory is right only if space-time is curved.''
+    \2 ``If space-time isn't curved, then Einstein's theory isn't right.''
+    \2 ``If Einstein's theory is right, then space-time is curved.''
   \end{outline}
 \end{observation}
+
+\subsubsection{Negating the Conditional}
 
 To see how indicative conditionals still have problems around the edges, it
 helps to think about how we negate them. Consider the following symbolization
 key.
 
-\begin{argument}
+\begin{grayarg}
 \item[E:] God exists. 
 \item[P:] God answers malevolent prayers.
-\end{argument}
+\end{grayarg}
 
 Putting these sentences together into a conditional ($E\eif P$) reads something
 like (G).
@@ -609,12 +615,14 @@ We can think of two ways of negating this sentence, but both are unsatisfying.
   \end{tabular}
 \end{center}
 
-In the first example ($\enot(E\eif P)$), we would have to accept the truth of
+In the first example $\enot(E\eif P)$, we would have to accept the truth of
 $E$ (i.e. God exists), otherwise $G$ could not be false and so $\enot G$ could
-not be true. In the second example ($E\eif\enot P$), the atheist is faced with
+not be true. In the second example $E\eif\enot P$, the atheist is faced with
 a different conundrum: when $E$ is false (i.e. when God does not exist), then
 we can conclude \textbf{either} $P$ or $\enot P$, since $E\eif\enot P$ and
 $E\eif P$ would then \textbf{both} be true.
+
+\subsubsection{Counterfactuals}
 
 Other the other end of the spectrum, we have \emph{counterfactuals} (i.e.
 \emph{subjunctive} conditionals). David Lewis, perhaps the best known
@@ -652,13 +660,15 @@ semantics is not truth functional.
 \end{observation}
 
 To see this, we merely need to note that $\ephi\Rightarrow\epsi$ is true just
-in case \epsi is true at the possible world where the sentence is evalauated.
-Nothing about whether or not \ephi and \epsi are \emph{actually true} can help
+in case \spsi is true at the possible world where the sentence is evalauated.
+Nothing about whether or not \sphi and \spsi are \emph{actually true} can help
 us to figure this out.
 
 Nevertheless, like democracy, the material conditional is the worst option
 available, except for all the others. We just need to be careful to avoid
 using it for the treatment of counterfactuals.
+
+\subsection{Taking Stock: Shortcomings of TFL}
 
 As we've already seen, the symbolization of English sentences into TFL leaves
 much of the linguistic nuance out of the resulting TFL sentence. We can
@@ -680,6 +690,8 @@ summarize some of the important shortcomings of TFL symbolization as follows:
   \end{enumerate}
 \end{observation}
 
+\subsection{Evaluating TFL Arguments}
+
 With the simiplified methods in \ref{obs:tt-simplified-methods}, we can much
 more efficiently evaluate the validity of TFL arguments. Like the validity of
 individual sentences, testing the validity of arguments depends on identifying
@@ -688,6 +700,8 @@ for \emph{bad lines}.
 
 \begin{observation}[Bad Lines in a Truth Table for Entailment]
   \label{obs:tt-bad-lines}
+  We can find counterexamples to a TFL argument by looking for \emph{bad lines}
+  in its truth table.
   \begin{enumerate}
   \item When the conclusion is true, the line is not bad.
   \item When any of the premises is false, the line is not bad.
@@ -714,28 +728,28 @@ anyway? We want to be thorough in this way because we have defined a number of
 our logical notions (e.g. \emph{tautology}, \emph{validity}, \emph{entailment})
 in terms of these possibilities. When we explore these properties, we want to
 show that the sentences being evaluated are true (or false) in all of the
-possibilities. In our parlance from last week, we are looking for \emph{bad
+possibilities. In our parlance from last section, we are looking for \emph{bad
 lines} in the table.
 
-But what about showing that a sentence \emph{does not} have these properties?
+But what about showing that a sentence \textbf{does not} have these properties?
 Surely it will suffice to just find one bad line, a \emph{counter-example} so
 to speak. And indeed it will. Thus, we will refer to a such a bad line as a
 \emph{contervaluation} We can describe the landscape with this table modified
 from \cite{Mag25}[Chapter 15].
 
 \begin{center}
-  \begin{tabular}{|c|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|}
     \hline
-                  & \bf{yes} & \bf{no} & should be (always)     \\
+sentences& property       & \bf{yes} & \bf{no} & should be (always) \\
     \hline
-    tautology     &  all     &  one    & true                   \\
-    contradiction &  all     &  one    & false                  \\
+one      &    tautology   &  all     &  one    & true               \\
+         &  contradiction &  all     &  one    & false              \\
+\hline
+two      & equivalent     &  all     &  one    & same               \\
+         & unsatisfiable  &  all     &  one    & false              \\
     \hline
-    equivalent    &  all     &  one    & same                   \\
-    unsatisfiable &  all     &  one    & false                  \\
-    \hline
-    valid         &  all     &  one    & true conclusion or false premise  \\
-    entailment    &  all     &  one    & true conclusion or false premise  \\
+many    &   valid & all &  one & true conclusion or false premise  \\
+        & entailment & all & one & true conclusion or false premise  \\
     \hline
   \end{tabular}
 \end{center}
