@@ -10,24 +10,25 @@ quickly if you don't adopt some basic straegies to guide your moves.
   \begin{outline}[enumerate]
 
     \1 Work backwards from the conclusion.
-    \2 Conjunction: what components needed to use the \eand I rule as the
-    last step? i.e. what are the conjuncts?
-    \2 Conditional: what are the assumption and conclusion of the subproof
-    we need to take the last step? i.e. what are the antecedant and consequent
-    of the conditional?
-    \2 Negation: what subproof is needed to show a contradiction?
-    \2 Disjunction: which of the disjuncts looks easiest to prove?
+    \2 \textbf{Conjunction:} what components needed to use the \eand I rule as
+    the last step? i.e. what are the conjuncts?
+    \2 \textbf{Conditional:} what are the assumption and conclusion of the
+    subproof we need to take the last step? i.e. what are the antecedant and
+    consequent of the conditional?
+    \2 \textbf{Negation:} what subproof is needed to show a contradiction?
+    \2 \textbf{Disjunction:} which of the disjuncts looks easiest to prove?
     
     \1 Work forwards from the current step.
-    \2 Conjunction: unpack the conjuncts
-    \2 Disjunction: what sentence do you need to prove from both disjuncts?
-    \2 Conditional: how can you prove the antecedant?
-    \2 Negation: how can you prove a contradiction?
+    \2 \textbf{Conjunction:} unpack the conjuncts
+    \2 \textbf{Disjunction:} what sentence do you need to prove from both
+    disjuncts?
+    \2 \textbf{Conditional:} how can you prove the antecedant?
+    \2 \textbf{Negation:} how can you prove a contradiction?
     
     \1 Leverage \ebot
-    \2 Work toward a contradiction to conclude anything, especially in a
-    subproof
-    \2 Indirect proof: build a contradictory subproof that assumes the negation
+    \2 \textbf{Explosion:} work toward a contradiction to conclude anything,
+    especially in subproof
+    \2 \textbf{Indirect proof:} build a contradictory subproof that assumes the negation
 
   \end{outline}
 \end{observation}
@@ -128,19 +129,20 @@ may lead to some backtracking. So this is a last resort.
 Working forward can be guided by the same schematic rules. For conjunction we
 just unpack both of the conjuncts.
 
+\Needspace{6\baselineskip}
 \begin{fitchrule}[Unpacking Conjunctions]
   \label{def:unpacking-conjunctions}
   \leavevmode
   \vspace{-0.9\baselineskip}
   \begin{fitchproof}
     \have[n]     {1} {\ephi\eand\epsi} 
-    \have[ ][+1] {2} {\ephi}
+    \have[n][+1] {2} {\ephi}
     \have[n][+2] {3} {\epsi}
   \end{fitchproof}  
 \end{fitchrule}
 
 For disjunction we need to think more about what we are trying to do. Suppose
-that \ephi and \epsi are the disjuncts and \echi is what we are trying to
+that \sphi and \spsi are the disjuncts and \schi is what we are trying to
 prove (or a step in that direction). We will need a subproof from each of
 the disjuncts to \echi.
 
@@ -269,14 +271,14 @@ Lecture 8 when we will focus our discussion on TFL metalogic. The concepts
 should be more or less clear in their informal presentation.
 
 \begin{enumerate}
-\item When \epsi can be derived from \ephi, we will say \ephi\eproves\epsi
-  (or \epsi\efollows\ephi) which is pronounced ``\ephi proves \epsi''.
-\item We will use \eproves instead of \therefore, whenever appropriate.
-  Specifically, we will use \ephi\eproves\epsi whenever \ephi\therefore\epsi is
-  a (proof-theoretically) valid argument.
-\item When \ephi\eproves\epsi and \ephi\efollows\epsi we can say that \ephi and
-  \epsi are \emph{interderivable} and express this as
-  \ephi\efollows\eproves\epsi.
+\item When \spsi can be derived from \ephi, we will say $\ephi\eproves\epsi$
+  (or $\epsi\efollows\ephi$) which is pronounced ``\ephi proves \epsi''.
+\item We will use $\eproves$ instead of $\therefore$ whenever appropriate.
+  Specifically, we will use $\ephi\eproves\epsi$ whenever $\ephi\therefore\epsi$
+  is a (proof-theoretically) valid argument.
+\item When $\ephi\eproves\epsi$ and $\ephi\efollows\epsi$ we can say that \sphi
+  and \spsi are \emph{interderivable} and express this as
+  $\ephi\efollows\eproves\epsi$.
 \end{enumerate}
 
 The only way to fully understand our proof strategies is to see them used on
@@ -286,16 +288,16 @@ TFL and demonstrates most if not all of the strategies discussed earlier in
 the lecture.
 
 \begin{argument}
-\item[ ] (A \eif B)\efollows\eproves\enot(A \eand\enot B)
-\item[ ] (A \eif B)\efollows\eproves(\enot A \eor B)
+\item[ ] $(A \eif B)\efollows\eproves\enot(A \eand\enot B)$
+\item[ ] $(A \eif B)\efollows\eproves(\enot A \eor B)$
 \end{argument}
 
 Proving the interderivability of two sentences typically amounts to proving both
 directions of the derivation, one at a time.
 
-\subsubsection{(A \eif B)\eproves \enot(A \eand\enot B)}
+\subsubsection{$(A \eif B)\eproves \enot(A \eand\enot B)$}
 
-For (A \eif B)\eproves \enot(A \eand\enot B), we will work backward from a
+For $(A \eif B)\eproves \enot(A \eand\enot B)$, we will work backward from a
 negative. We just need to start with a template for a subproof of \ebot.
 
 \begin{fitchproof}
@@ -337,9 +339,9 @@ We can fill in the missing lines using modus ponens and negation elimination.
   \have {7} {\enot(A\eand\enot B)}  \ni{2-6}  
 \end{fitchproof}      
 
-\subsubsection{\enot(A \eand\enot B)\eproves(A \eif B)}
+\subsubsection{$\enot(A \eand\enot B)\eproves(A \eif B)$}
 
-For the backward case (\enot(A \eand\enot B)\eproves(A \eif B)), start by
+For the backward case ($\enot(A \eand\enot B)\eproves(A \eif B)$), start by
 setting up a proof schema for the conditional.
 
 \begin{fitchproof}
@@ -389,12 +391,12 @@ line.
   \have {7} {A \eif B}             \ii{2-6}
 \end{fitchproof}      
 
-\subsubsection{(A \eif B)\eproves(\enot A \eor B)}
+\subsubsection{$(A \eif B)\eproves(\enot A \eor B)$}
 
-Another well-known equivalence is (A \eif B)\emutual(\enot A \eor B). Start with
-(A \eif B)\eproves(\enot A \eor B). To work backward from a conclusion would
-require choosing a disjunct, so might be a little open-ended. We'll get back to
-that if we need to. Let's try indirect proof instead.
+Another well-known equivalence is $(A \eif B)\emutual(\enot A \eor B)$. Start
+with $(A \eif B)\eproves(\enot A \eor B)$. To work backward from a conclusion
+would require choosing a disjunct, so might be a little open-ended. We'll get
+back to that if we need to. Let's try indirect proof instead.
 
 \begin{fitchproof}
   \hypo    {1} {A \eif B}              \by{PR}{}
@@ -407,9 +409,10 @@ that if we need to. Let's try indirect proof instead.
   \have[n] {6} {\enot A \eor B}        \by{IP}{2-5}
 \end{fitchproof}      
 
-To get a contradiction we want to prove either \enot A or B to we can say
-\enot A\eor B. If we assume A we can use use modus ponens to unpack (1), so
-we'll go that route (i.e. we'll prove \enot A). First sketch out the subproof.
+To get a contradiction we want to prove either $\enot A$ or $B$ so we can say
+$(\enot A\eor B)$. If we assume $A$ we can use use modus ponens to unpack (1),
+so we'll go that route (i.e. we'll prove $\enot A$). First sketch out the
+subproof.
 
 \begin{fitchproof}
   \hypo    {1} {A \eif B}              \by{PR}{}
@@ -427,7 +430,7 @@ we'll go that route (i.e. we'll prove \enot A). First sketch out the subproof.
   \have[n] {9} {\enot A \eor B}        \by{IP}{2-8}
 \end{fitchproof}      
 
-Then fill it in by applying \eif elimination to the premise using the new
+Then fill it in by applying \sif elimination to the premise using the new
 assumption.
 
 \begin{fitchproof}
@@ -447,11 +450,11 @@ assumption.
   \have {10}{\enot A \eor B}        \by{IP}{2-9}
 \end{fitchproof}      
 
-\subsubsection{(\enot A \eor B)\eproves(A \eif B)}
+\subsubsection{$(\enot A \eor B)\eproves(A \eif B)$}
 
-Now the other direction: (\enot A \eor B)\eproves(A \eif B). So far we haven't
-seen explosion or \eor unpacked, but this proof has them both. First, we note
-that we are trying to prove A \eif B by adding a template for the appropriate
+Now the other direction: $(\enot A \eor B)\eproves(A \eif B)$. So far we haven't
+seen explosion or \sor unpacked, but this proof has them both. First, we note
+that we are trying to prove $A \eif B$ by adding a template for the appropriate
 subproof.
 
 \begin{fitchproof}
@@ -465,8 +468,8 @@ subproof.
 \end{fitchproof}      
 
 The premise is a disjunction, so if it's gonna play a role in the proof, we're
-gonna need to unpack it with \eor elimination, so let's set up the subproofs for
-that now.
+gonna need to unpack it with \eor-elimination, so let's set up the subproofs
+for that now.
 
 \begin{fitchproof}
   \hypo    {1} {\enot A \eor B} \by{PR}{}
@@ -488,7 +491,7 @@ that now.
 \end{fitchproof}      
 
 Both subproofs follow immediately. The first is a contradiction, so we can apply
-explosion to get B. The second is just repetition; in fact we don't even need
+explosion to get $B$. The second is just repetition; in fact we don't even need
 the placeholder line in the template.
 
 \begin{fitchproof}

@@ -29,32 +29,23 @@ to our rule system. We start by defining one that we proved last week,
 
 Recall our oft-repeated tautologies of negation.
 
-\begin{argument}
-\item[\textbf{LEM:}] \ephi\eor\enot\ephi
-\item[\textbf{LNC:}] \enot(\ephi\eand\enot\ephi)
-\item[\textbf{DNE:}]  \enot\enot\ephi\eiff\ephi  
-\end{argument}
+\begin{center}
+    \textbf{LEM:} $\ephi\eor\enot\ephi$         \\
+    \textbf{LNC:} $\enot(\ephi\eand\enot\ephi)$ \\
+    \textbf{DN:} $\enot\enot\ephi\eiff\ephi$    \\
+\end{center}
 
-We can now prove that they are all mutually inter-derivable.
+We can now prove that they are all theorems.
 
-\begin{argument}
-  \item[ ] \textbf{LEM}\efollows\eproves\textbf{LNC}
-  \item[ ] \textbf{LEM}\efollows\eproves\textbf{DNE}
-  \item[ ] \textbf{LNC}\efollows\eproves\textbf{DNE}
-\end{argument}
+\begin{center}
+  \eproves\textbf{LEM}
+  \eproves\textbf{LNC}
+  \eproves\textbf{DNE}
+\end{center}
 
-In fact, they are all \emph{theorems} of TFL (i.e. \eproves\epsi with no
-premises). So it will be enough to prove that fact, since if \eproves\epsi
-then obviously also \ephi\eproves\epsi.
-
-\begin{argument}
-  \item[ ] \eproves\textbf{LEM}
-  \item[ ] \eproves\textbf{LNC}
-  \item[ ] \eproves\textbf{DNE}
-\end{argument}
 
 \begin{table}
-  \centering
+  %\centering
   \label{proof:lem}
   \begin{fitchproof}
     \open
@@ -74,7 +65,7 @@ then obviously also \ephi\eproves\epsi.
 \end{table}
 
 \begin{table}
-  \centering
+  %\centering
   \label{proof:dne}
   \begin{fitchproof}
     \open
@@ -89,7 +80,7 @@ then obviously also \ephi\eproves\epsi.
 \end{table}
 
 \begin{table}
-  \centering
+  %\centering
   \label{proof:dne}
   \begin{fitchproof}
     \open
@@ -184,16 +175,16 @@ Finally, the \emph{De Morgan rules} tell us how to properly ditribute negation
 into conjunctions and disjunctions. To justify our rules, we want to prove the
 following results.
 
-\begin{argument}
-\item[\enot\eand]
-  \enot(\ephi\eand\epsi)\efollows\eproves(\enot\ephi\eor\enot\epsi)
-\item[\enot\eor]
-  \enot(\ephi\eor\epsi)\efollows\eproves(\enot\ephi\eand\enot\epsi)
-\end{argument}
+\begin{center}
+  \textbf{\enot\eand}
+  $\enot(\ephi\eand\epsi)\efollows\eproves(\enot\ephi\eor\enot\epsi)$ \\
+  \textbf{\enot\eor}
+  $\enot(\ephi\eor\epsi)\efollows\eproves(\enot\ephi\eand\enot\epsi)$
+\end{center}
 
 The first one is by far the hardest.
 
-\begin{table}
+\begin{table}[h]
   \centering
   \begin{fitchproof}
     \hypo {1} {\enot(\ephi\eand\epsi)}           \by{PR}{}
@@ -216,13 +207,17 @@ The first one is by far the hardest.
     \close
     \have {13}{\enot\ephi\eor\enot\epsi}         \by{IP}{2-12}
   \end{fitchproof}
-  \caption{Proof of \enot(\ephi\eand\epsi)\eproves(\enot\ephi\eor\enot\epsi)}
+  \caption{Proof of $\enot(\ephi\eand\epsi)\eproves(\enot\ephi\eor\enot\epsi)$}
 \end{table}
 
 The rest are easily solved by following the proof strategies developed over the
-last few weeks. This one should be practically trivial by now.
+last few weeks.
 
-\begin{table}
+\newpage
+
+This one should be practically trivial by now.
+
+\begin{table}[h]
   \centering
   \begin{fitchproof}
     \hypo {1} {\enot(\ephi\eor\epsi)}     \by{PR}{}
@@ -240,12 +235,14 @@ last few weeks. This one should be practically trivial by now.
     \have {9} {\enot\epsi}                \ni{6-8}    
     \have {10}{\enot\ephi\eand\enot\epsi} \ai{5,9}
   \end{fitchproof}  
-  \caption{Proof of \enot(\ephi\eor\epsi)\eproves(\enot\ephi\eand\enot\epsi)}
+  \caption{Proof of $\enot(\ephi\eor\epsi)\eproves(\enot\ephi\eand\enot\epsi)$}
 \end{table}
 
-These two alse use the rule for \emph{disjunctive syllogism}.
+\newpage
 
-\begin{table}
+These two also use the rule for \emph{disjunctive syllogism}.
+
+\begin{table}[h]
   \centering
   \begin{fitchproof}
     \hypo {1} {\enot\ephi\eor\enot\epsi} \by{PR}{}
@@ -265,10 +262,12 @@ These two alse use the rule for \emph{disjunctive syllogism}.
     \close
     \have {10}{\enot(\ephi\eand\ephi)}   \ni{2-9}
   \end{fitchproof}  
-  \caption{Proof of (\enot\ephi\eor\enot\epsi)\eproves\enot(\ephi\eand\ephi)}
+  \caption{Proof of $(\enot\ephi\eor\enot\epsi)\eproves\enot(\ephi\eand\ephi)$}
 \end{table}
 
-\begin{table}
+\newpage
+
+\begin{table}[h]
   \centering
   \begin{fitchproof}
     \hypo {1} {\enot\ephi\eand\enot\epsi} \by{PR}{}
@@ -288,11 +287,12 @@ These two alse use the rule for \emph{disjunctive syllogism}.
     \close
     \have {10}{\enot(\ephi\eor\epsi)}     \ni{2-9}
   \end{fitchproof}  
-  \caption{Proof of (\enot\ephi\eand\enot\epsi)\eproves\enot(\ephi\eor\epsi)}
+  \caption{Proof of $(\enot\ephi\eand\enot\epsi)\eproves\enot(\ephi\eor\epsi)$}
 \end{table}
 
 Once again, we can incorporate these results with a set of explicit rules.
 
+\Needspace{12\baselineskip}
 \begin{fitchrule}[De Morgan Rules]
   \label{def:de-morgan-rules}
   \leavevmode
@@ -300,7 +300,7 @@ Once again, we can incorporate these results with a set of explicit rules.
   There are four rules for handling negated coordinations forming a square of
   duals and rule reversals.
 
-  We have a pair of rules for negated conjunctions: \\
+  We have a pair of rules for negated conjunctions (\enot\eand): \\
   \twoitems{  
     \begin{fitchproof}
       \have[m] {1} {\enot(\ephi\eand\epsi)}
@@ -313,7 +313,7 @@ Once again, we can incorporate these results with a set of explicit rules.
     \end{fitchproof}
   }
 
-  And a dual pair of rules for negated disjunctions: \\
+  And a dual pair of rules for negated disjunctions (\enot\eor): \\
   \twoitems{  
     \begin{fitchproof}
       \have[m] {1} {\enot(\ephi\eor\epsi)}
