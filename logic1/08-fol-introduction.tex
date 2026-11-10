@@ -39,22 +39,32 @@ come until later) into a \emph{square of opposition}.
   \emph{existential} (``some'') statements, there are four distinct
   \emph{quantifiers}. We can lay them out in opposition to their \emph{duals}
   (i.e. negations) in the following square. Each distinct quantifier is labeled
-  with a vowel (A,E,I,O) so that we can refer to it easily. \\
-\twoitems{
-  \begin{argument}
-    \item[A:] Every A is B.
-    \item[ ] 
-    \item[ ] 
-    \item[O:] Some A is not B.
-  \end{argument}
-}{
-  \begin{argument}
-    \item[E:] No A is B.
-    \item[ ] 
-    \item[ ] 
-    \item[I:] Some A is B.
-  \end{argument}  
-}
+  with a vowel (\textbf{A},\textbf{E},\textbf{I},\textbf{O}) so that we can
+  refer to it easily.
+  \begin{center}
+    \begin{tikzpicture}[
+        node distance=4cm,
+        every node/.style={minimum size=0.5cm, inner sep=12pt}, % circle, draw
+        -,
+        >=Stealth
+      ]
+      \node (1)              {\textbf{A:} Every A is B.};
+      \node (4) [below=1]    {\textbf{O:} Some A is not B.};
+      \node (2) [right of=1] {\textbf{E:} No A is B.};
+      \node (3) [right of=4] {\textbf{I:} Some A is B.};
+      
+      \draw         (1) -- (2);
+      \draw         (1) -- (4);
+      \draw         (2) -- (3);
+      \draw         (3) -- (4);
+      \draw[dashed] (1) -- (3);
+      \draw[dashed] (2) -- (4);
+
+    \end{tikzpicture}
+  \end{center}
+
+
+  
 \end{definition}
 
 Armed with notations for these four types of sentences, we can lay out the
@@ -175,7 +185,7 @@ variable in both $G$ and $B$ that is also \emph{bound} by the quantifier
 \eexists.
 
 \begin{argument}
-\item[ ] $\eexists x(B(x)\eand G(j,x,m))$
+\item[ ] $\eexists x(Bx\eand Gjxm)$
 \end{argument}
 
 Pronounced in ordinary English, this FOL sentence says ``there is an x such that
@@ -220,26 +230,29 @@ ancient and medievel scholars.
 
 \begin{definition}[Square of Opposition in FOL]
   Just these two quantifiers and negation are enough to express all four corners
-  of Aristotle's \emph{square of opposition}. \\
-\twoitems{
-  \begin{argument}
-    \item[ ] Every A is B.
-    \item[ ] $\eforall x(A(x)\eif B(x))$
-    \item[ ] 
-    \item[ ] 
-    \item[ ] Not every A is B.
-    \item[ ] $\enot\eforall x(A(x)\eif B(x))$
-  \end{argument}
-}{
-  \begin{argument}
-    \item[ ] No A is B.
-    \item[ ] $\enot\eexists x(A(x)\eand B(x))$
-    \item[ ] 
-    \item[ ] 
-    \item[ ] Some A is B.
-    \item[ ] $\eexists x(A(x)\eand B(x))$
-  \end{argument}  
-}
+  of Aristotle's \emph{square of opposition}.
+  \begin{center}
+    \begin{tikzpicture}[
+        %node distance=4cm,
+        every node/.style={minimum size=0.5cm, inner sep=12pt}, % circle, draw
+        -,
+        >=Stealth
+      ]
+      \node[align=center]  (1) {\textbf{A:} Every A is B. \\ $\eforall x(Ax\eif Bx)$};
+      \node[align=center] (4) [below=1cm of 1] {\textbf{O:} Not every A is B. \\ $\enot\eforall x(Ax\eif Bx)$};
+      \node[align=center] (2) [right=2.3cm of 1] {\textbf{E:} No A is B. \\ $\enot\eexists x(Ax\eand Bx)$};
+      \node[align=center] (3) [right=2cm of 4] {\textbf{I:} Some A is B. \\ $\eexists x(Ax\eand Bx)$};
+      
+      \draw         (1) -- (2);
+      \draw         (1) -- (4);
+      \draw         (2) -- (3);
+      \draw         (3) -- (4);
+      \draw[dashed] (1) -- (3);
+      \draw[dashed] (2) -- (4);
+
+    \end{tikzpicture}
+  \end{center}
+
 \end{definition}
 
 Similarly, by folding in negation, we can represent additional English
@@ -247,7 +260,7 @@ quantifiers such as \emph{only}.
 
 \begin{argument}
 \item[ ] Only As are Bs.
-\item[ ] $\enot\eexists x(B(x)\eand\enot A(x))$
+\item[ ] $\enot\eexists x(Bx\eand\enot Ax)$
 \end{argument}
 
 %% TODO: examples from English (pp 243-247)
@@ -301,14 +314,14 @@ predicates that do not apply to any objects (\emph{empty predicates}) a special
 treatment.
 
 \begin{definition}[Empty Predicates]
-  When \ebeta is an empty predicate, any sentence
-  $\eforall x(\ebeta(x)\eif\dots)$ is (vacuously) true.
+  When $\ebeta$ is an empty predicate, any sentence
+  $\eforall x(\ebeta x\eif\dots)$ is (vacuously) true.
 \end{definition}
 
 %% binary vs unary quantifers (p240, pp251-252)
 %Additionally, when we restict the domain to just people, we can simplify
-%$\eforall x(P(x)\eif M(x))$ (\emph{Every person is mortal.}) to just
-%$\eforall xM(x)$ (\emph{Everyone is mortal.}) But quite often, our domains
+%$\eforall x(Px\eif Mx)$ (\emph{Every person is mortal.}) to just
+%$\eforall xMx$ (\emph{Everyone is mortal.}) But quite often, our domains
 %will be too rich to support this, including not just people but also numerous
 %places and artefacts as well.
 
@@ -318,7 +331,7 @@ When we symbolize sentences using names, the identity of the name symbol is
 enough to indicate that two sentences are ``about'' the same object.
 
 \begin{argument}
-  \item[ ] $A(c)\eand B(c)$
+  \item[ ] $Ac\eand Bc$
 \end{argument}
 
 This can be true even when the sentences are separated by any number of others
@@ -338,9 +351,9 @@ slightly different things.
   \end{argument}
 }{
   \begin{argument}
-  \item[ ] $A(c)\eif B(c)$
-  \item[ ] $\eforall x(A(c)\eif B(x))$
-  \item[ ] $\eforall x(A(x)\eif B(x))$
+  \item[ ] $Ac\eif Bc$
+  \item[ ] $\eforall x(Ac\eif Bx)$
+  \item[ ] $\eforall x(Ax\eif Bx)$
   \end{argument}
 }
 
@@ -370,7 +383,7 @@ three-place predicate with all its gaps to be something like:
 symbolized in FOL as:
 
 \begin{center}
-  $G(x,y,z)$
+  $Gxyz$
 \end{center}
 
 The order of $x,y,z$ is meaningful and important, but arbitrary. We can assign
@@ -409,9 +422,9 @@ Let's look at each of these in turn. First, note that changing the order of the
 quantifiers can change the meaning of the sentence.
 
 \begin{argument}
-\item[ ] $\eforall x\eexists y L(x,y)$ = Everyone loves someone. (maybe each
+\item[ ] $\eforall x\eexists y Lxy$ = Everyone loves someone. (maybe each
   someone different)
-\item[ ] $\exists y\forall x L(x,y)$ = There is someone that everyone loves.
+\item[ ] $\exists y\forall x Lxy$ = There is someone that everyone loves.
   (maybe Sara Lee) 
 \end{argument}
 
@@ -422,8 +435,8 @@ quantifiers ($\forall x,\exists z,\exists y,\exists z$) even though the variable
 $z$ is used to symbolize two of them.
 
 \begin{argument}
-\item[ ] $\forall x[\exists z(D(z)\eand O(x,z)) \eif
-  \exists y(\exists z(D(z)\eand O(y,z)) \eand F(x,y))]$
+\item[ ] $\forall x[\exists z(Dz\eand Oxz) \eif
+  \exists y(\exists z(Dz\eand Oyz) \eand Fxy)]$
 \end{argument}
 
 Finally, the interaction of negation with quantifier scope is a critical to the
@@ -436,27 +449,27 @@ whichever of the quantifiers that we prefer.
   \begin{argument}
     \item[ ] Every A is B.
     \item[ ] No A is not B.
-    \item[ ] $\eforall x(A(x)\eif B(x))$
-    \item[ ] $\enot\eexists x(A(x)\eand\enot B(x))$
+    \item[ ] $\eforall x(Ax\eif Bx)$
+    \item[ ] $\enot\eexists x(Ax\eand\enot Bx)$
     \item[ ] 
     \item[ ] 
     \item[ ] Not every A is B.
     \item[ ] Some A is not B.
-    \item[ ] $\enot\eforall x(A(x)\eif B(x))$
-    \item[ ] $\eexists x(A(x)\eand\enot B(x))$
+    \item[ ] $\enot\eforall x(Ax\eif Bx)$
+    \item[ ] $\eexists x(Ax\eand\enot Bx)$
   \end{argument}
 }{
   \begin{argument}
     \item[ ] No A is B.
     \item[ ] Every A is not B.
-    \item[ ] $\enot\eexists x(A(x)\eand B(x))$
-    \item[ ] $\eforall x(A(x)\eif\enot B(x))$
+    \item[ ] $\enot\eexists x(Ax\eand Bx)$
+    \item[ ] $\eforall x(Ax\eif\enot Bx)$
     \item[ ] 
     \item[ ] 
     \item[ ] Some A is B.
     \item[ ] Not every A is not B.
-    \item[ ] $\eexists x(A(x)\eand B(x))$
-    \item[ ] $\enot\eforall x(A(x)\eand\enot B(x))$
+    \item[ ] $\eexists x(Ax\eand Bx)$
+    \item[ ] $\enot\eforall x(Ax\eand\enot Bx)$
   \end{argument}  
 }
 
@@ -798,11 +811,11 @@ We can use the negation of identity sentences to express concepts like
 $\enot(x=y)$. Likewise, when we want to symbolize ``only'', ``at least two''
 and ``at most two'', respectively, we can use the FOL sentences:
 
-%\item[ ] $(A(c)\eand\eforall y(y\neq c\eif\enot A(y)))$
+%\item[ ] $(Ac\eand\eforall y(y\neq c\eif\enot Ay))$
 \begin{argument}
-\item[ ] $A(c)\eand\enot\eexists x(x=c\eand A(x))$
-\item[ ] $\eexists x(A(x)\eand \eexists y(A(y)\eand x\neq y))$
-\item[ ] $\enot\eexists x\eexists y\eexists z[((A(x)\eand A(y)\eand A(z))\eand((x\neq y\eand x\neq z)\eand y\neq z)]$
+\item[ ] $Ac\eand\enot\eexists x(x=c\eand Ax)$
+\item[ ] $\eexists x(Ax\eand \eexists y(Ay\eand x\neq y))$
+\item[ ] $\enot\eexists x\eexists y\eexists z[((Ax\eand Ay\eand Az)\eand((x\neq y\eand x\neq z)\eand y\neq z)]$
 \end{argument}
 
 When we want to express concepts like \emph{exactly 2}, we need to treat it
@@ -810,7 +823,7 @@ as \emph{at least 2 \textbf{and} at most 2}, symbolizing it as a conjuntion of
 the two.
 
 \begin{argument}
-\item[ ] $\eexists x\eexists y[(A(x)\eand A(y)\eand x\neq y]\eand\enot\eexists x\eexists y\eexists z[((A(x)\eand A(y)\eand A(z))\eand((x\neq y\eand x\neq z)\eand y\neq z)]$
+\item[ ] $\eexists x\eexists y[(Ax\eand Ay\eand x\neq y]\eand\enot\eexists x\eexists y\eexists z[((Ax\eand Ay\eand Az)\eand((x\neq y\eand x\neq z)\eand y\neq z)]$
 \end{argument}
 
 \subsection{Definite Descriptions}
@@ -839,17 +852,17 @@ whenever it occurs in a sentence. Then we might be able to symbolize the
 sentence about our waiting dog as:
 
 \begin{argument}
-\item[ ] $W(\iota x(D(x)))$
+\item[ ] $W(\iota x(Dx))$
 \end{argument}
 
-Here the expression $\iota x(D(x))$ behaves as a singular term, filling the
+Here the expression $\iota x(Dx)$ behaves as a singular term, filling the
 gap in the predicate $W$. For Russell's approach, we can just treat \emph{the}
 as an \emph{existential quantifier} with a \emph{uniqueness condition}. We've
 already seen both of these devices. We can use them together to express our
 example:
 
 \begin{argument}
-\item[ ] $\eexists x((D(x)\eand\enot\eexists y(x\neq y\eand D(x)))\eand W(x))$
+\item[ ] $\eexists x((Dx\eand\enot\eexists y(x\neq y\eand Dx))\eand Wx)$
 \end{argument}
 
 There are problems with both approaches. We will adopt Russell's, since the

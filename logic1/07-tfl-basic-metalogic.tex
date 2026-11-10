@@ -1,6 +1,6 @@
 \section{Proof-Theoretic Concepts and Basic TFL Metalogic}
 
-So far our proof-theoretic rule system can be summarized as follows. In the starred cases (*), the rule is taken to close a subproof which contains the premises. Similarly, \ephi\eif\epsi is typically shorthand for a subproof proving \epsi from \ephi.
+So far our proof-theoretic rule system can be summarized as follows. In the starred cases (*), the rule is taken to close a subproof which contains the premises. Similarly, $\ephi\eif\epsi$ is sometimes shorthand for a subproof proving \spsi from \ephi.\footnote{Indeed, it can mean either $\ephi\eif\epsi$ is a premise or that \spsi is derived from \sphi via subproof whenever it is used on the left.}
 
 \begin{table}[h]
   \centering
@@ -9,26 +9,26 @@ So far our proof-theoretic rule system can be summarized as follows. In the star
       \hline
       Rule Group       & \textbf{Introduction} & \textbf{Elimination} \\
       \hline
-      \enot            & \enot\ephi,\ephi\eproves\ebot           & * \ephi,\ebot\eproves\enot\ephi  \\
+      \enot            & $\enot\ephi,\ephi\eproves\ebot$           & * $\ephi,\ebot\eproves\enot\ephi$  \\
       \eand            &
-      \ephi,\epsi\eproves\ephi\eand\epsi &
-      \makecell{ \ephi\eand\epsi\eproves\ephi;\\ \ephi\eand\epsi\eproves\epsi }                     \\
-      \eor             & \ephi\eproves\epsi &
-      \epsi\eor\ephi,\ephi\eif\echi,\epsi\eif\echi\eproves\echi                                     \\
-      \eif             & $\ephi\dots\epsi\eproves\ephi\eif\epsi$ &                                  \\
+      $\ephi,\epsi\eproves\ephi\eand\epsi$ &
+      \makecell{ $\ephi\eand\epsi\eproves\ephi$;\\ $\ephi\eand\epsi\eproves\epsi$ }                     \\
+      \eor             & $\ephi\eproves\epsi$ &
+      $\epsi\eor\ephi,\ephi\eif\echi,\epsi\eif\echi\eproves\echi$                                     \\
+      \eif             & $\ephi\eif\epsi\eproves\ephi\eif\epsi$ &  $\ephi,\ephi\eif\epsi\eproves\epsi$                                \\
       \eiff            &
-      \ephi\eif\epsi,\epsi\eif\ephi\eproves\ephi\eiff\epsi &
-      \makecell{\ephi\eiff\epsi,\ephi\eproves\epsi;\\ \ephi\eiff\epsi,\ephi\eproves\ephi }          \\
+      $\ephi\eif\epsi,\epsi\eif\ephi\eproves\ephi\eiff\epsi$ &
+      \makecell{$\ephi\eiff\epsi,\ephi\eproves\epsi$;\\ $\ephi\eiff\epsi,\ephi\eproves\ephi$ }          \\
       \hline
       DeM (\enot\eand) &
-      \makecell{ \enot\ephi\eor\enot\epsi \eproves \enot(\ephi\eand\epsi) } &
-      \makecell{ \enot(\ephi\eand\epsi) \eproves \enot\ephi\eor\enot\epsi }                         \\
+      \makecell{ $\enot\ephi\eor\enot\epsi\eproves\enot(\ephi\eand\epsi)$ } &
+      \makecell{ $\enot(\ephi\eand\epsi)\eproves\enot\ephi\eor\enot\epsi$ }                         \\
       DeM (\enot\eor)  &
-      \makecell{ \enot\ephi\eand\enot\epsi \eproves \enot(\ephi\eor\epsi) } &
-      \makecell{ \enot(\ephi\eor\epsi) \eproves \enot\ephi\eand\enot\epsi }                         \\
-      DN               & \ephi\eproves\enot\enot\ephi            &  \enot\enot\ephi\eproves\ephi    \\
-      DS               & \ephi\eor\epsi,\enot\ephi\eproves\epsi  & n/a \\
-      LEM              & \ephi\eif\epsi,\enot\ephi\eif\epsi\eproves\epsi & n/a \\
+      \makecell{ $\enot\ephi\eand\enot\epsi\eproves\enot(\ephi\eor\epsi)$ } &
+      \makecell{ $\enot(\ephi\eor\epsi)\eproves\enot\ephi\eand\enot\epsi$ }                         \\
+      DN               & $\ephi\eproves\enot\enot\ephi$            &  $\enot\enot\ephi\eproves\ephi$    \\
+      DS               & $\ephi\eor\epsi,\enot\ephi\eproves\epsi$  & n/a \\
+      LEM              & $\ephi\eif\epsi,\enot\ephi\eif\epsi\eproves\epsi$ & n/a \\
       \hline
     \end{tabular}
   \caption{Proof Rules for TFL Natural Deduction}
@@ -40,12 +40,12 @@ So far I've been talking informally about valid \emph{arguments}. Something
 like $\ephi,\epsi\therefore\ephi\eand\epsi$ outlines the argument, but we
 want to be more precise in our discussion of various arguments. First, we
 will replace the informal \therefore marker with a more formal meta-logical
-operator \eproves and its negation \enotproves.
+operator $\eproves$ and its negation \enotproves.
 
 \begin{definition}[Turnstiles]
   \label{def:turnstiles}
-  Let $\ephi_1\dots\ephi_n$ and \epsi be TFL sentences. We can say
-  $\ephi_1\dots\ephi_n\eproves\epsi$ iff there is a proof that ends in \epsi
+  Let $\ephi_1\dots\ephi_n$ and \spsi be TFL sentences. We can say
+  $\ephi_1\dots\ephi_n\eproves\epsi$ iff there is a proof that ends in \spsi
   and has $\ephi_1\dots\ephi_n$ as its premises. We can say
   $\ephi_1\dots\ephi_n\enotproves\epsi$ if there is no such proof.
 \end{definition}
@@ -94,16 +94,16 @@ operator \eproves and its negation \enotproves.
   \1 A proof can only end if its final line is in the home column. 
   \end{outline}
 
-  When \eGamma are its premises and \ephi its conclusion, a successful proof
-  can be referenced as \eGamma\eproves\ephi. The argument that it proves is
+  When $\eGamma$ are its premises and \sphi its conclusion, a successful proof
+  can be referenced as $\eGamma\eproves\ephi$. The argument that it proves is
   said to be \emph{valid}. A proof is pure \emph{syntax}. Only the rules of the
   proof system are relevant to its evaluation.
 \end{definition}
 
 Of course, as with schemas, one of the things that makes proofs such a powerful
 part of logic is the fact that they are \emph{truth-preserving under
-substitution of equivalents}. So if \ephi\eproves\echi and \ephi\eiff\epsi,
-then \epsi\eproves\echi. Among other things, this means that we can think of a
+substitution of equivalents}. So if $\ephi\eproves\echi$ and $\ephi\eiff\epsi$,
+then $\epsi\eproves\echi$. Among other things, this means that we can think of a
 proof as covering a whole collection of related sentences, namely all those
 that can be made from it with consistent substitutions.
 
@@ -117,7 +117,7 @@ First, we note a sentence which can be proven from nothing is a \emph{theorem}.
 
 \begin{definition}[Theorem]
   \label{def:theorem}
-  A sentence \ephi is a \emph{theorem} iff \eproves\ephi.
+  A sentence \sphi is a \emph{theorem} iff $\eproves\ephi$.
 \end{definition}
 
 Similarly, sentences that can be proven from each other are
@@ -125,9 +125,9 @@ Similarly, sentences that can be proven from each other are
 
 \begin{definition}[Interderivable]
   \label{def:interderivable}
-  Two TFL sentences \ephi and \epsi are \emph{interderivable} iff
-  \ephi\eproves\epsi and \epsi\eproves\ephi. We can write this as
-  \ephi\efollows\eproves\epsi.
+  Two TFL sentences \sphi and \spsi are \emph{interderivable} iff
+  $\ephi\eproves\epsi$ and $\epsi\eproves\ephi$. We can write this as
+  $\ephi\efollows\eproves\epsi$.
 \end{definition}
 
 We can generalize the notion of consistency from a comparison of two sentences
@@ -166,14 +166,14 @@ such a case, we can say that the sentence itself is \emph{inconsistent}.
 
 \begin{definition}[Inconsistent Sentence]
   \label{def:tfl-inconsistent-sentence}
-  A TFL sentence \ephi is \emph{inconsistent} iff $\ephi\eproves\ebot$.
+  A TFL sentence \sphi is \emph{inconsistent} iff $\ephi\eproves\ebot$.
 \end{definition}
 
 Every TFL sentence that isn't inconsistent or a theorem is \emph{contingent}.
 
 \begin{definition}[Contingent Sentence]
   \label{def:tfl-contingent-sentence}
-  A TFL sentence \ephi is \emph{(proof-theoretically) contingent} if \ephi is
+  A TFL sentence \sphi is \emph{(proof-theoretically) contingent} if \sphi is
   neither a theorem nor inconsistent.
 \end{definition}
 
@@ -197,7 +197,8 @@ Consider the how the definitions of the major logical concepts vary between
 the two systems.
 
 \begin{center}
-  \begin{tabular}{c||c|c}
+  \begin{tabular}{|c||c|c|}
+    \hline
     \bf{concept} & \bf{truth-functional} & \bf{proof-theoretic} \\
     \hline
     Tautology / Theorem &
@@ -205,7 +206,7 @@ the two systems.
     derived without premises \\
     Contradiction / Inconsistency &
     always F &
-    can derive \ebot from it \\
+    can derive $\ebot$ from it \\
     Contingent &
     sometimes T, sometimes F &
     not a theorem or inconsistency \\
@@ -214,14 +215,15 @@ the two systems.
     derive mutually \\
     Unsatisfiable / Inconsistent &
     no line where all T &
-    can derive \ebot \\
+    can derive $\ebot$ \\
     Satisfiable / Consistent &
     some line where all are T &
-    cannot derive \ebot from them \\
+    cannot derive $\ebot$ from them \\
     Valid argument &
     no lines w F $\ephi_i$ and T \epsi &
-    can derive \epsi from $\ephi_1\dots\ephi_n$ \\
-  \end{tabular}    
+    can derive \spsi from $\ephi_1\dots\ephi_n$ \\
+    \hline
+  \end{tabular}
 \end{center}
 
 Note that we have introduced four major notational devices that look remarkably
@@ -231,7 +233,7 @@ similar. We should pause for a moment to distinguish them all.
 \item[\eif] The material conditional (\eif) is a \emph{logical} connective. It
   is the only one of these symbols that can be used in a sentence of TFL.
 \item[\therefore] The inference marker (\therefore) is an \emph{informal} device
-  used in the metalogic to discuss arguments. \eGamma\therefore\ephi does not
+  used in the metalogic to discuss arguments. $\eGamma\therefore\ephi$ does not
   imply that the argument is valid, but does specify its premises (\eGamma)
   and conclusion (\ephi).
 \item[\eentails] The entailment marker (\eentails) is a formal device used to
@@ -247,12 +249,12 @@ similar. We should pause for a moment to distinguish them all.
 
 Nevertheless, there are parallels in how the symbols are used. The most
 significant parallels (soundness and completeness), taken together, mean that
-\ephi\eproves\epsi iff \ephi\eentails\epsi. But first consider a few more
+$\ephi\eproves\epsi$ iff $\ephi\eentails\epsi$. But first consider a few more
 trivial observations.
 
 When we were working on truth tables in Lecture 3, we showed how material
 implication and entailment are truth-functionally equivalent (i.e.
-\ephi\eentails\epsi iff \eentails\ephi\eif\epsi).
+$\ephi\eentails\epsi$ iff $\eentails\ephi\eif\epsi$).
 
 \begin{table}[h]
   \begin{center}
@@ -269,19 +271,19 @@ implication and entailment are truth-functionally equivalent (i.e.
   \caption{A truth table showing \ephi\eif\epsi iff \ephi\eentails\epsi}
 \end{table}
 
-But note that we have to view the meaning of T and F in the A\eentails B column
-in a special way: as \emph{good line} and \emph{bad line}, respectively. Truth
-is not an evaluation we make about potential entailments, instead we talk about
-validity.
+But note that we have to view the meaning of T and F in the $A\eentails B$
+column in a special way: as \emph{good line} and \emph{bad line}, respectively.
+Truth is not an evaluation we make about potential entailments, instead we talk
+about validity.
 
 Likewise, we can be explicit about the relationship between \emph{provability}
 and \emph{inconsistency}.
 
 \begin{observation}[Proof and Inconsistency]
-  Let \eGamma = $\egamma_1\dots\egamma_n$ be a set of TFL sentences and
-  \ephi a single TFL sentence. If \eGamma\eproves\ephi then the set that
-  results from adding \enot\ephi to \eGamma (\eGamma\ecup\enot\ephi) is
-  inconsistent.
+  Let $\eGamma=\egamma_1\dots\egamma_n$ be a set of TFL sentences and
+  \sphi a single TFL sentence. If $\eGamma\eproves\ephi$ then the set that
+  results from adding $\enot\ephi$ to $\eGamma$ ($\eGamma\ecup\{\enot\ephi\}$)
+  is inconsistent.
 \end{observation}
 
 \subsection{Soundness and Completeness}
@@ -293,16 +295,16 @@ as we wrap up our discussion of proofs for logical properties.
 Soundness says that we do not get any derivations that are not also entailments.
 
 \begin{definition}[TFL Soundness] % (p 222)
-  A proof system is \emph{sound} iff \ephi\eproves\epsi implies
-  \ephi\eentails\epsi for all TFL sentences \ephi and \epsi.
+  A proof system is \emph{sound} iff $\ephi\eproves\epsi$ implies
+  $\ephi\eentails\epsi$ for all TFL sentences \sphi and \epsi.
 \end{definition}
 
 Conversely, completeness says that we do not get any entailments that are not
 also derivations.
 
 \begin{definition}[TFL Completeness] % (p 224)
-  A proof system is \emph{complete} iff \ephi\eentails\epsi implies
-  \ephi\eproves\epsi for all TFL sentences \ephi and \epsi.
+  A proof system is \emph{complete} iff $\ephi\eentails\epsi$ implies
+  $\ephi\eproves\epsi$ for all TFL sentences \sphi and \epsi.
 \end{definition}
 
 Knowing that a proof system is sound and complete means that we can demonstrate
@@ -314,7 +316,7 @@ following table demonstrates such a strategy.
 \begin{table}[h]
   \centering
   \label{tab:proof-strategies-for-tfl-metalogic}
-  \begin{tabular}{c||c|c}
+  \begin{tabular}{|c||c|c|}
     \hline    
     \textbf{property} & \textbf{prove present} & \textbf{prove absent} \\
     \hline    
@@ -326,7 +328,7 @@ following table demonstrates such a strategy.
     find a T line \\
     Contingency &
     find T and F lines &
-    prove \ephi or \enot\ephi \\
+    prove \sphi or $\enot\ephi$ \\
     Equivalence &
     mutually derive &
     find a line with truth mismatch \\
@@ -335,7 +337,7 @@ following table demonstrates such a strategy.
     derive \ebot \\
     Validity &
     derive \epsi from $\ephi_1\dots\ephi_n$ &
-    find a line with  $\ephi_1\dots\ephi_n$ all T and \epsi F \\
+    find a line with  $\ephi_1\dots\ephi_n$ all T and \spsi F \\
     \hline    
   \end{tabular}
   \caption{Metalogical Proof Strategies for TFL}
